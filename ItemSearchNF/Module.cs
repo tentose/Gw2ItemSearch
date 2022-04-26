@@ -52,16 +52,16 @@ namespace ItemSearch
             m_searchIcon = new CornerIcon()
             {
                 IconName = "Search",
-                Icon = ContentsManager.GetTexture(@"Textures\placeholder.png"),
-                HoverIcon = ContentsManager.GetTexture(@"Textures\placeholder.png"),
+                Icon = ContentsManager.GetTexture(@"Textures\CornerIcon.png"),
+                HoverIcon = ContentsManager.GetTexture(@"Textures\CornerIconHover.png"),
                 Priority = 5,
-                LoadingMessage = "Loading...",
+                LoadingMessage = Strings.CornerIconLoadingProgress_Initial,
             };
-
+            
             await ItemIcon.LoadIconResources();
 
+            m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_StaticItems;
             var cacheDir = m_directoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
-
             var staticItemsJsonPath = Path.Combine(cacheDir, STATIC_ITEMS_FILE_NAME);
 
             // Fetch a copy of the static items json from resources if it doesn't exist
@@ -79,19 +79,14 @@ namespace ItemSearch
 
             await StaticItemInfo.Initialize(staticItemsJsonPath, Gw2ApiManager.Gw2ApiClient);
 
-            
+            m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_BuildingSearchTree;
             m_searchEngine = new ItemIndex();
             await m_searchEngine.InitializeIndex(Gw2ApiManager.Gw2ApiClient, Gw2ApiManager.Permissions);
-            
-            
 
             // Controls
             m_searchWindow = new ItemSearchWindow(ContentsManager, m_searchEngine);
-
             m_searchIcon.Click += delegate { m_searchWindow.ToggleWindow(); };
-
             m_searchIcon.LoadingMessage = null;
-
             Logger.Info($"LoadAsync: {stopwatch.ElapsedMilliseconds}");
         }
     }

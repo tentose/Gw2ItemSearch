@@ -61,6 +61,42 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Building search tree....
+        /// </summary>
+        internal static string CornerIconLoadingProgress_BuildingSearchTree {
+            get {
+                return ResourceManager.GetString("CornerIconLoadingProgress_BuildingSearchTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        internal static string CornerIconLoadingProgress_Initial {
+            get {
+                return ResourceManager.GetString("CornerIconLoadingProgress_Initial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading player items from API....
+        /// </summary>
+        internal static string CornerIconLoadingProgress_PlayerItems {
+            get {
+                return ResourceManager.GetString("CornerIconLoadingProgress_PlayerItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading cached item info....
+        /// </summary>
+        internal static string CornerIconLoadingProgress_StaticItems {
+            get {
+                return ResourceManager.GetString("CornerIconLoadingProgress_StaticItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         internal static string ItemTooltip_CharacterEquipment {

@@ -516,7 +516,7 @@ namespace ItemSearch.Controls
                     this.MouseOverTitleBar = true;
                 }
             }
-            else if (_canResize && this.ResizeHandleBounds.Contains(this.RelativeMousePosition))
+            else if (_canResize && this.ResizeHandleBounds.Contains(this.RelativeMousePosition))    // TODO: use separate bounds for testing hit. corner image is 128x128
             {
                 this.MouseOverResizeHandle = true;
             }

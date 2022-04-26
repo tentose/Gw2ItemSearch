@@ -35,7 +35,7 @@ namespace ItemSearch.Controls
 
             Parent = GameService.Graphics.SpriteScreen;
             Title = Strings.SearchWindow_Title;
-            Emblem = m_contentsManager.GetTexture("Textures/placeholder.png");
+            Emblem = m_contentsManager.GetTexture("Textures/WindowIcon.png");
             Subtitle = Strings.SearchWindow_MainSubtitle;
             SavesPosition = true;
             Id = $"{nameof(ItemSearchWindow)}_{nameof(ItemSearchModule)}_5f05a7af-8a00-45d4-87c2-511cddb418fc";
@@ -85,7 +85,7 @@ namespace ItemSearch.Controls
             {
                 m_searchQueryBox.Size = new Point(Size.X - CONTENT_X_MARGIN, m_searchQueryBox.Size.Y);
                 m_resultPanel.Location = m_searchQueryBox.Location + new Point(0, m_searchQueryBox.Height + CONTENT_Y_PADDING);
-                m_resultPanel.Size = new Point(Size.X - CONTENT_X_MARGIN, Size.Y - TITLE_BAR_SIZE - CONTENT_Y_PADDING - m_resultPanel.Top);
+                m_resultPanel.Size = new Point(Size.X - CONTENT_X_MARGIN, ContentRegion.Height - CONTENT_Y_PADDING - m_resultPanel.Top);
             }
         }
 

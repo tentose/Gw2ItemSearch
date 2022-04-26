@@ -205,6 +205,26 @@ namespace ItemSearch
                         {
                             Logger.Warn("Failed to retrieve character equipment");
                         }
+
+                        if (character.Equipment != null)
+                        {
+                            foreach (var equip in character.Equipment)
+                            {
+                                if (equip != null)
+                                {
+                                    if (equip.Slot == ApiModels.ItemEquipmentSlotType.Axe ||
+                                        equip.Slot == ApiModels.ItemEquipmentSlotType.Sickle ||
+                                        equip.Slot == ApiModels.ItemEquipmentSlotType.Pick)
+                                    {
+                                        addItemToAllItems(new InventoryItem(equip, InventoryItemSource.CharacterEquipment, character.Name));
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Logger.Warn("Failed to retrieve character equipment");
+                        }
                     }
                 }
                 else

@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CornerIconLoadingProgress_BuildingSearchTree" xml:space="preserve">
+    <value>Building search tree...</value>
+  </data>
+  <data name="CornerIconLoadingProgress_Initial" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="CornerIconLoadingProgress_PlayerItems" xml:space="preserve">
+    <value>Loading player items from API...</value>
+  </data>
+  <data name="CornerIconLoadingProgress_StaticItems" xml:space="preserve">
+    <value>Loading cached item info...</value>
+  </data>
   <data name="ItemTooltip_CharacterEquipment" xml:space="preserve">
     <value>Equipment</value>
   </data>
