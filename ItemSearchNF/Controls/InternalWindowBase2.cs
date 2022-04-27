@@ -34,6 +34,8 @@ namespace ItemSearch.Controls
         private const int SIDEBAR_WIDTH = 46;
         private const int SIDEBAR_OFFSET = 3; // Used to account for the small edge of transparency at the bottom of the titlebar and between the sidebar and the window background
 
+        private const int RESIZE_HANDLE_SIZE = 30;  // size of square that can be used to interact with the resize handle
+
         #region Load Static
 
         private const string WINDOW_SETTINGS = "WindowSettings2";
@@ -228,7 +230,7 @@ namespace ItemSearch.Controls
 
             GameService.Input.Mouse.LeftMouseButtonReleased += OnGlobalMouseRelease;
 
-            GameService.Gw2Mumble.PlayerCharacter.IsInCombatChanged += delegate { UpdateWindowBaseDynamicHUDCombatState(this); };
+            //GameService.Gw2Mumble.PlayerCharacter.IsInCombatChanged += delegate { UpdateWindowBaseDynamicHUDCombatState(this); };
             //GameService.GameIntegration.Gw2Instance.IsInGameChanged += delegate { UpdateWindowBaseDynamicHUDLoadingState(this); };
 
             // TODO: Use window mask when fading windows in and out instead of this lame opacity transition
@@ -412,6 +414,7 @@ namespace ItemSearch.Controls
         protected Rectangle TitleBarBounds { get; private set; } = Rectangle.Empty;
         protected Rectangle ExitButtonBounds { get; private set; } = Rectangle.Empty;
         protected Rectangle ResizeHandleBounds { get; private set; } = Rectangle.Empty;
+        protected Rectangle ResizeHandleDrawingBounds { get; private set; } = Rectangle.Empty;
         protected Rectangle SidebarActiveBounds { get; private set; } = Rectangle.Empty;
 
         // Draw regions
@@ -484,7 +487,12 @@ namespace ItemSearch.Controls
             _sidebarInactiveDrawBounds = new Rectangle(_leftTitleBarDrawBounds.X + SIDEBAR_OFFSET, sideBarTop - SIDEBAR_OFFSET + this.SideBarHeight, SIDEBAR_WIDTH, sideBarHeight - this.SideBarHeight);
 
             // Corner bounds
-            this.ResizeHandleBounds = new Rectangle(this.Width - _textureWindowCorner.Width,
+            this.ResizeHandleBounds = new Rectangle(this.Width - RESIZE_HANDLE_SIZE,
+                                                    this.Height - RESIZE_HANDLE_SIZE,
+                                                    RESIZE_HANDLE_SIZE,
+                                                    RESIZE_HANDLE_SIZE);
+
+            this.ResizeHandleDrawingBounds = new Rectangle(this.Width - _textureWindowCorner.Width,
                                                     this.Height - _textureWindowCorner.Height,
                                                     _textureWindowCorner.Width,
                                                     _textureWindowCorner.Height);
@@ -516,7 +524,7 @@ namespace ItemSearch.Controls
                     this.MouseOverTitleBar = true;
                 }
             }
-            else if (_canResize && this.ResizeHandleBounds.Contains(this.RelativeMousePosition))    // TODO: use separate bounds for testing hit. corner image is 128x128
+            else if (_canResize && this.ResizeHandleBounds.Contains(this.RelativeMousePosition))
             {
                 this.MouseOverResizeHandle = true;
             }
@@ -648,11 +656,11 @@ namespace ItemSearch.Controls
                                        this.MouseOverResizeHandle || this.Resizing
                                        ? _textureWindowResizableCornerActive
                                        : _textureWindowResizableCorner,
-                                       this.ResizeHandleBounds);
+                                       this.ResizeHandleDrawingBounds);
             }
             else
             {
-                spriteBatch.DrawOnCtrl(this, _textureWindowCorner, this.ResizeHandleBounds);
+                spriteBatch.DrawOnCtrl(this, _textureWindowCorner, this.ResizeHandleDrawingBounds);
             }
         }
 

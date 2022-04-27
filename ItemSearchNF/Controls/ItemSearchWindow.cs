@@ -43,23 +43,27 @@ namespace ItemSearch.Controls
 
             m_contentsManager = contentManager;
 
-            m_searchQueryBox = new TextBox()
-            {
-                Parent = this,
-                Location = new Point(0, 0),
-                Size = new Point(358, 43),
-                PlaceholderText = Strings.SearchWindow_SearchPlaceholder,
-                Font = GameService.Content.DefaultFont16,
-            };
-            m_searchQueryBox.EnterPressed += M_searchQueryBox_EnterPressed;
-
-            m_resultPanel = new ItemSearchResultPanel()
-            {
-                Parent = this,
-                Size = new Point(400, 400),
-            };
+            Tabs.Add(new Tab(m_contentsManager.GetTexture("Textures/placeholder.png"), () => new ItemSearchView(m_searchEngine), "Search all items"));
 
             m_initialized = true;
+        }
+
+        private void M_searchQueryBox_InputFocusChanged(object sender, ValueEventArgs<bool> e)
+        {
+            // Select all text if the user is focusing on the text box to make it easier to type a new query
+            if (m_searchQueryBox.Focused && m_searchQueryBox.Text.Length > 0)
+            {
+                // Textbox handles cursor placement AFTER input focus changes. If we make the selection right
+                // away, the text box will just overwrite it with cursor placement logic. Do the selection
+                // after a small delay.
+                Task.Run(async () =>
+                {
+                    await Task.Delay(100);
+                    m_searchQueryBox.SelectionStart = 0;
+                    m_searchQueryBox.SelectionEnd = m_searchQueryBox.Text.Length;
+                    m_searchQueryBox.RecalculateLayout();
+                });
+            }
         }
 
         private void M_searchQueryBox_EnterPressed(object sender, EventArgs e)
@@ -75,18 +79,6 @@ namespace ItemSearch.Controls
         {
             var result = await m_searchEngine.Search(query);
             m_resultPanel.SetSearchResult(result);
-        }
-
-        public override void RecalculateLayout()
-        {
-            base.RecalculateLayout();
-
-            if (m_initialized)
-            {
-                m_searchQueryBox.Size = new Point(Size.X - CONTENT_X_MARGIN, m_searchQueryBox.Size.Y);
-                m_resultPanel.Location = m_searchQueryBox.Location + new Point(0, m_searchQueryBox.Height + CONTENT_Y_PADDING);
-                m_resultPanel.Size = new Point(Size.X - CONTENT_X_MARGIN, ContentRegion.Height - CONTENT_Y_PADDING - m_resultPanel.Top);
-            }
         }
 
         protected override Point HandleWindowResize(Point newSize)

@@ -49,7 +49,7 @@ namespace ItemSearch.Controls
                 AutoSizeWidth = false,
                 WrapText = true,
                 Width = WIDTH,
-                Font = GameService.Content.DefaultFont12,
+                Font = GameService.Content.DefaultFont14,
             };
 
             this.Item = item;
@@ -63,8 +63,6 @@ namespace ItemSearch.Controls
             {
                 label.Parent = buildPanel;
             }
-
-            //buildPanel.Hidden += (sender, args) => buildPanel.Dispose();
         }
 
         private void UpdateLabelValueAndWidth(InventoryItem item)
@@ -162,8 +160,8 @@ namespace ItemSearch.Controls
                 case ItemRarity.Masterwork: return Color.ForestGreen;
                 case ItemRarity.Rare: return Color.Yellow;
                 case ItemRarity.Exotic: return Color.Orange;
-                case ItemRarity.Ascended: return Color.Magenta;
-                case ItemRarity.Legendary: return Color.Purple;
+                case ItemRarity.Ascended: return Color.HotPink;
+                case ItemRarity.Legendary: return Color.BlueViolet;
                 default: return Color.White;
             }
         }

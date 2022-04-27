@@ -30,39 +30,29 @@ namespace ItemSearch
     {
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
 
-        private UkkonenTrie<int> m_searchTrie;
         private Dictionary<int, List<InventoryItem>> m_playerItems;
         private IGw2WebApiClient m_apiClient;
         private List<ApiModels.TokenPermission> m_permissions;
 
         public async Task InitializeIndex(IGw2WebApiClient client, List<ApiModels.TokenPermission> permissions)
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             m_apiClient = client;
             m_permissions = permissions;
             Logger.Info("Token permissions: " + String.Join(", ", permissions));
 
-            await BuildSearchTrie();
             m_playerItems = await GetPlayerItems();
-        }
 
-        public async Task BuildSearchTrie()
-        {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-
-            m_searchTrie = new UkkonenTrie<int>(3);
-            foreach (var kv in StaticItemInfo.AllItems)
-            {
-                m_searchTrie.Add(kv.Value.Name.ToLowerInvariant(), kv.Key);
-            }
-
-            Logger.Info($"BuildSearchTrie: {stopwatch.ElapsedMilliseconds}");
+            Logger.Info($"InitializeIndex: {stopwatch.ElapsedMilliseconds}");
         }
 
         public async Task<List<InventoryItem>> Search(string query)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
-            var results = m_searchTrie.Retrieve(query);
-            Logger.Info($"TrieSearch: {stopwatch.ElapsedMilliseconds}");
+            var lowerQuery = query.ToLowerInvariant();
+            var results = StaticItemInfo.AllItems.Where(item => item.Value.Name.ToLowerInvariant().Contains(lowerQuery)).Select(kv => kv.Key);
+            Logger.Info($"ItemSearch: {stopwatch.ElapsedMilliseconds}");
 
             List<InventoryItem> playerMatchingItems = new List<InventoryItem>();
             foreach (var id in results)

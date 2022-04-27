@@ -89,6 +89,7 @@ namespace ItemSearch
             {
                 Logger.Info($"{staticItemsJsonPath} not found. Restoring cache from resources");
                 var resourcePath = Path.Combine(localeDir, STATIC_ITEMS_FILE_NAME);
+                Directory.CreateDirectory(Path.GetDirectoryName(staticItemsJsonPath));
                 using (var inStream = ContentsManager.GetFileStream(resourcePath))
                 {
                     using (var outStream = File.OpenWrite(staticItemsJsonPath))
