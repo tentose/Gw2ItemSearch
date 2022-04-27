@@ -21,7 +21,7 @@ namespace ItemSearch
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
 
         private const string CACHE_DIRECTORY = "itemsearchcache";
-        private const string STATIC_ITEMS_FILE_NAME = "static_items.json";
+        private const string STATIC_ITEMS_FILE_NAME = "all_items.json";
 
         private SettingsManager m_settingsManager => this.ModuleParameters.SettingsManager;
         public ContentsManager ContentsManager => this.ModuleParameters.ContentsManager;
@@ -45,6 +45,19 @@ namespace ItemSearch
             return m_settingsManager.ModuleSettings;
         }
 
+        private string LocaleToPathString(Gw2Sharp.WebApi.Locale locale)
+        {
+            switch(locale)
+            {
+                case Gw2Sharp.WebApi.Locale.English: return "en";
+                case Gw2Sharp.WebApi.Locale.French: return "fr";
+                case Gw2Sharp.WebApi.Locale.German: return "de";
+                case Gw2Sharp.WebApi.Locale.Spanish: return "es";
+                case Gw2Sharp.WebApi.Locale.Chinese: return "zh";
+                default: return "en";
+            }
+        }
+
         protected override async Task LoadAsync()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -57,18 +70,26 @@ namespace ItemSearch
                 Priority = 5,
                 LoadingMessage = Strings.CornerIconLoadingProgress_Initial,
             };
-            
+
             await ItemIcon.LoadIconResources();
+
+            // TODO: handle this more gracefully by locking the locale depedent resources and reloading
+            GameService.Overlay.UserLocaleChanged += (sender, args) =>
+            {
+                this.Unload();
+            };
 
             m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_StaticItems;
             var cacheDir = m_directoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
-            var staticItemsJsonPath = Path.Combine(cacheDir, STATIC_ITEMS_FILE_NAME);
+            var localeDir = LocaleToPathString(GameService.Overlay.UserLocale.Value);
+            var staticItemsJsonPath = Path.Combine(cacheDir, localeDir, STATIC_ITEMS_FILE_NAME);
 
             // Fetch a copy of the static items json from resources if it doesn't exist
             if (!File.Exists(staticItemsJsonPath))
             {
-                Logger.Info($"{STATIC_ITEMS_FILE_NAME} not found in cache. Restoring from resources");
-                using (var inStream = ContentsManager.GetFileStream(STATIC_ITEMS_FILE_NAME))
+                Logger.Info($"{staticItemsJsonPath} not found. Restoring cache from resources");
+                var resourcePath = Path.Combine(localeDir, STATIC_ITEMS_FILE_NAME);
+                using (var inStream = ContentsManager.GetFileStream(resourcePath))
                 {
                     using (var outStream = File.OpenWrite(staticItemsJsonPath))
                     {

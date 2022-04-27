@@ -25,7 +25,6 @@ namespace ItemSearch
     public class StaticItemInfo
     {
         public string Name { get; set; }
-        public string Description { get; set; }
         public string IconUrl { get; set; }
         public ItemRarity Rarity { get; set; }
 
@@ -119,7 +118,6 @@ namespace ItemSearch
             {
                 var staticItem = new StaticItemInfo();
                 staticItem.Name = item.Name;
-                staticItem.Description = item.Description;
                 staticItem.IconUrl = item.Icon.Url.ToString();
                 staticItem.Rarity = RarityStringToRarity(item.Rarity.ToString());
                 AllItems.Add(item.Id, staticItem);
