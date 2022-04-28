@@ -1,0 +1,53 @@
+name: CI Build
+
+on:
+  pull_request:
+    types: [synchronize, opened]
+  push:
+    branches:
+      - actionstest
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          submodules: recursive
+
+      - name: Setup msbuild
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build
+        shell: powershell
+        run: |
+          msbuild ItemSearch.sln /t:restore /p:configuration=Release
+          msbuild ItemSearch.sln /t:build /p:configuration=Release -maxcpucount
+
+      - name: Set Version Variable
+        id: version
+        shell: powershell
+        run: |
+          $json = Get-Content .\ItemSearchNF\manifest.json -Raw | ConvertFrom-Json
+          $v = "${json.version}-${{ github.run_number }}"
+          echo "::set-output name=build_version::${v}"
+
+      - name: Release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.build_version }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: itemsearch_${{steps.version.outputs.build_version}}
+          path: bin/Release/ItemSearch.bhm
