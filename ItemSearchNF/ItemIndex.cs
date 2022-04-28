@@ -1,5 +1,4 @@
 ﻿using Blish_HUD;
-using Gma.DataStructures.StringSearch;
 using Gw2Sharp.WebApi;
 using Newtonsoft.Json;
 using System;
