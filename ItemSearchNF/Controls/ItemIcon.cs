@@ -29,14 +29,14 @@ namespace ItemSearch.Controls
             await Task.Run(() =>
             {
                 var contentsManager = ItemSearchModule.Instance.ContentsManager;
-                s_rarityToBorder.Add(ItemRarity.Junk, contentsManager.GetTexture(@"Textures\JunkBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Basic, contentsManager.GetTexture(@"Textures\BasicBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Fine, contentsManager.GetTexture(@"Textures\FineBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Masterwork, contentsManager.GetTexture(@"Textures\MasterworkBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Rare, contentsManager.GetTexture(@"Textures\RareBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Exotic, contentsManager.GetTexture(@"Textures\ExoticBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Ascended, contentsManager.GetTexture(@"Textures\AscendedBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Legendary, contentsManager.GetTexture(@"Textures\LegendaryBorder.png"));
+                s_rarityToBorder[ItemRarity.Junk] = contentsManager.GetTexture(@"Textures\JunkBorder.png");
+                s_rarityToBorder[ItemRarity.Basic] = contentsManager.GetTexture(@"Textures\BasicBorder.png");
+                s_rarityToBorder[ItemRarity.Fine] = contentsManager.GetTexture(@"Textures\FineBorder.png");
+                s_rarityToBorder[ItemRarity.Masterwork] = contentsManager.GetTexture(@"Textures\MasterworkBorder.png");
+                s_rarityToBorder[ItemRarity.Rare] = contentsManager.GetTexture(@"Textures\RareBorder.png");
+                s_rarityToBorder[ItemRarity.Exotic] = contentsManager.GetTexture(@"Textures\ExoticBorder.png");
+                s_rarityToBorder[ItemRarity.Ascended] = contentsManager.GetTexture(@"Textures\AscendedBorder.png");
+                s_rarityToBorder[ItemRarity.Legendary] = contentsManager.GetTexture(@"Textures\LegendaryBorder.png");
 
                 s_itemPlaceholder = contentsManager.GetTexture(@"Textures\EmptyItem.png");
             });

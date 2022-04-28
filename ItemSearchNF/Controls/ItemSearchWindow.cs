@@ -18,6 +18,8 @@ namespace ItemSearch.Controls
 
         private const int MIN_WIDTH = 300;
         private const int MIN_HEIGHT = 300;
+        private const int MAX_WIDTH = 1024;
+        private const int MAX_HEIGHT = 1024;
         private const int CONTENT_X_MARGIN = 80;
         private const int CONTENT_Y_PADDING = 5;
         private const int TITLE_BAR_SIZE = 40;
@@ -43,48 +45,15 @@ namespace ItemSearch.Controls
 
             m_contentsManager = contentManager;
 
-            Tabs.Add(new Tab(m_contentsManager.GetTexture("Textures/placeholder.png"), () => new ItemSearchView(m_searchEngine), "Search all items"));
+            Tabs.Add(new Tab(m_contentsManager.GetTexture("Textures/SearchTabIcon.png"), () => new ItemSearchView(m_searchEngine), "Search all items"));
 
             m_initialized = true;
         }
 
-        private void M_searchQueryBox_InputFocusChanged(object sender, ValueEventArgs<bool> e)
-        {
-            // Select all text if the user is focusing on the text box to make it easier to type a new query
-            if (m_searchQueryBox.Focused && m_searchQueryBox.Text.Length > 0)
-            {
-                // Textbox handles cursor placement AFTER input focus changes. If we make the selection right
-                // away, the text box will just overwrite it with cursor placement logic. Do the selection
-                // after a small delay.
-                Task.Run(async () =>
-                {
-                    await Task.Delay(100);
-                    m_searchQueryBox.SelectionStart = 0;
-                    m_searchQueryBox.SelectionEnd = m_searchQueryBox.Text.Length;
-                    m_searchQueryBox.RecalculateLayout();
-                });
-            }
-        }
-
-        private void M_searchQueryBox_EnterPressed(object sender, EventArgs e)
-        {
-            string query = m_searchQueryBox.Text;
-            if (query.Length >= 3)
-            {
-                _ = PerformSearchQuery(query);
-            }
-        }
-
-        private async Task PerformSearchQuery(string query)
-        {
-            var result = await m_searchEngine.Search(query);
-            m_resultPanel.SetSearchResult(result);
-        }
-
         protected override Point HandleWindowResize(Point newSize)
         {
-            return new Point(MathHelper.Clamp(newSize.X, MIN_WIDTH, 850),
-                        MathHelper.Clamp(newSize.Y, MIN_HEIGHT, 1024));
+            return new Point(MathHelper.Clamp(newSize.X, MIN_WIDTH, MAX_WIDTH),
+                        MathHelper.Clamp(newSize.Y, MIN_HEIGHT, MAX_HEIGHT));
         }
     }
 }

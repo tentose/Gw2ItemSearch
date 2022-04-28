@@ -101,6 +101,7 @@ namespace ItemSearch.Controls
             string query = m_searchQueryBox.Text;
             if (query.Length >= 3)
             {
+                m_searchDebounceTimer.Stop();
                 _ = PerformSearchQuery(query);
             }
         }

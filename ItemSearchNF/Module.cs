@@ -25,8 +25,11 @@ namespace ItemSearch
 
         private SettingsManager m_settingsManager => this.ModuleParameters.SettingsManager;
         public ContentsManager ContentsManager => this.ModuleParameters.ContentsManager;
-        private DirectoriesManager m_directoriesManager => this.ModuleParameters.DirectoriesManager;
+        public DirectoriesManager DirectoriesManager => this.ModuleParameters.DirectoriesManager;
         public Gw2ApiManager Gw2ApiManager => this.ModuleParameters.Gw2ApiManager;
+
+        public string CacheDirectory { get; private set; }
+        public string LocaleSpecificCacheDirectory { get; private set; }
 
         private ItemIndex m_searchEngine;
         private ItemSearchWindow m_searchWindow;
@@ -80,9 +83,10 @@ namespace ItemSearch
             };
 
             m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_StaticItems;
-            var cacheDir = m_directoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
+            CacheDirectory = DirectoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
             var localeDir = LocaleToPathString(GameService.Overlay.UserLocale.Value);
-            var staticItemsJsonPath = Path.Combine(cacheDir, localeDir, STATIC_ITEMS_FILE_NAME);
+            LocaleSpecificCacheDirectory = Path.Combine(CacheDirectory, localeDir);
+            var staticItemsJsonPath = Path.Combine(LocaleSpecificCacheDirectory, STATIC_ITEMS_FILE_NAME);
 
             // Fetch a copy of the static items json from resources if it doesn't exist
             if (!File.Exists(staticItemsJsonPath))
@@ -102,14 +106,32 @@ namespace ItemSearch
             await StaticItemInfo.Initialize(staticItemsJsonPath, Gw2ApiManager.Gw2ApiClient);
 
             m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_BuildingSearchTree;
-            m_searchEngine = new ItemIndex();
-            await m_searchEngine.InitializeIndex(Gw2ApiManager.Gw2ApiClient, Gw2ApiManager.Permissions);
+            m_searchEngine = await ItemIndex.NewAsync(Gw2ApiManager.Gw2ApiClient, Gw2ApiManager.Permissions);
 
             // Controls
             m_searchWindow = new ItemSearchWindow(ContentsManager, m_searchEngine);
             m_searchIcon.Click += delegate { m_searchWindow.ToggleWindow(); };
             m_searchIcon.LoadingMessage = null;
             Logger.Info($"LoadAsync: {stopwatch.ElapsedMilliseconds}");
+        }
+
+        protected override void Unload()
+        {
+            m_searchEngine = null;
+
+            if (m_searchWindow != null)
+            {
+                m_searchWindow.Dispose();
+                m_searchWindow = null;
+            }
+            
+            if (m_searchIcon != null)
+            {
+                m_searchIcon.Dispose();
+                m_searchIcon = null;
+            }
+            
+            Instance = null;
         }
     }
 }

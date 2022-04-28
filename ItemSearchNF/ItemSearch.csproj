@@ -220,6 +220,7 @@
     <Compile Include="Controls\ItemSearchWindow.cs" />
     <Compile Include="ItemSearchPresenter.cs" />
     <Compile Include="Module.cs" />
+    <Compile Include="PlayerItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticItemInfo.cs" />
     <Compile Include="Strings.Designer.cs">

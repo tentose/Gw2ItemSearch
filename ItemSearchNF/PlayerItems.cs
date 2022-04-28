@@ -1,0 +1,327 @@
+﻿using Blish_HUD;
+using Gw2Sharp.WebApi;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Timers;
+using ApiModels = Gw2Sharp.WebApi.V2.Models;
+
+namespace ItemSearch
+{
+    internal static class DictionaryExtensions
+    {
+        public static void AddOrUpdate(this Dictionary<int, List<InventoryItem>> dict, int id, InventoryItem item)
+        {
+            List<InventoryItem> existing;
+            if (!dict.TryGetValue(id, out existing))
+            {
+                existing = new List<InventoryItem>();
+                dict[id] = existing;
+            }
+            existing.Add(item);
+        }
+    }
+
+    internal class PlayerItems
+    {
+        private const string CACHE_FILE_NAME = "player_items.json";
+        private const int API_REFRESH_INTERVAL_MILLIS = 10 * 60 * 1000;
+        private const int API_REFRESH_TIMEOUT_MILLIS = 5 * 60 * 1000;
+
+        private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
+
+        private IGw2WebApiClient m_apiClient;
+        private List<ApiModels.TokenPermission> m_permissions;
+        private Timer m_refreshTimer;
+
+        public Dictionary<int, List<InventoryItem>> Items { get; private set; }
+
+        public static async Task<PlayerItems> NewAsync(IGw2WebApiClient client, List<ApiModels.TokenPermission> permissions)
+        {
+            PlayerItems items = new PlayerItems();
+            await items.Initialize(client, permissions);
+            return items;
+        }
+
+        private PlayerItems()
+        {
+        }
+
+        private async Task Initialize(IGw2WebApiClient client, List<ApiModels.TokenPermission> permissions)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            m_apiClient = client;
+            m_permissions = permissions;
+            m_refreshTimer = new Timer();
+            m_refreshTimer.AutoReset = true;
+            m_refreshTimer.Interval = API_REFRESH_INTERVAL_MILLIS;
+            m_refreshTimer.Elapsed += M_refreshTimer_Elapsed;
+            m_refreshTimer.Start();
+
+            Items = await InitializeFromCache();
+
+            if (Items == null)
+            {
+                Items = await GetPlayerItems();
+                await WriteToCache(Items);
+            }
+
+            Logger.Info($"InitializePlayerItems: {stopwatch.ElapsedMilliseconds}");
+        }
+
+        private void M_refreshTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            m_refreshTimer.Stop();
+            try
+            {
+                if (!RefreshApiData().Wait(API_REFRESH_TIMEOUT_MILLIS))
+                {
+                    Logger.Error("Timed out while refreshing player data");
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.Error(ex, "Error while refreshing player data");
+            }
+            finally
+            {
+                m_refreshTimer.Start();
+            }
+        }
+
+        private async Task RefreshApiData()
+        {
+            Logger.Info($"Refreshing player data from API");
+            var items = await GetPlayerItems();
+            Items = items;
+            await WriteToCache(items);
+        }
+
+        private async Task<Dictionary<int, List<InventoryItem>>> InitializeFromCache()
+        {
+            var path = Path.Combine(ItemSearchModule.Instance.CacheDirectory, CACHE_FILE_NAME);
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    return JsonConvert.DeserializeObject<Dictionary<int, List<InventoryItem>>>(File.ReadAllText(path));
+                });
+            }
+            catch (Exception e)
+            {
+                Logger.Warn(e, $"Failed to initialize player item data from cache: {path}");
+                return null;
+            }
+        }
+
+        private async Task WriteToCache(Dictionary<int, List<InventoryItem>> items)
+        {
+            Logger.Info($"Persisting player data to cache");
+            var path = Path.Combine(ItemSearchModule.Instance.CacheDirectory, CACHE_FILE_NAME);
+            try
+            {
+                await Task.Run(() =>
+                {
+                    File.WriteAllText(path, JsonConvert.SerializeObject(items));
+                });
+            }
+            catch (Exception e)
+            {
+                Logger.Warn(e, $"Failed to persist player item data to cache: {path}");
+            }
+        }
+
+        public async Task<Dictionary<int, List<InventoryItem>>> GetPlayerItems()
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            Dictionary<int, List<InventoryItem>> allPlayerItems = new Dictionary<int, List<InventoryItem>>();
+            var webApiClient = m_apiClient.V2;
+
+            Action<InventoryItem> addItemToAllItems = (InventoryItem item) =>
+            {
+                allPlayerItems.AddOrUpdate(item.Id, item);
+                if (item.Skin.HasValue && item.Skin.Value > 0)
+                {
+                    allPlayerItems.AddOrUpdate(item.Skin.Value, item);
+                }
+                if (item.Infusions != null)
+                {
+                    foreach (var infusionId in item.Infusions)
+                    {
+                        allPlayerItems.AddOrUpdate(infusionId, item);
+                    }
+                }
+                if (item.Upgrades != null)
+                {
+                    foreach (var upgradeId in item.Upgrades)
+                    {
+                        allPlayerItems.AddOrUpdate(upgradeId, item);
+                    }
+                }
+            };
+
+            if (m_permissions.Contains(ApiModels.TokenPermission.Inventories))
+            {
+                var bankItems = await ApiHelper.Fetch(() => webApiClient.Account.Bank.GetAsync());
+                if (bankItems != null)
+                {
+                    foreach (var item in bankItems)
+                    {
+                        if (item != null)
+                        {
+                            addItemToAllItems(new InventoryItem(item, InventoryItemSource.Bank));
+                        }
+                    }
+                }
+                else
+                {
+                    Logger.Warn("Failed to retrieve bank items.");
+                }
+
+                var sharedInventoryItems = await ApiHelper.Fetch(() => webApiClient.Account.Inventory.GetAsync());
+                if (sharedInventoryItems != null)
+                {
+                    foreach (var item in sharedInventoryItems)
+                    {
+                        if (item != null)
+                        {
+                            addItemToAllItems(new InventoryItem(item, InventoryItemSource.SharedInventory));
+                        }
+                    }
+                }
+                else
+                {
+                    Logger.Warn("Failed to retrieve shared inventory items.");
+                }
+
+                var materials = await ApiHelper.Fetch(() => webApiClient.Account.Materials.GetAsync());
+                if (materials != null)
+                {
+                    foreach (var item in materials)
+                    {
+                        addItemToAllItems(new InventoryItem(item));
+                    }
+                }
+                else
+                {
+                    Logger.Warn("Failed to retrieve materials.");
+                }
+
+                var characters = await ApiHelper.Fetch(() => webApiClient.Characters.AllAsync());
+                if (characters != null)
+                {
+                    foreach (var character in characters)
+                    {
+                        if (character.Bags != null)
+                        {
+                            foreach (var bag in character.Bags)
+                            {
+                                if (bag != null)
+                                {
+                                    addItemToAllItems(new InventoryItem(bag.Id, InventoryItemSource.CharacterInventory, character.Name));
+                                    foreach (var item in bag.Inventory)
+                                    {
+                                        if (item != null)
+                                        {
+                                            addItemToAllItems(new InventoryItem(item, InventoryItemSource.CharacterInventory, character.Name));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Logger.Warn("Failed to retrieve character bags");
+                        }
+
+                        if (character.EquipmentTabs != null)
+                        {
+                            foreach (var tab in character.EquipmentTabs)
+                            {
+                                if (tab != null)
+                                {
+                                    foreach (var equipItem in tab.Equipment)
+                                    {
+                                        if (equipItem != null)
+                                        {
+                                            addItemToAllItems(new InventoryItem(equipItem, InventoryItemSource.CharacterEquipment, character.Name));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Logger.Warn("Failed to retrieve character equipment");
+                        }
+
+                        if (character.Equipment != null)
+                        {
+                            foreach (var equip in character.Equipment)
+                            {
+                                if (equip != null)
+                                {
+                                    if (equip.Slot == ApiModels.ItemEquipmentSlotType.Axe ||
+                                        equip.Slot == ApiModels.ItemEquipmentSlotType.Sickle ||
+                                        equip.Slot == ApiModels.ItemEquipmentSlotType.Pick)
+                                    {
+                                        addItemToAllItems(new InventoryItem(equip, InventoryItemSource.CharacterEquipment, character.Name));
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Logger.Warn("Failed to retrieve character equipment");
+                        }
+                    }
+                }
+                else
+                {
+                    Logger.Warn("Failed to retrieve characters.");
+                }
+            }
+
+            if (m_permissions.Contains(ApiModels.TokenPermission.Tradingpost))
+            {
+                var tpBox = (await ApiHelper.Fetch(() => webApiClient.Commerce.Delivery.GetAsync()));
+                if (tpBox != null)
+                {
+                    var tpBoxItems = tpBox.Items;
+                    foreach (var item in tpBoxItems)
+                    {
+                        addItemToAllItems(new InventoryItem(item));
+                    }
+                }
+                else
+                {
+                    Logger.Warn("Failed to retrieve trading post delivery box items.");
+                }
+
+                var tpSellItems = await ApiHelper.Fetch(() => webApiClient.Commerce.Transactions.Current.Sells.GetAsync());
+                if (tpSellItems != null)
+                {
+                    foreach (var item in tpSellItems)
+                    {
+                        addItemToAllItems(new InventoryItem(item));
+                    }
+                }
+                else
+                {
+                    Logger.Warn("Failed to retrieve trading post sell orders.");
+                }
+            }
+
+            Logger.Info($"GetPlayerItems: {stopwatch.ElapsedMilliseconds}");
+
+            return allPlayerItems;
+        }
+    }
+}

@@ -25,6 +25,7 @@ namespace ItemSearch.Controls
                 Parent = this,
                 FlowDirection = ControlFlowDirection.SingleTopToBottom,
                 ControlPadding = new Vector2(0, 5),
+                HeightSizingMode = SizingMode.AutoSize,
             };
 
             m_initialized = true;
@@ -65,7 +66,14 @@ namespace ItemSearch.Controls
             // Turn off panels without results and resume layout
             ForAllSourcePanels(panel =>
             {
-                panel.Visible = panel.Children.Count > 0;
+                if (panel.Children.Count > 0 && panel.Parent == null)
+                {
+                    panel.Parent = m_layout;
+                }
+                else if (panel.Children.Count == 0 && panel.Parent != null)
+                {
+                    panel.Parent = null;
+                }
                 panel.ResumeLayout(panel.Visible);
             });
 
@@ -148,15 +156,18 @@ namespace ItemSearch.Controls
 
             if (m_initialized)
             {
-                LayoutHelper.SetWidthSizeMode(m_layout, DimensionSizeMode.Inherit);
-                ForAllSourcePanels(panel => LayoutHelper.SetWidthSizeMode(panel, DimensionSizeMode.Inherit, 20));
-
-                int height = 50;
-                if (m_layout.Children.Count > 0)
+                if (m_layout.Parent != null)
                 {
-                    height = m_layout.Children[m_layout.Children.Count - 1].Bottom;
+                    LayoutHelper.SetWidthSizeMode(m_layout, DimensionSizeMode.Inherit);
                 }
-                m_layout.HeightSizingMode = SizingMode.AutoSize;
+
+                ForAllSourcePanels(panel =>
+                {
+                    if (panel.Parent != null)
+                    {
+                        LayoutHelper.SetWidthSizeMode(panel, DimensionSizeMode.Inherit, 20);
+                    }
+                });
             }
         }
     }

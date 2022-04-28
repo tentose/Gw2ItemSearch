@@ -9,6 +9,7 @@ namespace ItemSearch
 {
     public enum InventoryItemSource
     {
+        Unknown,
         CharacterInventory,
         CharacterEquipment,
         SharedInventory,
@@ -83,6 +84,11 @@ namespace ItemSearch
             Source = InventoryItemSource.TradingPostSellOrder;
             Id = item.ItemId;
             Count = item.Quantity;
+        }
+
+        public InventoryItem()
+        {
+            Source = InventoryItemSource.Unknown;
         }
     }
 }
