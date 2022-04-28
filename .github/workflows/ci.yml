@@ -54,4 +54,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: itemsearch_${{steps.version.outputs.build_version}}
-          path: bin/Release/ItemSearch.bhm
+          path: ItemSearchNF/bin/Release/ItemSearch.bhm
