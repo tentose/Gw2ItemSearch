@@ -36,7 +36,7 @@ jobs:
         shell: powershell
         run: |
           $json = Get-Content .\ItemSearchNF\manifest.json -Raw | ConvertFrom-Json
-          $v = "${json.version}-${{ github.run_number }}"
+          $v = "$($json.version)-${{ github.run_number }}"
           echo "::set-output name=build_version::${v}"
 
       - name: Release
