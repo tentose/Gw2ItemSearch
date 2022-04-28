@@ -22,18 +22,23 @@ namespace ItemSearch.Controls
         private static readonly Thickness s_NumberMargin = new Thickness(0, -5, 0, 0);
 
         private static Dictionary<ItemRarity, Texture2D> s_rarityToBorder = new Dictionary<ItemRarity, Texture2D>();
+        private static Texture2D s_itemPlaceholder;
+
         public static async Task LoadIconResources()
         {
             await Task.Run(() =>
             {
-                s_rarityToBorder.Add(ItemRarity.Junk, ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\JunkBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Basic, ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\BasicBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Fine, ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\FineBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Masterwork, ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\MasterworkBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Rare, ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\RareBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Exotic, ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\ExoticBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Ascended, ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\AscendedBorder.png"));
-                s_rarityToBorder.Add(ItemRarity.Legendary, ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\LegendaryBorder.png"));
+                var contentsManager = ItemSearchModule.Instance.ContentsManager;
+                s_rarityToBorder.Add(ItemRarity.Junk, contentsManager.GetTexture(@"Textures\JunkBorder.png"));
+                s_rarityToBorder.Add(ItemRarity.Basic, contentsManager.GetTexture(@"Textures\BasicBorder.png"));
+                s_rarityToBorder.Add(ItemRarity.Fine, contentsManager.GetTexture(@"Textures\FineBorder.png"));
+                s_rarityToBorder.Add(ItemRarity.Masterwork, contentsManager.GetTexture(@"Textures\MasterworkBorder.png"));
+                s_rarityToBorder.Add(ItemRarity.Rare, contentsManager.GetTexture(@"Textures\RareBorder.png"));
+                s_rarityToBorder.Add(ItemRarity.Exotic, contentsManager.GetTexture(@"Textures\ExoticBorder.png"));
+                s_rarityToBorder.Add(ItemRarity.Ascended, contentsManager.GetTexture(@"Textures\AscendedBorder.png"));
+                s_rarityToBorder.Add(ItemRarity.Legendary, contentsManager.GetTexture(@"Textures\LegendaryBorder.png"));
+
+                s_itemPlaceholder = contentsManager.GetTexture(@"Textures\EmptyItem.png");
             });
         }
 
@@ -46,13 +51,13 @@ namespace ItemSearch.Controls
         {
             m_item = item;
             this.Size = new Point(61, 61);
-            m_image = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\EmptyItem.png");
+            m_image = s_itemPlaceholder;
             Tooltip = new Tooltip(new ItemTooltipView(m_item));
             if (m_item.Count > 1 || (m_item.Charges != null && m_item.Charges > 1))
             {
                 m_number = Math.Max(m_item.Count, m_item.Charges ?? 1).ToString();
             }
-            LoadItemImage();
+            _ = LoadItemImage();
         }
 
         public async Task LoadItemImage()

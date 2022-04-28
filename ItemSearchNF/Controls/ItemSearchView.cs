@@ -56,7 +56,7 @@ namespace ItemSearch.Controls
 
         private void M_searchDebounceTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            PerformSearchQuery(m_searchQueryBox.Text);
+            _ = PerformSearchQuery(m_searchQueryBox.Text);
         }
 
         private void M_searchQueryBox_TextChanged(object sender, EventArgs e)
@@ -101,7 +101,7 @@ namespace ItemSearch.Controls
             string query = m_searchQueryBox.Text;
             if (query.Length >= 3)
             {
-                PerformSearchQuery(query);
+                _ = PerformSearchQuery(query);
             }
         }
 

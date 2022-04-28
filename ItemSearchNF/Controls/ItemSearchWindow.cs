@@ -71,7 +71,7 @@ namespace ItemSearch.Controls
             string query = m_searchQueryBox.Text;
             if (query.Length >= 3)
             {
-                PerformSearchQuery(query);
+                _ = PerformSearchQuery(query);
             }
         }
 

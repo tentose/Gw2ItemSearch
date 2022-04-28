@@ -45,8 +45,12 @@ namespace ItemSearch.Controls
 
         public void SetSearchResult(List<InventoryItem> items)
         {
-            // Clear current children
-            ForAllSourcePanels(panel => panel.ClearChildren());
+            // Clear current children and suspend layout
+            ForAllSourcePanels(panel =>
+            {
+                panel.SuspendLayout();
+                panel.ClearChildren();
+            });
 
             // Set results
             foreach (var item in items)
@@ -58,13 +62,17 @@ namespace ItemSearch.Controls
                 };
             }
 
-            // Turn off panels without results
-            ForAllSourcePanels(panel => panel.Visible = panel.Children.Count > 0);
+            // Turn off panels without results and resume layout
+            ForAllSourcePanels(panel =>
+            {
+                panel.Visible = panel.Children.Count > 0;
+                panel.ResumeLayout(panel.Visible);
+            });
 
             m_layout.SortChildren((Panel a, Panel b) =>
             {
-                bool isACharacter = a.Title.StartsWith(Strings.ResultTitle_Character);
-                bool isBCharacter = b.Title.StartsWith(Strings.ResultTitle_Character);
+                bool isACharacter = m_characterSourcePanels.Values.Contains(a);
+                bool isBCharacter = m_characterSourcePanels.Values.Contains(b);
                 if (isACharacter && !isBCharacter)
                 {
                     return 1;
@@ -79,7 +87,6 @@ namespace ItemSearch.Controls
                 }
             });
 
-            Invalidate();
             RecalculateLayout();
         }
 
@@ -143,14 +150,12 @@ namespace ItemSearch.Controls
             {
                 LayoutHelper.SetWidthSizeMode(m_layout, DimensionSizeMode.Inherit);
                 ForAllSourcePanels(panel => LayoutHelper.SetWidthSizeMode(panel, DimensionSizeMode.Inherit, 20));
-                
 
                 int height = 50;
                 if (m_layout.Children.Count > 0)
                 {
                     height = m_layout.Children[m_layout.Children.Count - 1].Bottom;
                 }
-                //m_layout.Size = new Point(m_layout.Width, height);
                 m_layout.HeightSizingMode = SizingMode.AutoSize;
             }
         }
