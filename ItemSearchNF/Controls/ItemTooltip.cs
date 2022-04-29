@@ -145,7 +145,14 @@ namespace ItemSearch.Controls
                 }
                 else if (m_item.Source == InventoryItemSource.CharacterEquipment)
                 {
-                    m_itemSourceLabel.Text = Strings.ItemTooltip_Location + Strings.ItemTooltip_CharacterEquipment;
+                    if (m_item.EquipmentTabId > 0)
+                    {
+                        m_itemSourceLabel.Text = Strings.ItemTooltip_Location + Strings.ItemTooltip_CharacterEquipment + String.Format(Strings.ItemTooltip_Tab, m_item.EquipmentTabId);
+                    }
+                    else
+                    {
+                        m_itemSourceLabel.Text = Strings.ItemTooltip_Location + Strings.ItemTooltip_CharacterEquipment;
+                    }
                 }
                 else
                 {

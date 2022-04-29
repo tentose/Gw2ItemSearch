@@ -22,7 +22,8 @@ namespace ItemSearch
     public class InventoryItem
     {
         public InventoryItemSource Source { get; set; }
-        public string LocationHint { get; set; }
+        public string CharacterName { get; set; }
+        public int EquipmentTabId { get; set; } = -1;
         public int Id { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
@@ -34,10 +35,10 @@ namespace ItemSearch
         public string BoundTo { get; set; }
         public InventoryItem ParentItem { get; set; }
 
-        public InventoryItem(AccountItem item, InventoryItemSource source, string locationHint = null)
+        public InventoryItem(AccountItem item, InventoryItemSource source, string character = null)
         {
             Source = source;
-            LocationHint = locationHint;
+            CharacterName = character;
             Id = item.Id;
             Count = item.Count;
             Charges = item.Charges;
@@ -48,23 +49,24 @@ namespace ItemSearch
             BoundTo = item.BoundTo;
         }
 
-        public InventoryItem(CharacterEquipmentItem item, InventoryItemSource source, string locationHint = null)
+        public InventoryItem(CharacterEquipmentItem item, InventoryItemSource source, string character = null, int equipmentTab = -1)
         {
             Source = source;
-            LocationHint = locationHint;
+            CharacterName = character;
             Id = item.Id;
             Infusions = item.Infusions?.ToArray();
             Upgrades = item.Upgrades?.ToArray();
             Skin = item.Skin;
             Binding = item.Binding?.ToString();
             BoundTo = item.BoundTo;
+            EquipmentTabId = equipmentTab;
         }
 
-        public InventoryItem(int itemId, InventoryItemSource source, string locationHint = null)
+        public InventoryItem(int itemId, InventoryItemSource source, string character = null)
         {
             Source = source;
             Id = itemId;
-            LocationHint = locationHint;
+            CharacterName = character;
         }
 
         public InventoryItem(AccountMaterial item)
@@ -95,8 +97,9 @@ namespace ItemSearch
 
         public static InventoryItem FromParentItem(InventoryItem parent, int itemId)
         {
-            InventoryItem item = new InventoryItem(itemId, parent.Source, parent.LocationHint);
+            InventoryItem item = new InventoryItem(itemId, parent.Source, parent.CharacterName);
             item.ParentItem = parent;
+            item.EquipmentTabId = parent.EquipmentTabId;
             return item;
         }
     }

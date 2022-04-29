@@ -142,6 +142,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  Tab {0}.
+        /// </summary>
+        internal static string ItemTooltip_Tab {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bank.
         /// </summary>
         internal static string ResultTitle_Bank {

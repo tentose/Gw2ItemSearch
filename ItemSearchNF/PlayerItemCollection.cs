@@ -228,7 +228,10 @@ namespace ItemSearch
                 {
                     foreach (var item in materials)
                     {
-                        addItemToAllItems(new InventoryItem(item));
+                        if (item.Count > 0)
+                        {
+                            addItemToAllItems(new InventoryItem(item));
+                        }
                     }
                 }
                 else
@@ -273,7 +276,7 @@ namespace ItemSearch
                                     {
                                         if (equipItem != null)
                                         {
-                                            addItemToAllItems(new InventoryItem(equipItem, InventoryItemSource.CharacterEquipment, character.Name));
+                                            addItemToAllItems(new InventoryItem(equipItem, InventoryItemSource.CharacterEquipment, character.Name, tab.Tab));
                                         }
                                     }
                                 }

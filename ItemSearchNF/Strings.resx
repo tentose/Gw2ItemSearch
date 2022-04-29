@@ -144,6 +144,10 @@
   <data name="ItemTooltip_Location" xml:space="preserve">
     <value>Location: </value>
   </data>
+  <data name="ItemTooltip_Tab" xml:space="preserve">
+    <value> Tab {0}</value>
+    <comment>{0} replaced with tab ID</comment>
+  </data>
   <data name="ResultTitle_Bank" xml:space="preserve">
     <value>Bank</value>
   </data>

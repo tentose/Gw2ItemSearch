@@ -103,11 +103,11 @@ namespace ItemSearch.Controls
             if (item.Source == InventoryItemSource.CharacterInventory || item.Source == InventoryItemSource.CharacterEquipment)
             {
                 Panel panel;
-                if (!m_characterSourcePanels.TryGetValue(item.LocationHint, out panel))
+                if (!m_characterSourcePanels.TryGetValue(item.CharacterName, out panel))
                 {
                     panel = NewResultPanel();
-                    panel.Title = Strings.ResultTitle_Character + item.LocationHint;
-                    m_characterSourcePanels.Add(item.LocationHint, panel);
+                    panel.Title = Strings.ResultTitle_Character + item.CharacterName;
+                    m_characterSourcePanels.Add(item.CharacterName, panel);
                 }
                 return panel;
             }
