@@ -115,6 +115,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contained in: .
+        /// </summary>
+        internal static string ItemTooltip_ContainedIn {
+            get {
+                return ResourceManager.GetString("ItemTooltip_ContainedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Item .
         /// </summary>
         internal static string ItemTooltip_FallbackTextPrefix {

@@ -135,6 +135,9 @@
   <data name="ItemTooltip_CharacterInventory" xml:space="preserve">
     <value>Inventory</value>
   </data>
+  <data name="ItemTooltip_ContainedIn" xml:space="preserve">
+    <value>Contained in: </value>
+  </data>
   <data name="ItemTooltip_FallbackTextPrefix" xml:space="preserve">
     <value>Item </value>
   </data>

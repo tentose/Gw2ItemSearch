@@ -27,6 +27,7 @@ namespace ItemSearch
         public ContentsManager ContentsManager => this.ModuleParameters.ContentsManager;
         public DirectoriesManager DirectoriesManager => this.ModuleParameters.DirectoriesManager;
         public Gw2ApiManager Gw2ApiManager => this.ModuleParameters.Gw2ApiManager;
+        public SearchGlobalSettings GlobalSettings { get; private set; }
 
         public string CacheDirectory { get; private set; }
         public string LocaleSpecificCacheDirectory { get; private set; }
@@ -82,7 +83,9 @@ namespace ItemSearch
                 this.Unload();
             };
 
+            // Static items
             m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_StaticItems;
+
             CacheDirectory = DirectoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
             var localeDir = LocaleToPathString(GameService.Overlay.UserLocale.Value);
             LocaleSpecificCacheDirectory = Path.Combine(CacheDirectory, localeDir);
@@ -105,7 +108,9 @@ namespace ItemSearch
 
             await StaticItemInfo.Initialize(staticItemsJsonPath, Gw2ApiManager.Gw2ApiClient);
 
-            m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_BuildingSearchTree;
+            // Player items
+            m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_PlayerItems;
+
             m_searchEngine = await ItemIndex.NewAsync(Gw2ApiManager.Gw2ApiClient, Gw2ApiManager.Permissions);
 
             // Controls
@@ -113,6 +118,11 @@ namespace ItemSearch
             m_searchIcon.Click += delegate { m_searchWindow.ToggleWindow(); };
             m_searchIcon.LoadingMessage = null;
             Logger.Info($"LoadAsync: {stopwatch.ElapsedMilliseconds}");
+        }
+
+        protected override void DefineSettings(SettingCollection settings)
+        {
+            GlobalSettings = new SearchGlobalSettings(settings);
         }
 
         protected override void Unload()

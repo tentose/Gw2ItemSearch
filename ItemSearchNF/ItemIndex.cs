@@ -17,7 +17,7 @@ namespace ItemSearch
     {
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
 
-        private PlayerItems m_playerItems;
+        private PlayerItemCollection m_playerItems;
 
         public static async Task<ItemIndex> NewAsync(IGw2WebApiClient client, List<ApiModels.TokenPermission> permissions)
         {
@@ -36,7 +36,7 @@ namespace ItemSearch
 
             Logger.Info("Token permissions: " + String.Join(", ", permissions));
 
-            m_playerItems = await PlayerItems.NewAsync(client, permissions);
+            m_playerItems = await PlayerItemCollection.NewAsync(client, permissions);
 
             Logger.Info($"InitializeIndex: {stopwatch.ElapsedMilliseconds}");
         }

@@ -32,6 +32,7 @@ namespace ItemSearch
         public int? Skin { get; set; }
         public string Binding { get; set; }
         public string BoundTo { get; set; }
+        public InventoryItem ParentItem { get; set; }
 
         public InventoryItem(AccountItem item, InventoryItemSource source, string locationHint = null)
         {
@@ -63,6 +64,7 @@ namespace ItemSearch
         {
             Source = source;
             Id = itemId;
+            LocationHint = locationHint;
         }
 
         public InventoryItem(AccountMaterial item)
@@ -89,6 +91,13 @@ namespace ItemSearch
         public InventoryItem()
         {
             Source = InventoryItemSource.Unknown;
+        }
+
+        public static InventoryItem FromParentItem(InventoryItem parent, int itemId)
+        {
+            InventoryItem item = new InventoryItem(itemId, parent.Source, parent.LocationHint);
+            item.ParentItem = parent;
+            return item;
         }
     }
 }

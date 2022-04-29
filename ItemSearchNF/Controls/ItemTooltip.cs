@@ -20,6 +20,7 @@ namespace ItemSearch.Controls
         private const int LABEL_Y_GAP = 5;
 
         private Label m_itemNameLabel;
+        private Label m_itemParentLabel;
         private Label m_itemSourceLabel;
         private List<Label> m_itemUpgradeLabels = new List<Label>();
 
@@ -42,6 +43,16 @@ namespace ItemSearch.Controls
                 Font = GameService.Content.DefaultFont16,
             };
 
+            m_itemParentLabel = new Label()
+            {
+                ShowShadow = true,
+                AutoSizeHeight = true,
+                AutoSizeWidth = false,
+                WrapText = true,
+                Width = WIDTH,
+                Font = GameService.Content.DefaultFont14,
+            };
+
             m_itemSourceLabel = new Label()
             {
                 ShowShadow = true,
@@ -58,6 +69,7 @@ namespace ItemSearch.Controls
         protected override void Build(Container buildPanel)
         {
             m_itemNameLabel.Parent = buildPanel;
+            m_itemParentLabel.Parent = buildPanel;
             m_itemSourceLabel.Parent = buildPanel;
             foreach (var label in m_itemUpgradeLabels)
             {
@@ -103,6 +115,26 @@ namespace ItemSearch.Controls
                         label.Location = new Point(UPGRADE_X_MARGIN, nextY);
                         nextY = label.Bottom + LABEL_Y_GAP;
                     }
+                }
+
+                // Parent
+                if (m_item.ParentItem != null)
+                {
+                    nextY += LABEL_Y_GAP;
+                    StaticItemInfo parentItemInfo;
+                    if (StaticItemInfo.AllItems.TryGetValue(m_item.ParentItem.Id, out parentItemInfo))
+                    {
+                        m_itemParentLabel.Text = Strings.ItemTooltip_ContainedIn + parentItemInfo.Name;
+                        m_itemParentLabel.TextColor = RarityToColor(parentItemInfo.Rarity);
+                    }
+                    else
+                    {
+                        Logger.Warn($"Cannot find info for {item.Id}");
+                        m_itemParentLabel.Text = Strings.ItemTooltip_ContainedIn + Strings.ItemTooltip_FallbackTextPrefix + m_item.ParentItem.Id;
+                    }
+                        
+                    m_itemParentLabel.Location = new Point(0, nextY);
+                    nextY = m_itemParentLabel.Bottom + LABEL_Y_GAP;
                 }
 
                 // Source

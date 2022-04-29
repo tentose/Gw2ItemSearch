@@ -27,7 +27,7 @@ namespace ItemSearch
         }
     }
 
-    internal class PlayerItems
+    internal class PlayerItemCollection
     {
         private const string CACHE_FILE_NAME = "player_items.json";
         private const int API_REFRESH_INTERVAL_MILLIS = 10 * 60 * 1000;
@@ -38,17 +38,18 @@ namespace ItemSearch
         private IGw2WebApiClient m_apiClient;
         private List<ApiModels.TokenPermission> m_permissions;
         private Timer m_refreshTimer;
+        private string m_accountName;
 
         public Dictionary<int, List<InventoryItem>> Items { get; private set; }
 
-        public static async Task<PlayerItems> NewAsync(IGw2WebApiClient client, List<ApiModels.TokenPermission> permissions)
+        public static async Task<PlayerItemCollection> NewAsync(IGw2WebApiClient client, List<ApiModels.TokenPermission> permissions)
         {
-            PlayerItems items = new PlayerItems();
+            PlayerItemCollection items = new PlayerItemCollection();
             await items.Initialize(client, permissions);
             return items;
         }
 
-        private PlayerItems()
+        private PlayerItemCollection()
         {
         }
 
@@ -58,11 +59,13 @@ namespace ItemSearch
 
             m_apiClient = client;
             m_permissions = permissions;
-            m_refreshTimer = new Timer();
-            m_refreshTimer.AutoReset = true;
-            m_refreshTimer.Interval = API_REFRESH_INTERVAL_MILLIS;
-            m_refreshTimer.Elapsed += M_refreshTimer_Elapsed;
-            m_refreshTimer.Start();
+
+            ApiModels.Account account = null;
+            while (account == null)
+            {
+                account = await ApiHelper.Fetch(() => m_apiClient.V2.Account.GetAsync());
+            }
+            m_accountName = account.Name;
 
             Items = await InitializeFromCache();
 
@@ -71,6 +74,12 @@ namespace ItemSearch
                 Items = await GetPlayerItems();
                 await WriteToCache(Items);
             }
+
+            m_refreshTimer = new Timer();
+            m_refreshTimer.AutoReset = true;
+            m_refreshTimer.Interval = 1;
+            m_refreshTimer.Elapsed += M_refreshTimer_Elapsed;
+            m_refreshTimer.Start();
 
             Logger.Info($"InitializePlayerItems: {stopwatch.ElapsedMilliseconds}");
         }
@@ -91,6 +100,7 @@ namespace ItemSearch
             }
             finally
             {
+                m_refreshTimer.Interval = API_REFRESH_INTERVAL_MILLIS;
                 m_refreshTimer.Start();
             }
         }
@@ -105,17 +115,19 @@ namespace ItemSearch
 
         private async Task<Dictionary<int, List<InventoryItem>>> InitializeFromCache()
         {
-            var path = Path.Combine(ItemSearchModule.Instance.CacheDirectory, CACHE_FILE_NAME);
+            string cachePath = "";
             try
             {
+                cachePath = GetCachePath();
+
                 return await Task.Run(() =>
                 {
-                    return JsonConvert.DeserializeObject<Dictionary<int, List<InventoryItem>>>(File.ReadAllText(path));
+                    return JsonConvert.DeserializeObject<Dictionary<int, List<InventoryItem>>>(File.ReadAllText(cachePath));
                 });
             }
             catch (Exception e)
             {
-                Logger.Warn(e, $"Failed to initialize player item data from cache: {path}");
+                Logger.Warn(e, $"Failed to initialize player item data from cache: {cachePath}");
                 return null;
             }
         }
@@ -123,18 +135,28 @@ namespace ItemSearch
         private async Task WriteToCache(Dictionary<int, List<InventoryItem>> items)
         {
             Logger.Info($"Persisting player data to cache");
-            var path = Path.Combine(ItemSearchModule.Instance.CacheDirectory, CACHE_FILE_NAME);
+            string cachePath = "";
             try
             {
+                cachePath = GetCachePath();
+
                 await Task.Run(() =>
                 {
-                    File.WriteAllText(path, JsonConvert.SerializeObject(items));
+                    File.WriteAllText(cachePath, JsonConvert.SerializeObject(items));
                 });
             }
             catch (Exception e)
             {
-                Logger.Warn(e, $"Failed to persist player item data to cache: {path}");
+                Logger.Warn(e, $"Failed to persist player item data to cache: {cachePath}");
             }
+        }
+
+        private string GetCachePath()
+        {
+            var accountDir = Path.Combine(ItemSearchModule.Instance.CacheDirectory, m_accountName);
+            Directory.CreateDirectory(accountDir);
+
+            return Path.Combine(accountDir, CACHE_FILE_NAME);
         }
 
         public async Task<Dictionary<int, List<InventoryItem>>> GetPlayerItems()
@@ -155,14 +177,14 @@ namespace ItemSearch
                 {
                     foreach (var infusionId in item.Infusions)
                     {
-                        allPlayerItems.AddOrUpdate(infusionId, item);
+                        allPlayerItems.AddOrUpdate(infusionId, InventoryItem.FromParentItem(item, infusionId));
                     }
                 }
                 if (item.Upgrades != null)
                 {
                     foreach (var upgradeId in item.Upgrades)
                     {
-                        allPlayerItems.AddOrUpdate(upgradeId, item);
+                        allPlayerItems.AddOrUpdate(upgradeId, InventoryItem.FromParentItem(item, upgradeId));
                     }
                 }
             };
