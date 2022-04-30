@@ -30,7 +30,7 @@ namespace ItemSearch
     internal class PlayerItemCollection
     {
         private const string CACHE_FILE_NAME = "player_items.json";
-        private const int API_REFRESH_INTERVAL_MILLIS = 10 * 60 * 1000;
+        private const int MINUTES_TO_MILLIS = 60 * 1000;
         private const int API_REFRESH_TIMEOUT_MILLIS = 5 * 60 * 1000;
 
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
@@ -39,6 +39,7 @@ namespace ItemSearch
         private List<ApiModels.TokenPermission> m_permissions;
         private Timer m_refreshTimer;
         private string m_accountName;
+        private int m_apiRefreshIntervalMillis;
 
         public Dictionary<int, List<InventoryItem>> Items { get; private set; }
 
@@ -75,6 +76,10 @@ namespace ItemSearch
                 await WriteToCache(Items);
             }
 
+            var apiRefreshIntervalSetting = ItemSearchModule.Instance.GlobalSettings.PlayerDataRefreshIntervalMinutes;
+            m_apiRefreshIntervalMillis = apiRefreshIntervalSetting.Value * MINUTES_TO_MILLIS;
+            apiRefreshIntervalSetting.SettingChanged += ApiRefreshIntervalSetting_SettingChanged;
+
             m_refreshTimer = new Timer();
             m_refreshTimer.AutoReset = true;
             m_refreshTimer.Interval = 1;
@@ -82,6 +87,11 @@ namespace ItemSearch
             m_refreshTimer.Start();
 
             Logger.Info($"InitializePlayerItems: {stopwatch.ElapsedMilliseconds}");
+        }
+
+        private void ApiRefreshIntervalSetting_SettingChanged(object sender, ValueChangedEventArgs<int> e)
+        {
+            m_apiRefreshIntervalMillis = e.NewValue * MINUTES_TO_MILLIS;
         }
 
         private void M_refreshTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -100,7 +110,7 @@ namespace ItemSearch
             }
             finally
             {
-                m_refreshTimer.Interval = API_REFRESH_INTERVAL_MILLIS;
+                m_refreshTimer.Interval = m_apiRefreshIntervalMillis;
                 m_refreshTimer.Start();
             }
         }

@@ -239,5 +239,23 @@ namespace ItemSearch {
                 return ResourceManager.GetString("SearchWindow_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How often to refresh your items from the GW2 API. Note that the API data is already delayed by a few minutes..
+        /// </summary>
+        internal static string Settings_PlayerDataRefreshIntervalMinutes_Description {
+            get {
+                return ResourceManager.GetString("Settings_PlayerDataRefreshIntervalMinutes_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to API Refresh Interval (Minutes).
+        /// </summary>
+        internal static string Settings_PlayerDataRefreshIntervalMinutes_Name {
+            get {
+                return ResourceManager.GetString("Settings_PlayerDataRefreshIntervalMinutes_Name", resourceCulture);
+            }
+        }
     }
 }

@@ -178,4 +178,10 @@
   <data name="SearchWindow_Title" xml:space="preserve">
     <value>Item Search</value>
   </data>
+  <data name="Settings_PlayerDataRefreshIntervalMinutes_Description" xml:space="preserve">
+    <value>How often to refresh your items from the GW2 API. Note that the API data is already delayed by a few minutes.</value>
+  </data>
+  <data name="Settings_PlayerDataRefreshIntervalMinutes_Name" xml:space="preserve">
+    <value>API Refresh Interval (Minutes)</value>
+  </data>
 </root>

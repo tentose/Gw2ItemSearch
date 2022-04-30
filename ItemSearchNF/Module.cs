@@ -75,6 +75,9 @@ namespace ItemSearch
                 Minor = v.Minor;
                 Patch = v.Patch;
             }
+            public ModuleVersion()
+            {
+            }
         }
 
         protected override async Task LoadAsync()
