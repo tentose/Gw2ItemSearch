@@ -4,6 +4,7 @@ using Blish_HUD.Modules;
 using Blish_HUD.Modules.Managers;
 using Blish_HUD.Settings;
 using ItemSearch.Controls;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -22,6 +23,7 @@ namespace ItemSearch
 
         private const string CACHE_DIRECTORY = "itemsearchcache";
         private const string STATIC_ITEMS_FILE_NAME = "all_items.json";
+        private const string CACHE_VERSION_FILE_NAME = "cache_version.json";
 
         private SettingsManager m_settingsManager => this.ModuleParameters.SettingsManager;
         public ContentsManager ContentsManager => this.ModuleParameters.ContentsManager;
@@ -62,6 +64,19 @@ namespace ItemSearch
             }
         }
 
+        class ModuleVersion
+        {
+            public int Major { get; set; }
+            public int Minor { get; set; }
+            public int Patch { get; set; }
+            public ModuleVersion(SemVer.Version v)
+            {
+                Major = v.Major;
+                Minor = v.Minor;
+                Patch = v.Patch;
+            }
+        }
+
         protected override async Task LoadAsync()
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -80,13 +95,16 @@ namespace ItemSearch
             // TODO: handle this more gracefully by locking the locale depedent resources and reloading
             GameService.Overlay.UserLocaleChanged += (sender, args) =>
             {
+                Logger.Error("Locale changed. Unloading.");
                 this.Unload();
             };
+
+            CacheDirectory = DirectoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
+            EnsureCacheVersion();
 
             // Static items
             m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_StaticItems;
 
-            CacheDirectory = DirectoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
             var localeDir = LocaleToPathString(GameService.Overlay.UserLocale.Value);
             LocaleSpecificCacheDirectory = Path.Combine(CacheDirectory, localeDir);
             var staticItemsJsonPath = Path.Combine(LocaleSpecificCacheDirectory, STATIC_ITEMS_FILE_NAME);
@@ -142,6 +160,42 @@ namespace ItemSearch
             }
             
             Instance = null;
+        }
+
+        private void EnsureCacheVersion()
+        {
+            bool isCacheVersionMismatch = true;
+            var cacheVerFilePath = Path.Combine(CacheDirectory, CACHE_VERSION_FILE_NAME);
+            try
+            {
+                if (File.Exists(cacheVerFilePath))
+                {
+                    var moduleVer = this.Version;
+                    var cacheVer = JsonConvert.DeserializeObject<ModuleVersion>(File.ReadAllText(cacheVerFilePath));
+                    isCacheVersionMismatch = cacheVer.Major != moduleVer.Major || cacheVer.Minor < moduleVer.Minor;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, "Failed to compute cache version");
+            }
+
+            if (isCacheVersionMismatch)
+            {
+                Logger.Info("Cache version mismatch. Clearing cache.");
+                try
+                {
+                    Directory.Delete(CacheDirectory, true);
+                    Directory.CreateDirectory(CacheDirectory);
+
+                    var currentVer = new ModuleVersion(this.Version);
+                    File.WriteAllText(cacheVerFilePath, JsonConvert.SerializeObject(currentVer));
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex, "Failed to clear cache.");
+                }
+            }
         }
     }
 }

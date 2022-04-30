@@ -120,6 +120,11 @@ namespace ItemSearch
             {
                 cachePath = GetCachePath();
 
+                if (!File.Exists(cachePath))
+                {
+                    return null;
+                }
+
                 return await Task.Run(() =>
                 {
                     return JsonConvert.DeserializeObject<Dictionary<int, List<InventoryItem>>>(File.ReadAllText(cachePath));
