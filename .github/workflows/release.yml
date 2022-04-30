@@ -47,7 +47,7 @@ jobs:
           draft: false
           prerelease: false
           release_name: ${{ steps.version.outputs.build_version }}
-          tag_name: ${{steps.version.outputs.build_version}}-${{ github.ref }}
+          tag_name: ${{steps.version.outputs.build_version}}-${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
