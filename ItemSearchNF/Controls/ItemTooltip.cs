@@ -64,8 +64,8 @@ namespace ItemSearch.Controls
                 Font = GameService.Content.DefaultFont14,
             };
 
-            this.Item = item;
             m_itemInfo = itemInfo;
+            this.Item = item;
         }
 
         protected override void Build(Container buildPanel)
