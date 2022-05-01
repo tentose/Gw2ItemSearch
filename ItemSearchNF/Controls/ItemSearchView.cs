@@ -64,11 +64,10 @@ namespace ItemSearch.Controls
             m_searchFilterPanel = new ViewContainer()
             {
                 Parent = buildPanel,
-                FadeView = true,
-                WidthSizingMode = SizingMode.AutoSize,
                 HeightSizingMode = SizingMode.AutoSize,
                 BackgroundTexture = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\FilterPanelBackground.png"),
                 ZIndex = 100,
+                Width = 220,
             };
 
             m_resultPanel = new ItemSearchResultPanel(m_searchFilter)
@@ -87,6 +86,7 @@ namespace ItemSearch.Controls
             {
                 m_searchFilterPanel.Show(m_searchFilterView);
                 m_searchFilterPanel.BackgroundTexture = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\ItemTooltipBackground.png");
+                m_searchFilterPanel.RecalculateLayout();
                 RepositionObjects();
             }
             else

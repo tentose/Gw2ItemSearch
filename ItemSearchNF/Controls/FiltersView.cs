@@ -38,7 +38,10 @@ namespace ItemSearch.Controls
         public FiltersView(SearchFilter filter)
         {
             m_searchFilter = filter;
+        }
 
+        protected override void Build(Container buildPanel)
+        {
             m_panel = new FlowPanel()
             {
                 WidthSizingMode = SizingMode.AutoSize,
@@ -50,6 +53,7 @@ namespace ItemSearch.Controls
                 ControlPadding = new Vector2(10, 10),
             };
 
+            // Item Type
             m_itemTypeStringToItemType = GetResourceStringToTypeDictionary<ItemType>("ItemType");
 
             m_typeDropdown = new Dropdown()
@@ -61,8 +65,21 @@ namespace ItemSearch.Controls
             {
                 m_typeDropdown.Items.Add(key);
             }
+            if (m_searchFilter.Type != null)
+            {
+                // Pre-select the current filter value
+                foreach (var kv in m_itemTypeStringToItemType)
+                {
+                    if (kv.Value == m_searchFilter.Type)
+                    {
+                        m_typeDropdown.SelectedItem = kv.Key;
+                        break;
+                    }
+                }
+            }
             m_typeDropdown.ValueChanged += M_typeDropdown_ValueChanged;
 
+            // SubType
             m_itemSubTypeStringToItemSubType = GetResourceStringToItemSubType();
             m_allItemSubTypeStringToItemType = GetResourceStringForAllItemSubTypeToItemType();
 
@@ -71,9 +88,22 @@ namespace ItemSearch.Controls
                 Parent = m_panel,
                 Width = DROPDOWN_WIDTH,
             };
-            m_subtypeDropdown.Enabled = false;
+            UpdateSubTypeDropdownOptions(m_searchFilter.Type ?? ItemType.Unknown);
+            if (m_searchFilter.SubType != null)
+            {
+                // Pre-select the current filter value
+                foreach (var pair in m_itemSubTypeStringToItemSubType)
+                {
+                    if (pair.itemSubType == m_searchFilter.SubType)
+                    {
+                        m_subtypeDropdown.SelectedItem = pair.resourceString;
+                        break;
+                    }
+                }
+            }
             m_subtypeDropdown.ValueChanged += M_subtypeDropdown_ValueChanged;
 
+            // Rarity
             m_rarityStringToRarity = GetResourceStringToTypeDictionary<ItemRarity>("Rarity");
             m_rarityDropdown = new Dropdown()
             {
@@ -84,11 +114,20 @@ namespace ItemSearch.Controls
             {
                 m_rarityDropdown.Items.Add(key);
             }
+            if (m_searchFilter.Rarity != null)
+            {
+                // Pre-select the current filter value
+                foreach (var kv in m_rarityStringToRarity)
+                {
+                    if (kv.Value == m_searchFilter.Rarity)
+                    {
+                        m_rarityDropdown.SelectedItem = kv.Key;
+                        break;
+                    }
+                }
+            }
             m_rarityDropdown.ValueChanged += M_rarityDropdown_ValueChanged;
-        }
 
-        protected override void Build(Container buildPanel)
-        {
             m_panel.Parent = buildPanel;
         }
 
@@ -104,22 +143,7 @@ namespace ItemSearch.Controls
             }
             else
             {
-                m_filteredItemSubTypeStringToItemSubType = GetFileterdSubTypeDictionary(itemType);
-
-                m_subtypeDropdown.Items.Clear();
-                foreach (var key in m_filteredItemSubTypeStringToItemSubType.Keys)
-                {
-                    m_subtypeDropdown.Items.Add(key);
-                }
-
-                if (m_subtypeDropdown.Items.Count > 0)
-                {
-                    m_subtypeDropdown.SelectedItem = m_subtypeDropdown.Items[0];
-                }
-                else
-                {
-                    m_subtypeDropdown.SelectedItem = null;
-                }
+                UpdateSubTypeDropdownOptions(itemType);
 
                 m_searchFilter.Type = itemType;
             }
@@ -155,6 +179,26 @@ namespace ItemSearch.Controls
             else
             {
                 m_searchFilter.Rarity = type;
+            }
+        }
+
+        private void UpdateSubTypeDropdownOptions(ItemType itemType)
+        {
+            m_filteredItemSubTypeStringToItemSubType = GetFileterdSubTypeDictionary(itemType);
+
+            m_subtypeDropdown.Items.Clear();
+            foreach (var key in m_filteredItemSubTypeStringToItemSubType.Keys)
+            {
+                m_subtypeDropdown.Items.Add(key);
+            }
+
+            if (m_subtypeDropdown.Items.Count > 0)
+            {
+                m_subtypeDropdown.SelectedItem = m_subtypeDropdown.Items[0];
+            }
+            else
+            {
+                m_subtypeDropdown.SelectedItem = null;
             }
         }
 
@@ -251,6 +295,40 @@ namespace ItemSearch.Controls
                 type = ItemType.Unknown;
             }
             return type;
+        }
+
+        protected override void Unload()
+        {
+            if (m_typeDropdown != null)
+            {
+                m_typeDropdown.Dispose();
+                m_typeDropdown = null;
+            }
+
+            if (m_subtypeDropdown != null)
+            {
+                m_subtypeDropdown.Dispose();
+                m_subtypeDropdown = null;
+            }
+
+            if (m_rarityDropdown != null)
+            {
+                m_rarityDropdown.Dispose();
+                m_rarityDropdown = null;
+            }
+
+            if (m_panel != null)
+            {
+                m_panel.Dispose();
+                m_panel = null;
+            }
+
+            m_itemTypeStringToItemType = null;
+            m_itemSubTypeStringToItemSubType = null;
+            m_allItemSubTypeStringToItemType = null;
+            m_rarityStringToRarity = null;
+
+            base.Unload();
         }
     }
 

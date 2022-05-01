@@ -30,8 +30,9 @@ namespace ItemSearch.Controls
             get => m_item;
             set => UpdateLabelValueAndWidth(value);
         }
+        private StaticItemInfo m_itemInfo;
 
-        public ItemTooltipView(InventoryItem item)
+        public ItemTooltipView(InventoryItem item, StaticItemInfo itemInfo = null)
         {
             m_itemNameLabel = new Label()
             {
@@ -64,6 +65,7 @@ namespace ItemSearch.Controls
             };
 
             this.Item = item;
+            m_itemInfo = itemInfo;
         }
 
         protected override void Build(Container buildPanel)
@@ -83,11 +85,10 @@ namespace ItemSearch.Controls
 
             if (m_item != null)
             {
-                StaticItemInfo itemInfo;
-                if (StaticItemInfo.AllItems.TryGetValue(item.Id, out itemInfo))
+                if (m_itemInfo != null)
                 {
-                    m_itemNameLabel.Text = itemInfo.Name;
-                    m_itemNameLabel.TextColor = RarityToColor(itemInfo.Rarity);
+                    m_itemNameLabel.Text = m_itemInfo.Name;
+                    m_itemNameLabel.TextColor = RarityToColor(m_itemInfo.Rarity);
                 }
                 else
                 {

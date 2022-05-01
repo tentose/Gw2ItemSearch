@@ -1,6 +1,7 @@
 ﻿using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
+using Blish_HUD.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ItemSearch.Controls
@@ -56,43 +58,59 @@ namespace ItemSearch.Controls
         }
 
         private string m_number = "";
+        private bool m_shouldLoadImage = true;
 
         public ItemIcon(InventoryItem item)
         {
             m_item = item;
             this.Size = new Point(61, 61);
             m_image = s_itemPlaceholder;
-            Tooltip = new Tooltip(new ItemTooltipView(m_item));
             if (m_item.Count > 1 || (m_item.Charges != null && m_item.Charges > 1))
             {
                 m_number = Math.Max(m_item.Count, m_item.Charges ?? 1).ToString();
             }
-            _ = LoadItemImage();
+            StaticItemInfo.AllItems.TryGetValue(m_item.Id, out m_itemInfo);
         }
 
-        public async Task LoadItemImage()
+        public void LoadItemImage()
         {
-            if (StaticItemInfo.AllItems.TryGetValue(m_item.Id, out m_itemInfo))
+            if (m_itemInfo != null)
             {
-                try
+                _ = Task.Run(async () =>
                 {
-                    var imageBytes = await ItemSearchModule.Instance.RenderClient.DownloadToByteArrayAsync(m_itemInfo.IconUrl);
-                    using (var textureStream = new MemoryStream(imageBytes))
+                    try
                     {
-                        var loadedTexture = InternalTextureUtil.FromStreamPremultiplied(textureStream);
-                        m_image.SwapTexture(loadedTexture);
+                        var imageBytes = await ItemSearchModule.Instance.RenderClient.DownloadToByteArrayAsync(m_itemInfo.IconUrl);
+                        using (var textureStream = new MemoryStream(imageBytes))
+                        {
+                            var loadedTexture = InternalTextureUtil.FromStreamPremultiplied(textureStream);
+                            m_image.SwapTexture(loadedTexture);
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(e, $"Failed loading item image {m_itemInfo.IconUrl}");
-                }
-                Invalidate();
+                    catch (Exception e)
+                    {
+                        Logger.Error(e, $"Failed loading item image {m_itemInfo.IconUrl}");
+                    }
+                    Invalidate();
+                });
+            }
+        }
+
+        protected override void OnMouseEntered(MouseEventArgs e)
+        {
+            if (Tooltip == null)
+            {
+                Tooltip = new Tooltip(new ItemTooltipView(m_item, m_itemInfo));
             }
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
+            if (m_shouldLoadImage)
+            {
+                m_shouldLoadImage = false;
+                LoadItemImage();
+            }
             spriteBatch.DrawOnCtrl(this, m_image, bounds);
             if (m_itemInfo != null)
             {

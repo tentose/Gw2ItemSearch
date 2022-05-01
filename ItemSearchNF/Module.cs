@@ -24,7 +24,7 @@ namespace ItemSearch
         private const string CACHE_DIRECTORY = "itemsearchcache";
         private const string STATIC_ITEMS_FILE_NAME = "all_items.json";
         private const string CACHE_VERSION_FILE_NAME = "cache_version.json";
-        private const string RENDER_CACHE_FILE_NAME = "render_cache.zip";
+        private const string RENDER_CACHE_FILE_NAME = "render_cache";
 
         private SettingsManager m_settingsManager => this.ModuleParameters.SettingsManager;
         public ContentsManager ContentsManager => this.ModuleParameters.ContentsManager;
@@ -138,10 +138,21 @@ namespace ItemSearch
             m_searchEngine = await ItemIndex.NewAsync(Gw2ApiManager.Gw2ApiClient, Gw2ApiManager.Permissions);
 
             // Render cache
-            var renderConnection = new Gw2Sharp.Connection()
+            var renderCachePath = Path.Combine(CacheDirectory, RENDER_CACHE_FILE_NAME);
+            Directory.CreateDirectory(renderCachePath);
+            var renderConnection = new Gw2Sharp.Connection();
+            switch (GlobalSettings.RenderCacheMethod.Value)
             {
-                RenderCacheMethod = new Gw2Sharp.WebApi.Caching.ArchiveCacheMethod(Path.Combine(CacheDirectory, RENDER_CACHE_FILE_NAME)),
-            };
+                case RenderCacheMethod.Memory:
+                    renderConnection.RenderCacheMethod = new Gw2Sharp.WebApi.Caching.MemoryCacheMethod();
+                    break;
+                case RenderCacheMethod.File:
+                    renderConnection.RenderCacheMethod = new FileCacheMethod(renderCachePath);
+                    break;
+                case RenderCacheMethod.None:
+                    renderConnection.RenderCacheMethod = new Gw2Sharp.WebApi.Caching.NullCacheMethod();
+                    break;
+            }
             m_gw2sharpClientForRender = new Gw2Sharp.Gw2Client(renderConnection);
             RenderClient = m_gw2sharpClientForRender.WebApi.Render;
 

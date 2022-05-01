@@ -39,6 +39,7 @@ namespace ItemSearch.Controls
         private void M_filter_FilterChanged(object sender, EventArgs e)
         {
             DisplayItemIcons();
+            Invalidate();
         }
 
         private string ItemSourceToString(InventoryItemSource source)
@@ -63,7 +64,7 @@ namespace ItemSearch.Controls
 
             DisplayItemIcons();
 
-            RecalculateLayout();
+            Invalidate();
         }
 
         private void DisplayItemIcons()
@@ -96,7 +97,7 @@ namespace ItemSearch.Controls
                 {
                     panel.Parent = null;
                 }
-                panel.ResumeLayout(panel.Visible);
+                panel.ResumeLayout();
             });
 
             m_layout.SortChildren((Panel a, Panel b) =>

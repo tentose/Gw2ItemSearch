@@ -218,6 +218,7 @@
     <Compile Include="Controls\ItemSearchView.cs" />
     <Compile Include="Controls\ItemTooltip.cs" />
     <Compile Include="Controls\LayoutHelper.cs" />
+    <Compile Include="FileCacheMethod.cs" />
     <Compile Include="InternalTextureUtil.cs" />
     <Compile Include="InventoryItem.cs" />
     <Compile Include="ItemIndex.cs" />

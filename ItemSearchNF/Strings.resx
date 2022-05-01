@@ -179,10 +179,10 @@
     <value>Item Search</value>
   </data>
   <data name="Settings_PlayerDataRefreshIntervalMinutes_Description" xml:space="preserve">
-    <value>How often to refresh your items from the GW2 API. Note that the API data is already delayed by a few minutes.</value>
+    <value>How often to refresh your items from the GW2 API. Range is from 3 - 33 Minutes</value>
   </data>
   <data name="Settings_PlayerDataRefreshIntervalMinutes_Name" xml:space="preserve">
-    <value>API Refresh Interval (Minutes)</value>
+    <value>API Refresh Interval</value>
   </data>
   <data name="Filter_ItemType_All" xml:space="preserve">
     <value>All Items</value>
@@ -486,5 +486,11 @@
   </data>
   <data name="Filter_Rarity_Rare" xml:space="preserve">
     <value>Rare</value>
+  </data>
+  <data name="Settings_RenderCacheMethod_Description" xml:space="preserve">
+    <value>How item icons are cached</value>
+  </data>
+  <data name="Settings_RenderCacheMethod_Name" xml:space="preserve">
+    <value>Item Icon Cache</value>
   </data>
 </root>
