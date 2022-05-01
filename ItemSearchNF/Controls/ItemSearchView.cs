@@ -65,7 +65,6 @@ namespace ItemSearch.Controls
             {
                 Parent = buildPanel,
                 HeightSizingMode = SizingMode.AutoSize,
-                BackgroundTexture = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\FilterPanelBackground.png"),
                 ZIndex = 100,
                 Width = 220,
             };
@@ -85,7 +84,7 @@ namespace ItemSearch.Controls
             if (m_searchFilterPanel.ViewState == ViewState.None)
             {
                 m_searchFilterPanel.Show(m_searchFilterView);
-                m_searchFilterPanel.BackgroundTexture = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\ItemTooltipBackground.png");
+                m_searchFilterPanel.BackgroundTexture = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\FilterPanelBackground.png");
                 m_searchFilterPanel.RecalculateLayout();
                 RepositionObjects();
             }

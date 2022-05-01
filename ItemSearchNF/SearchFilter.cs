@@ -52,9 +52,13 @@ namespace ItemSearch
 
         public void Clear()
         {
-            m_type = null;
-            m_subType = null;
-            m_rarity = null;
+            if (m_type != null || m_subType != null || m_rarity != null)
+            {
+                m_type = null;
+                m_subType = null;
+                m_rarity = null;
+                OnFilterChanged();
+            }
         }
 
         public event EventHandler FilterChanged;

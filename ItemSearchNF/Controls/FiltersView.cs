@@ -17,6 +17,7 @@ namespace ItemSearch.Controls
         private Dropdown m_typeDropdown;
         private Dropdown m_subtypeDropdown;
         private Dropdown m_rarityDropdown;
+        private StandardButton m_clearFiltersButton;
 
         // For looking up string selected in Dropdown and convert it to an ItemType
         private Dictionary<string, ItemType> m_itemTypeStringToItemType;
@@ -128,7 +129,20 @@ namespace ItemSearch.Controls
             }
             m_rarityDropdown.ValueChanged += M_rarityDropdown_ValueChanged;
 
+            // Clear filters
+            m_clearFiltersButton = new StandardButton()
+            {
+                Parent = m_panel,
+                Text = Strings.FilterPanel_Clear,
+            };
+            m_clearFiltersButton.Click += M_clearFiltersButton_Click;
+
             m_panel.Parent = buildPanel;
+        }
+
+        private void M_clearFiltersButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
+        {
+            m_searchFilter.Clear();
         }
 
         private void M_typeDropdown_ValueChanged(object sender, ValueChangedEventArgs e)

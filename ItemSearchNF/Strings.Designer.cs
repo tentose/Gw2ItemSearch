@@ -61,6 +61,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Item Search.
+        /// </summary>
+        internal static string CornerIcon_HoverTooltip {
+            get {
+                return ResourceManager.GetString("CornerIcon_HoverTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Building search tree....
         /// </summary>
         internal static string CornerIconLoadingProgress_BuildingSearchTree {
@@ -1002,6 +1011,15 @@ namespace ItemSearch {
         internal static string Filter_Weapon_Warhorn {
             get {
                 return ResourceManager.GetString("Filter_Weapon_Warhorn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string FilterPanel_Clear {
+            get {
+                return ResourceManager.GetString("FilterPanel_Clear", resourceCulture);
             }
         }
         

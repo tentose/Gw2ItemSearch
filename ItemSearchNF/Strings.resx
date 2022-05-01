@@ -487,6 +487,12 @@
   <data name="Filter_Rarity_Rare" xml:space="preserve">
     <value>Rare</value>
   </data>
+  <data name="CornerIcon_HoverTooltip" xml:space="preserve">
+    <value>Item Search</value>
+  </data>
+  <data name="FilterPanel_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
   <data name="Settings_RenderCacheMethod_Description" xml:space="preserve">
     <value>How item icons are cached</value>
   </data>

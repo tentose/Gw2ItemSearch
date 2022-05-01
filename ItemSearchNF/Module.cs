@@ -89,7 +89,7 @@ namespace ItemSearch
 
             m_searchIcon = new CornerIcon()
             {
-                IconName = "Search",
+                IconName = Strings.CornerIcon_HoverTooltip,
                 Icon = ContentsManager.GetTexture(@"Textures\CornerIcon.png"),
                 HoverIcon = ContentsManager.GetTexture(@"Textures\CornerIconHover.png"),
                 Priority = 5,
