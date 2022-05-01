@@ -10,13 +10,15 @@ namespace ItemSearch.Controls
 {
     internal class ItemSearchResultPanel : Panel
     {
-        FlowPanel m_layout;
-        bool m_initialized = false;
+        private FlowPanel m_layout;
+        private bool m_initialized = false;
 
-        Dictionary<InventoryItemSource, Panel> m_accountSourcePanels = new Dictionary<InventoryItemSource, Panel>();
-        Dictionary<string, Panel> m_characterSourcePanels = new Dictionary<string, Panel>();
+        private Dictionary<InventoryItemSource, Panel> m_accountSourcePanels = new Dictionary<InventoryItemSource, Panel>();
+        private Dictionary<string, Panel> m_characterSourcePanels = new Dictionary<string, Panel>();
+        private SearchFilter m_filter;
+        private List<ItemIcon> m_itemIcons = new List<ItemIcon>();
 
-        public ItemSearchResultPanel()
+        public ItemSearchResultPanel(SearchFilter filter)
         {
             CanScroll = true;
 
@@ -28,7 +30,15 @@ namespace ItemSearch.Controls
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
+            m_filter = filter;
+            m_filter.FilterChanged += M_filter_FilterChanged;
+
             m_initialized = true;
+        }
+
+        private void M_filter_FilterChanged(object sender, EventArgs e)
+        {
+            DisplayItemIcons();
         }
 
         private string ItemSourceToString(InventoryItemSource source)
@@ -46,6 +56,18 @@ namespace ItemSearch.Controls
 
         public void SetSearchResult(List<InventoryItem> items)
         {
+            // Build the list of ItemIcons
+            m_itemIcons.ForEach(item => item.Dispose());
+            m_itemIcons.Clear();
+            m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)));
+
+            DisplayItemIcons();
+
+            RecalculateLayout();
+        }
+
+        private void DisplayItemIcons()
+        {
             // Clear current children and suspend layout
             ForAllSourcePanels(panel =>
             {
@@ -54,13 +76,13 @@ namespace ItemSearch.Controls
             });
 
             // Set results
-            foreach (var item in items)
+            foreach (var itemIcon in m_itemIcons)
             {
-                var panel = GetPanelForItem(item);
-                var itemIcon = new ItemIcon(item)
+                if (m_filter.FilterItem(itemIcon.ItemInfo))
                 {
-                    Parent = panel,
-                };
+                    var panel = GetPanelForItem(itemIcon.Item);
+                    itemIcon.Parent = panel;
+                }
             }
 
             // Turn off panels without results and resume layout
@@ -94,8 +116,6 @@ namespace ItemSearch.Controls
                     return a.Title.CompareTo(b.Title);
                 }
             });
-
-            RecalculateLayout();
         }
 
         public Panel GetPanelForItem(InventoryItem item)

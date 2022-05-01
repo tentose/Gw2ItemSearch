@@ -97,6 +97,906 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Armor.
+        /// </summary>
+        internal static string Filter_ArmorType_All {
+            get {
+                return ResourceManager.GetString("Filter_ArmorType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boots.
+        /// </summary>
+        internal static string Filter_ArmorType_Boots {
+            get {
+                return ResourceManager.GetString("Filter_ArmorType_Boots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coat.
+        /// </summary>
+        internal static string Filter_ArmorType_Coat {
+            get {
+                return ResourceManager.GetString("Filter_ArmorType_Coat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gloves.
+        /// </summary>
+        internal static string Filter_ArmorType_Gloves {
+            get {
+                return ResourceManager.GetString("Filter_ArmorType_Gloves", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Helm.
+        /// </summary>
+        internal static string Filter_ArmorType_Helm {
+            get {
+                return ResourceManager.GetString("Filter_ArmorType_Helm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Helm Aquatic.
+        /// </summary>
+        internal static string Filter_ArmorType_HelmAquatic {
+            get {
+                return ResourceManager.GetString("Filter_ArmorType_HelmAquatic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leggings.
+        /// </summary>
+        internal static string Filter_ArmorType_Leggings {
+            get {
+                return ResourceManager.GetString("Filter_ArmorType_Leggings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shoulders.
+        /// </summary>
+        internal static string Filter_ArmorType_Shoulders {
+            get {
+                return ResourceManager.GetString("Filter_ArmorType_Shoulders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Consumables.
+        /// </summary>
+        internal static string Filter_ConsumableType_All {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Appearance Change.
+        /// </summary>
+        internal static string Filter_ConsumableType_AppearanceChange {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_AppearanceChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Booze.
+        /// </summary>
+        internal static string Filter_ConsumableType_Booze {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Booze", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contract NPC.
+        /// </summary>
+        internal static string Filter_ConsumableType_ContractNpc {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_ContractNpc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currency.
+        /// </summary>
+        internal static string Filter_ConsumableType_Currency {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Currency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Food.
+        /// </summary>
+        internal static string Filter_ConsumableType_Food {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Food", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generic.
+        /// </summary>
+        internal static string Filter_ConsumableType_Generic {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Generic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Halloween.
+        /// </summary>
+        internal static string Filter_ConsumableType_Halloween {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Halloween", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Immediate.
+        /// </summary>
+        internal static string Filter_ConsumableType_Immediate {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Immediate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mount Random Unlock.
+        /// </summary>
+        internal static string Filter_ConsumableType_MountRandomUnlock {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_MountRandomUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Random Unlock.
+        /// </summary>
+        internal static string Filter_ConsumableType_RandomUnlock {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_RandomUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Teleport To Friend.
+        /// </summary>
+        internal static string Filter_ConsumableType_TeleportToFriend {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_TeleportToFriend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transmutation.
+        /// </summary>
+        internal static string Filter_ConsumableType_Transmutation {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Transmutation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlock.
+        /// </summary>
+        internal static string Filter_ConsumableType_Unlock {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Unlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrade Removal.
+        /// </summary>
+        internal static string Filter_ConsumableType_UpgradeRemoval {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_UpgradeRemoval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Utility.
+        /// </summary>
+        internal static string Filter_ConsumableType_Utility {
+            get {
+                return ResourceManager.GetString("Filter_ConsumableType_Utility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Containers.
+        /// </summary>
+        internal static string Filter_ContainerType_All {
+            get {
+                return ResourceManager.GetString("Filter_ContainerType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string Filter_ContainerType_Default {
+            get {
+                return ResourceManager.GetString("Filter_ContainerType_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gift Box.
+        /// </summary>
+        internal static string Filter_ContainerType_GiftBox {
+            get {
+                return ResourceManager.GetString("Filter_ContainerType_GiftBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Immediate.
+        /// </summary>
+        internal static string Filter_ContainerType_Immediate {
+            get {
+                return ResourceManager.GetString("Filter_ContainerType_Immediate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open UI.
+        /// </summary>
+        internal static string Filter_ContainerType_OpenUI {
+            get {
+                return ResourceManager.GetString("Filter_ContainerType_OpenUI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Gathering Tools.
+        /// </summary>
+        internal static string Filter_GatheringType_All {
+            get {
+                return ResourceManager.GetString("Filter_GatheringType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Foraging.
+        /// </summary>
+        internal static string Filter_GatheringType_Foraging {
+            get {
+                return ResourceManager.GetString("Filter_GatheringType_Foraging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logging.
+        /// </summary>
+        internal static string Filter_GatheringType_Logging {
+            get {
+                return ResourceManager.GetString("Filter_GatheringType_Logging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mining.
+        /// </summary>
+        internal static string Filter_GatheringType_Mining {
+            get {
+                return ResourceManager.GetString("Filter_GatheringType_Mining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Gizmos.
+        /// </summary>
+        internal static string Filter_GizmoType_All {
+            get {
+                return ResourceManager.GetString("Filter_GizmoType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container Key.
+        /// </summary>
+        internal static string Filter_GizmoType_ContainerKey {
+            get {
+                return ResourceManager.GetString("Filter_GizmoType_ContainerKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string Filter_GizmoType_Default {
+            get {
+                return ResourceManager.GetString("Filter_GizmoType_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rentable Contract NPC.
+        /// </summary>
+        internal static string Filter_GizmoType_RentableContractNpc {
+            get {
+                return ResourceManager.GetString("Filter_GizmoType_RentableContractNpc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlimited Consumable.
+        /// </summary>
+        internal static string Filter_GizmoType_UnlimitedConsumable {
+            get {
+                return ResourceManager.GetString("Filter_GizmoType_UnlimitedConsumable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Items.
+        /// </summary>
+        internal static string Filter_ItemType_All {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Armor.
+        /// </summary>
+        internal static string Filter_ItemType_Armor {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Armor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string Filter_ItemType_Back {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory Bag.
+        /// </summary>
+        internal static string Filter_ItemType_Bag {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Bag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consumable.
+        /// </summary>
+        internal static string Filter_ItemType_Consumable {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Consumable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Container.
+        /// </summary>
+        internal static string Filter_ItemType_Container {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Container", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crafting Material.
+        /// </summary>
+        internal static string Filter_ItemType_CraftingMaterial {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_CraftingMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fishing.
+        /// </summary>
+        internal static string Filter_ItemType_Fishing {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Fishing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gathering.
+        /// </summary>
+        internal static string Filter_ItemType_Gathering {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Gathering", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gizmo.
+        /// </summary>
+        internal static string Filter_ItemType_Gizmo {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Gizmo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jade Bot Chip.
+        /// </summary>
+        internal static string Filter_ItemType_JadeBotChip {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_JadeBotChip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jade Bot Core.
+        /// </summary>
+        internal static string Filter_ItemType_JadeBotCore {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_JadeBotCore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        internal static string Filter_ItemType_Key {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minis.
+        /// </summary>
+        internal static string Filter_ItemType_MiniPet {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_MiniPet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tool.
+        /// </summary>
+        internal static string Filter_ItemType_Tool {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trait.
+        /// </summary>
+        internal static string Filter_ItemType_Trait {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Trait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trinket.
+        /// </summary>
+        internal static string Filter_ItemType_Trinket {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Trinket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trophy.
+        /// </summary>
+        internal static string Filter_ItemType_Trophy {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Trophy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upgrade Component.
+        /// </summary>
+        internal static string Filter_ItemType_UpgradeComponent {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_UpgradeComponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weapon.
+        /// </summary>
+        internal static string Filter_ItemType_Weapon {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Weapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Rarities.
+        /// </summary>
+        internal static string Filter_Rarity_All {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ascended.
+        /// </summary>
+        internal static string Filter_Rarity_Ascended {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_Ascended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Basic.
+        /// </summary>
+        internal static string Filter_Rarity_Basic {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_Basic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exotic.
+        /// </summary>
+        internal static string Filter_Rarity_Exotic {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_Exotic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fine.
+        /// </summary>
+        internal static string Filter_Rarity_Fine {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_Fine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Junk.
+        /// </summary>
+        internal static string Filter_Rarity_Junk {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_Junk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Legendary.
+        /// </summary>
+        internal static string Filter_Rarity_Legendary {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_Legendary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Masterwork.
+        /// </summary>
+        internal static string Filter_Rarity_Masterwork {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_Masterwork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rare.
+        /// </summary>
+        internal static string Filter_Rarity_Rare {
+            get {
+                return ResourceManager.GetString("Filter_Rarity_Rare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accessory.
+        /// </summary>
+        internal static string Filter_TrinketType_Accessory {
+            get {
+                return ResourceManager.GetString("Filter_TrinketType_Accessory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Trinkets.
+        /// </summary>
+        internal static string Filter_TrinketType_All {
+            get {
+                return ResourceManager.GetString("Filter_TrinketType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amulet.
+        /// </summary>
+        internal static string Filter_TrinketType_Amulet {
+            get {
+                return ResourceManager.GetString("Filter_TrinketType_Amulet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ring.
+        /// </summary>
+        internal static string Filter_TrinketType_Ring {
+            get {
+                return ResourceManager.GetString("Filter_TrinketType_Ring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Upgrade Components.
+        /// </summary>
+        internal static string Filter_UpgradeType_All {
+            get {
+                return ResourceManager.GetString("Filter_UpgradeType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string Filter_UpgradeType_Default {
+            get {
+                return ResourceManager.GetString("Filter_UpgradeType_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gem.
+        /// </summary>
+        internal static string Filter_UpgradeType_Gem {
+            get {
+                return ResourceManager.GetString("Filter_UpgradeType_Gem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rune.
+        /// </summary>
+        internal static string Filter_UpgradeType_Rune {
+            get {
+                return ResourceManager.GetString("Filter_UpgradeType_Rune", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sigil.
+        /// </summary>
+        internal static string Filter_UpgradeType_Sigil {
+            get {
+                return ResourceManager.GetString("Filter_UpgradeType_Sigil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Weapons.
+        /// </summary>
+        internal static string Filter_WeaponType_All {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Axe.
+        /// </summary>
+        internal static string Filter_WeaponType_Axe {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Axe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dagger.
+        /// </summary>
+        internal static string Filter_WeaponType_Dagger {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Dagger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus.
+        /// </summary>
+        internal static string Filter_WeaponType_Focus {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Focus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Greatsword.
+        /// </summary>
+        internal static string Filter_WeaponType_Greatsword {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Greatsword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hammer.
+        /// </summary>
+        internal static string Filter_WeaponType_Hammer {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Hammer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Harpoon.
+        /// </summary>
+        internal static string Filter_WeaponType_Harpoon {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Harpoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Large Bundle.
+        /// </summary>
+        internal static string Filter_WeaponType_LargeBundle {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_LargeBundle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Long Bow.
+        /// </summary>
+        internal static string Filter_WeaponType_LongBow {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_LongBow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mace.
+        /// </summary>
+        internal static string Filter_WeaponType_Mace {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Mace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pistol.
+        /// </summary>
+        internal static string Filter_WeaponType_Pistol {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Pistol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rifle.
+        /// </summary>
+        internal static string Filter_WeaponType_Rifle {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Rifle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scepter.
+        /// </summary>
+        internal static string Filter_WeaponType_Scepter {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Scepter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shield.
+        /// </summary>
+        internal static string Filter_WeaponType_Shield {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Shield", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Short Bow.
+        /// </summary>
+        internal static string Filter_WeaponType_ShortBow {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_ShortBow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Small Bundle.
+        /// </summary>
+        internal static string Filter_WeaponType_SmallBundle {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_SmallBundle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speargun.
+        /// </summary>
+        internal static string Filter_WeaponType_Speargun {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Speargun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Staff.
+        /// </summary>
+        internal static string Filter_WeaponType_Staff {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Staff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sword.
+        /// </summary>
+        internal static string Filter_WeaponType_Sword {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Sword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Torch.
+        /// </summary>
+        internal static string Filter_WeaponType_Torch {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Torch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toy.
+        /// </summary>
+        internal static string Filter_WeaponType_Toy {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Toy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toy Two-Handed.
+        /// </summary>
+        internal static string Filter_WeaponType_ToyTwoHanded {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_ToyTwoHanded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trident.
+        /// </summary>
+        internal static string Filter_WeaponType_Trident {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Trident", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warhorn.
+        /// </summary>
+        internal static string Filter_WeaponType_Warhorn {
+            get {
+                return ResourceManager.GetString("Filter_WeaponType_Warhorn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         internal static string ItemTooltip_CharacterEquipment {

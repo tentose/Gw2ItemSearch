@@ -184,4 +184,307 @@
   <data name="Settings_PlayerDataRefreshIntervalMinutes_Name" xml:space="preserve">
     <value>API Refresh Interval (Minutes)</value>
   </data>
+  <data name="Filter_ItemType_All" xml:space="preserve">
+    <value>All Items</value>
+  </data>
+  <data name="Filter_ItemType_Armor" xml:space="preserve">
+    <value>Armor</value>
+  </data>
+  <data name="Filter_ItemType_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Filter_ItemType_Bag" xml:space="preserve">
+    <value>Inventory Bag</value>
+  </data>
+  <data name="Filter_ItemType_Consumable" xml:space="preserve">
+    <value>Consumable</value>
+  </data>
+  <data name="Filter_ItemType_Container" xml:space="preserve">
+    <value>Container</value>
+  </data>
+  <data name="Filter_ItemType_CraftingMaterial" xml:space="preserve">
+    <value>Crafting Material</value>
+  </data>
+  <data name="Filter_ItemType_Gathering" xml:space="preserve">
+    <value>Gathering</value>
+  </data>
+  <data name="Filter_ItemType_Gizmo" xml:space="preserve">
+    <value>Gizmo</value>
+  </data>
+  <data name="Filter_ItemType_Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Filter_ItemType_MiniPet" xml:space="preserve">
+    <value>Minis</value>
+  </data>
+  <data name="Filter_ItemType_Tool" xml:space="preserve">
+    <value>Tool</value>
+  </data>
+  <data name="Filter_ItemType_Trait" xml:space="preserve">
+    <value>Trait</value>
+  </data>
+  <data name="Filter_ItemType_Trinket" xml:space="preserve">
+    <value>Trinket</value>
+  </data>
+  <data name="Filter_ItemType_Trophy" xml:space="preserve">
+    <value>Trophy</value>
+  </data>
+  <data name="Filter_ItemType_UpgradeComponent" xml:space="preserve">
+    <value>Upgrade Component</value>
+  </data>
+  <data name="Filter_ItemType_Weapon" xml:space="preserve">
+    <value>Weapon</value>
+  </data>
+  <data name="Filter_ItemType_JadeBotCore" xml:space="preserve">
+    <value>Jade Bot Core</value>
+  </data>
+  <data name="Filter_ItemType_JadeBotChip" xml:space="preserve">
+    <value>Jade Bot Chip</value>
+  </data>
+  <data name="Filter_ItemType_Fishing" xml:space="preserve">
+    <value>Fishing</value>
+  </data>
+  <data name="Filter_Armor_All" xml:space="preserve">
+    <value>All Armor</value>
+  </data>
+  <data name="Filter_Armor_Boots" xml:space="preserve">
+    <value>Boots</value>
+  </data>
+  <data name="Filter_Armor_Coat" xml:space="preserve">
+    <value>Coat</value>
+  </data>
+  <data name="Filter_Armor_Gloves" xml:space="preserve">
+    <value>Gloves</value>
+  </data>
+  <data name="Filter_Armor_Helm" xml:space="preserve">
+    <value>Helm</value>
+  </data>
+  <data name="Filter_Armor_HelmAquatic" xml:space="preserve">
+    <value>Helm Aquatic</value>
+  </data>
+  <data name="Filter_Armor_Leggings" xml:space="preserve">
+    <value>Leggings</value>
+  </data>
+  <data name="Filter_Armor_Shoulders" xml:space="preserve">
+    <value>Shoulders</value>
+  </data>
+  <data name="Filter_Consumable_All" xml:space="preserve">
+    <value>All Consumables</value>
+  </data>
+  <data name="Filter_Consumable_AppearanceChange" xml:space="preserve">
+    <value>Appearance Change</value>
+  </data>
+  <data name="Filter_Consumable_Booze" xml:space="preserve">
+    <value>Booze</value>
+  </data>
+  <data name="Filter_Consumable_ContractNpc" xml:space="preserve">
+    <value>Contract NPC</value>
+  </data>
+  <data name="Filter_Consumable_Currency" xml:space="preserve">
+    <value>Currency</value>
+  </data>
+  <data name="Filter_Consumable_Food" xml:space="preserve">
+    <value>Food</value>
+  </data>
+  <data name="Filter_Consumable_Generic" xml:space="preserve">
+    <value>Generic</value>
+  </data>
+  <data name="Filter_Consumable_Halloween" xml:space="preserve">
+    <value>Halloween</value>
+  </data>
+  <data name="Filter_Consumable_Immediate" xml:space="preserve">
+    <value>Immediate</value>
+  </data>
+  <data name="Filter_Consumable_MountRandomUnlock" xml:space="preserve">
+    <value>Mount Random Unlock</value>
+  </data>
+  <data name="Filter_Consumable_RandomUnlock" xml:space="preserve">
+    <value>Random Unlock</value>
+  </data>
+  <data name="Filter_Consumable_Transmutation" xml:space="preserve">
+    <value>Transmutation</value>
+  </data>
+  <data name="Filter_Consumable_Unlock" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="Filter_Consumable_UpgradeRemoval" xml:space="preserve">
+    <value>Upgrade Removal</value>
+  </data>
+  <data name="Filter_Consumable_Utility" xml:space="preserve">
+    <value>Utility</value>
+  </data>
+  <data name="Filter_Consumable_TeleportToFriend" xml:space="preserve">
+    <value>Teleport To Friend</value>
+  </data>
+  <data name="Filter_Container_All" xml:space="preserve">
+    <value>All Containers</value>
+  </data>
+  <data name="Filter_Container_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Filter_Container_GiftBox" xml:space="preserve">
+    <value>Gift Box</value>
+  </data>
+  <data name="Filter_Container_Immediate" xml:space="preserve">
+    <value>Immediate</value>
+  </data>
+  <data name="Filter_Container_OpenUI" xml:space="preserve">
+    <value>Open UI</value>
+  </data>
+  <data name="Filter_Gathering_All" xml:space="preserve">
+    <value>All Gathering Tools</value>
+  </data>
+  <data name="Filter_Gathering_Foraging" xml:space="preserve">
+    <value>Foraging</value>
+  </data>
+  <data name="Filter_Gathering_Logging" xml:space="preserve">
+    <value>Logging</value>
+  </data>
+  <data name="Filter_Gathering_Mining" xml:space="preserve">
+    <value>Mining</value>
+  </data>
+  <data name="Filter_Gathering_Fishing" xml:space="preserve">
+    <value>Fishing</value>
+  </data>
+  <data name="Filter_Gizmo_All" xml:space="preserve">
+    <value>All Gizmos</value>
+  </data>
+  <data name="Filter_Gizmo_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Filter_Gizmo_ContainerKey" xml:space="preserve">
+    <value>Container Key</value>
+  </data>
+  <data name="Filter_Gizmo_RentableContractNpc" xml:space="preserve">
+    <value>Rentable Contract NPC</value>
+  </data>
+  <data name="Filter_Gizmo_UnlimitedConsumable" xml:space="preserve">
+    <value>Unlimited Consumable</value>
+  </data>
+  <data name="Filter_Trinket_All" xml:space="preserve">
+    <value>All Trinkets</value>
+  </data>
+  <data name="Filter_Trinket_Accessory" xml:space="preserve">
+    <value>Accessory</value>
+  </data>
+  <data name="Filter_Trinket_Amulet" xml:space="preserve">
+    <value>Amulet</value>
+  </data>
+  <data name="Filter_Trinket_Ring" xml:space="preserve">
+    <value>Ring</value>
+  </data>
+  <data name="Filter_UpgradeComponent_All" xml:space="preserve">
+    <value>All Upgrade Components</value>
+  </data>
+  <data name="Filter_UpgradeComponent_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Filter_UpgradeComponent_Gem" xml:space="preserve">
+    <value>Gem</value>
+  </data>
+  <data name="Filter_UpgradeComponent_Rune" xml:space="preserve">
+    <value>Rune</value>
+  </data>
+  <data name="Filter_UpgradeComponent_Sigil" xml:space="preserve">
+    <value>Sigil</value>
+  </data>
+  <data name="Filter_Weapon_All" xml:space="preserve">
+    <value>All Weapons</value>
+  </data>
+  <data name="Filter_Weapon_Axe" xml:space="preserve">
+    <value>Axe</value>
+  </data>
+  <data name="Filter_Weapon_Dagger" xml:space="preserve">
+    <value>Dagger</value>
+  </data>
+  <data name="Filter_Weapon_Mace" xml:space="preserve">
+    <value>Mace</value>
+  </data>
+  <data name="Filter_Weapon_Pistol" xml:space="preserve">
+    <value>Pistol</value>
+  </data>
+  <data name="Filter_Weapon_Scepter" xml:space="preserve">
+    <value>Scepter</value>
+  </data>
+  <data name="Filter_Weapon_Sword" xml:space="preserve">
+    <value>Sword</value>
+  </data>
+  <data name="Filter_Weapon_Focus" xml:space="preserve">
+    <value>Focus</value>
+  </data>
+  <data name="Filter_Weapon_Shield" xml:space="preserve">
+    <value>Shield</value>
+  </data>
+  <data name="Filter_Weapon_Torch" xml:space="preserve">
+    <value>Torch</value>
+  </data>
+  <data name="Filter_Weapon_Warhorn" xml:space="preserve">
+    <value>Warhorn</value>
+  </data>
+  <data name="Filter_Weapon_Greatsword" xml:space="preserve">
+    <value>Greatsword</value>
+  </data>
+  <data name="Filter_Weapon_Hammer" xml:space="preserve">
+    <value>Hammer</value>
+  </data>
+  <data name="Filter_Weapon_LongBow" xml:space="preserve">
+    <value>Long Bow</value>
+  </data>
+  <data name="Filter_Weapon_Rifle" xml:space="preserve">
+    <value>Rifle</value>
+  </data>
+  <data name="Filter_Weapon_ShortBow" xml:space="preserve">
+    <value>Short Bow</value>
+  </data>
+  <data name="Filter_Weapon_Staff" xml:space="preserve">
+    <value>Staff</value>
+  </data>
+  <data name="Filter_Weapon_Harpoon" xml:space="preserve">
+    <value>Harpoon</value>
+  </data>
+  <data name="Filter_Weapon_Speargun" xml:space="preserve">
+    <value>Speargun</value>
+  </data>
+  <data name="Filter_Weapon_Trident" xml:space="preserve">
+    <value>Trident</value>
+  </data>
+  <data name="Filter_Weapon_LargeBundle" xml:space="preserve">
+    <value>Large Bundle</value>
+  </data>
+  <data name="Filter_Weapon_SmallBundle" xml:space="preserve">
+    <value>Small Bundle</value>
+  </data>
+  <data name="Filter_Weapon_Toy" xml:space="preserve">
+    <value>Toy</value>
+  </data>
+  <data name="Filter_Weapon_ToyTwoHanded" xml:space="preserve">
+    <value>Toy Two-Handed</value>
+  </data>
+  <data name="Filter_Rarity_All" xml:space="preserve">
+    <value>All Rarities</value>
+  </data>
+  <data name="Filter_Rarity_Ascended" xml:space="preserve">
+    <value>Ascended</value>
+  </data>
+  <data name="Filter_Rarity_Basic" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="Filter_Rarity_Exotic" xml:space="preserve">
+    <value>Exotic</value>
+  </data>
+  <data name="Filter_Rarity_Fine" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="Filter_Rarity_Junk" xml:space="preserve">
+    <value>Junk</value>
+  </data>
+  <data name="Filter_Rarity_Legendary" xml:space="preserve">
+    <value>Legendary</value>
+  </data>
+  <data name="Filter_Rarity_Masterwork" xml:space="preserve">
+    <value>Masterwork</value>
+  </data>
+  <data name="Filter_Rarity_Rare" xml:space="preserve">
+    <value>Rare</value>
+  </data>
 </root>

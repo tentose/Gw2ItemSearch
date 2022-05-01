@@ -15,10 +15,16 @@ namespace ItemSearch.Controls
     {
         private const int CONTENT_X_MARGIN = 10;
         private const int CONTENT_Y_PADDING = 5;
+        private const int FILTER_BUTTON_SIZE = 32;
         private const int SEARCH_DEBOUNCE_MILLIS = 500;
 
         private ItemSearchResultPanel m_resultPanel;
         private TextBox m_searchQueryBox;
+        private IconButon m_searchFilterToggleButton;
+        private ViewContainer m_searchFilterPanel;
+        private FiltersView m_searchFilterView;
+        private SearchFilter m_searchFilter;
+
         private ItemIndex m_searchEngine;
         private Timer m_searchDebounceTimer;
 
@@ -44,7 +50,28 @@ namespace ItemSearch.Controls
             m_searchDebounceTimer.AutoReset = false;
             m_searchDebounceTimer.Elapsed += M_searchDebounceTimer_Elapsed;
 
-            m_resultPanel = new ItemSearchResultPanel()
+            m_searchFilterToggleButton = new IconButon()
+            {
+                Parent = buildPanel,
+                Size = new Point(FILTER_BUTTON_SIZE, FILTER_BUTTON_SIZE),
+                Icon = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\FilterButtonIcon.png"),
+                DarkenUnlessHovered = true,
+            };
+            m_searchFilterToggleButton.Click += M_searchFilterToggleButton_Click;
+
+            m_searchFilter = new SearchFilter();
+            m_searchFilterView = new FiltersView(m_searchFilter);
+            m_searchFilterPanel = new ViewContainer()
+            {
+                Parent = buildPanel,
+                FadeView = true,
+                WidthSizingMode = SizingMode.AutoSize,
+                HeightSizingMode = SizingMode.AutoSize,
+                BackgroundTexture = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\FilterPanelBackground.png"),
+                ZIndex = 100,
+            };
+
+            m_resultPanel = new ItemSearchResultPanel(m_searchFilter)
             {
                 Parent = buildPanel,
                 Size = new Point(400, 400),
@@ -52,6 +79,20 @@ namespace ItemSearch.Controls
 
             RepositionObjects();
             buildPanel.Resized += BuildPanel_Resized;
+        }
+
+        private void M_searchFilterToggleButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
+        {
+            if (m_searchFilterPanel.ViewState == ViewState.None)
+            {
+                m_searchFilterPanel.Show(m_searchFilterView);
+                m_searchFilterPanel.BackgroundTexture = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\ItemTooltipBackground.png");
+                RepositionObjects();
+            }
+            else
+            {
+                m_searchFilterPanel.Show(null);
+            }
         }
 
         private void M_searchDebounceTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -73,7 +114,9 @@ namespace ItemSearch.Controls
         private void RepositionObjects()
         {
             var parent = m_searchQueryBox.Parent;
-            m_searchQueryBox.Size = new Point(parent.ContentRegion.Width - CONTENT_X_MARGIN, m_searchQueryBox.Size.Y);
+            m_searchQueryBox.Size = new Point(parent.ContentRegion.Width - CONTENT_X_MARGIN - FILTER_BUTTON_SIZE - CONTENT_X_MARGIN, m_searchQueryBox.Size.Y);
+            m_searchFilterToggleButton.Location = m_searchQueryBox.Location + new Point(m_searchQueryBox.Width + CONTENT_X_MARGIN, (m_searchQueryBox.Height - m_searchFilterToggleButton.Height) / 2);
+            m_searchFilterPanel.Location = m_searchQueryBox.Location + new Point(parent.ContentRegion.Width - m_searchFilterPanel.Width, m_searchQueryBox.Height);
             m_resultPanel.Location = m_searchQueryBox.Location + new Point(0, m_searchQueryBox.Height + CONTENT_Y_PADDING);
             m_resultPanel.Size = new Point(parent.ContentRegion.Width - CONTENT_X_MARGIN, parent.ContentRegion.Height - CONTENT_Y_PADDING - m_resultPanel.Top);
         }

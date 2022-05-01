@@ -42,10 +42,20 @@ namespace ItemSearch.Controls
             });
         }
 
-        AsyncTexture2D m_image;
-        InventoryItem m_item;
-        StaticItemInfo m_itemInfo = null;
-        string m_number = "";
+        private AsyncTexture2D m_image;
+        private InventoryItem m_item;
+        public InventoryItem Item
+        {
+            get => m_item;
+        }
+
+        private StaticItemInfo m_itemInfo = null;
+        public StaticItemInfo ItemInfo
+        {
+            get => m_itemInfo;
+        }
+
+        private string m_number = "";
 
         public ItemIcon(InventoryItem item)
         {
@@ -66,7 +76,7 @@ namespace ItemSearch.Controls
             {
                 try
                 {
-                    var imageBytes = await ItemSearchModule.Instance.Gw2ApiManager.Gw2ApiClient.Render.DownloadToByteArrayAsync(m_itemInfo.IconUrl);
+                    var imageBytes = await ItemSearchModule.Instance.RenderClient.DownloadToByteArrayAsync(m_itemInfo.IconUrl);
                     using (var textureStream = new MemoryStream(imageBytes))
                     {
                         var loadedTexture = InternalTextureUtil.FromStreamPremultiplied(textureStream);

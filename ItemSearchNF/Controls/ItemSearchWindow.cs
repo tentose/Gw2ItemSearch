@@ -27,6 +27,7 @@ namespace ItemSearch.Controls
         private ContentsManager m_contentsManager;
         private ItemSearchResultPanel m_resultPanel;
         private TextBox m_searchQueryBox;
+        private IconButon m_searchFilterToggleButton;
         private ItemIndex m_searchEngine;
         private bool m_initialized = false;
 

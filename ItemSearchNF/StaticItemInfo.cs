@@ -27,6 +27,11 @@ namespace ItemSearch
         public string Name { get; set; }
         public string IconUrl { get; set; }
         public ItemRarity Rarity { get; set; }
+        public ItemType Type { get; set; }
+
+        // Optional Fields
+        [JsonProperty("SubType", NullValueHandling = NullValueHandling.Ignore)]
+        public ItemSubType SubType { get; set; }
 
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
 
@@ -145,4 +150,100 @@ namespace ItemSearch
 
         public static Dictionary<int, StaticItemInfo> AllItems { get; private set; }
     }
+
+    #region Item enums
+
+    public enum ItemType
+    {
+        Unknown,
+        Armor,
+        Back,
+        Bag,
+        Consumable,
+        Container,
+        CraftingMaterial,
+        Gathering,
+        Gizmo,
+        Key,
+        MiniPet,
+        Tool,
+        Trait,
+        Trinket,
+        Trophy,
+        UpgradeComponent,
+        Weapon,
+        JadeBotCore,
+        JadeBotChip,
+    }
+
+    public enum ItemSubType
+    {
+        Unknown = 0,
+        Armor_Boots = 100,
+        Armor_Coat,
+        Armor_Gloves,
+        Armor_Helm,
+        Armor_HelmAquatic,
+        Armor_Leggings,
+        Armor_Shoulders,
+        Consumable_AppearanceChange = 200,
+        Consumable_Booze,
+        Consumable_ContractNpc,
+        Consumable_Currency,
+        Consumable_Food,
+        Consumable_Generic,
+        Consumable_Halloween,
+        Consumable_Immediate,
+        Consumable_MountRandomUnlock,
+        Consumable_RandomUnlock,
+        Consumable_Transmutation,
+        Consumable_Unlock,
+        Consumable_UpgradeRemoval,
+        Consumable_Utility,
+        Consumable_TeleportToFriend,
+        Container_Default = 300,
+        Container_GiftBox,
+        Container_Immediate,
+        Container_OpenUI,
+        Gathering_Foraging = 400,
+        Gathering_Logging,
+        Gathering_Mining,
+        Gathering_Fishing,
+        Gizmo_Default = 500,
+        Gizmo_ContainerKey,
+        Gizmo_RentableContractNpc,
+        Gizmo_UnlimitedConsumable,
+        Trinket_Accessory = 600,
+        Trinket_Amulet,
+        Trinket_Ring,
+        UpgradeComponent_Default = 700,
+        UpgradeComponent_Gem,
+        UpgradeComponent_Rune,
+        UpgradeComponent_Sigil,
+        Weapon_Axe = 800,
+        Weapon_Dagger,
+        Weapon_Mace,
+        Weapon_Pistol,
+        Weapon_Scepter,
+        Weapon_Sword,
+        Weapon_Focus,
+        Weapon_Shield,
+        Weapon_Torch,
+        Weapon_Warhorn,
+        Weapon_Greatsword,
+        Weapon_Hammer,
+        Weapon_LongBow,
+        Weapon_Rifle,
+        Weapon_ShortBow,
+        Weapon_Staff,
+        Weapon_Harpoon,
+        Weapon_Speargun,
+        Weapon_Trident,
+        Weapon_LargeBundle,
+        Weapon_SmallBundle,
+        Weapon_Toy,
+        Weapon_ToyTwoHanded,
+    }
+
+    #endregion
 }
