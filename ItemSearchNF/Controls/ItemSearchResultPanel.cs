@@ -127,7 +127,7 @@ namespace ItemSearch.Controls
                 if (!m_characterSourcePanels.TryGetValue(item.CharacterName, out panel))
                 {
                     panel = NewResultPanel();
-                    panel.Title = Strings.ResultTitle_Character + item.CharacterName;
+                    panel.Title = item.CharacterName;
                     m_characterSourcePanels.Add(item.CharacterName, panel);
                 }
                 return panel;
