@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Gw2Sharp.WebApi.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,14 @@ namespace ItemSearch
                 {
                     result = await fn.Invoke();
                     break;
+                }
+                catch (InvalidAccessTokenException ex)
+                {
+                    Logger.Warn("InvalidAccessTokenException when fetching data from API.");
+                    if (attemptsRemaining > 0)
+                    {
+                        await Task.Delay(ATTEMPT_INTERVAL);
+                    }
                 }
                 catch (Exception ex)
                 {

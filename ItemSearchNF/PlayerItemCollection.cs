@@ -31,7 +31,7 @@ namespace ItemSearch
     {
         private const string CACHE_FILE_NAME = "player_items.json";
         private const int MINUTES_TO_MILLIS = 60 * 1000;
-        private const int API_REFRESH_TIMEOUT_MILLIS = 5 * 60 * 1000;
+        private const int API_REFRESH_TIMEOUT_MILLIS = 5 * MINUTES_TO_MILLIS;
 
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
 
@@ -97,6 +97,7 @@ namespace ItemSearch
         private void M_refreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             m_refreshTimer.Stop();
+
             try
             {
                 if (!RefreshApiData().Wait(API_REFRESH_TIMEOUT_MILLIS))

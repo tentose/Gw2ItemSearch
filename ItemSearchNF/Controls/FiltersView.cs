@@ -143,6 +143,8 @@ namespace ItemSearch.Controls
         private void M_clearFiltersButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
         {
             m_searchFilter.Clear();
+            m_typeDropdown.SelectedItem = m_typeDropdown.Items[0];
+            m_rarityDropdown.SelectedItem = m_rarityDropdown.Items[0];
         }
 
         private void M_typeDropdown_ValueChanged(object sender, ValueChangedEventArgs e)

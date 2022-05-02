@@ -45,6 +45,7 @@ namespace ItemSearch.Controls
         }
 
         private AsyncTexture2D m_image;
+        private ContextMenuStrip m_contextMenu;
         private InventoryItem m_item;
         public InventoryItem Item
         {
@@ -94,6 +95,26 @@ namespace ItemSearch.Controls
                     Invalidate();
                 });
             }
+        }
+
+        protected override void OnRightMouseButtonReleased(MouseEventArgs e)
+        {
+            base.OnRightMouseButtonReleased(e);
+
+            if (m_contextMenu == null)
+            {
+                BuildAndShowContextMenu();
+            }
+            else
+            {
+                m_contextMenu.Show(this);
+            }
+        }
+
+        public void BuildAndShowContextMenu()
+        {
+            m_contextMenu = new ContextMenuStrip();
+            m_contextMenu.Show(this);
         }
 
         protected override void OnMouseEntered(MouseEventArgs e)
