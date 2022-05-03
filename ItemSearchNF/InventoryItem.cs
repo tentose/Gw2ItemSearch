@@ -19,6 +19,13 @@ namespace ItemSearch
         TradingPostSellOrder,
     }
 
+    public enum ItemBinding
+    {
+        Unknown,
+        Account,
+        Character,
+    }
+
     public class InventoryItem
     {
         public InventoryItemSource Source { get; set; }
@@ -31,7 +38,7 @@ namespace ItemSearch
         public int[] Infusions { get; set; }
         public int[] Upgrades { get; set; }
         public int? Skin { get; set; }
-        public string Binding { get; set; }
+        public ItemBinding? Binding { get; set; }
         public string BoundTo { get; set; }
         public InventoryItem ParentItem { get; set; }
 
@@ -45,7 +52,7 @@ namespace ItemSearch
             Infusions = item.Infusions?.ToArray();
             Upgrades = item.Upgrades?.ToArray();
             Skin = item.Skin;
-            Binding = item.Binding?.ToString();
+            Binding = item.Binding != null ? ConvertBinding(item.Binding) : null;
             BoundTo = item.BoundTo;
         }
 
@@ -57,7 +64,7 @@ namespace ItemSearch
             Infusions = item.Infusions?.ToArray();
             Upgrades = item.Upgrades?.ToArray();
             Skin = item.Skin;
-            Binding = item.Binding?.ToString();
+            Binding = item.Binding != null ? ConvertBinding(item.Binding) : null;
             BoundTo = item.BoundTo;
             EquipmentTabId = equipmentTab;
         }
@@ -100,7 +107,19 @@ namespace ItemSearch
             InventoryItem item = new InventoryItem(itemId, parent.Source, parent.CharacterName);
             item.ParentItem = parent;
             item.EquipmentTabId = parent.EquipmentTabId;
+            item.Binding = parent.Binding;
             return item;
+        }
+
+        public ItemBinding? ConvertBinding(Gw2Sharp.WebApi.V2.Models.ItemBinding itemBinding)
+        {
+            switch (itemBinding)
+            {
+                case Gw2Sharp.WebApi.V2.Models.ItemBinding.Unknown: return ItemBinding.Unknown;
+                case Gw2Sharp.WebApi.V2.Models.ItemBinding.Account: return ItemBinding.Account;
+                case Gw2Sharp.WebApi.V2.Models.ItemBinding.Character: return ItemBinding.Character;
+                default: return ItemBinding.Unknown;
+            }
         }
     }
 }

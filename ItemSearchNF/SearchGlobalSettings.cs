@@ -18,6 +18,7 @@ namespace ItemSearch
     {
         public SettingEntry<int> PlayerDataRefreshIntervalMinutes { get; private set; }
         public SettingEntry<RenderCacheMethod> RenderCacheMethod { get; private set; }
+        public SettingEntry<bool> HideLegendaryArmory { get; private set; }
 
         public SearchGlobalSettings(SettingCollection settings)
         {
@@ -31,6 +32,11 @@ namespace ItemSearch
                                                         ItemSearch.RenderCacheMethod.File,
                                                         () => Strings.Settings_RenderCacheMethod_Name,
                                                         () => Strings.Settings_RenderCacheMethod_Description);
+
+            HideLegendaryArmory = settings.DefineSetting("HideLegendaryArmory",
+                                                        false,
+                                                        () => Strings.Settings_HideLegendaryArmory_Name,
+                                                        () => Strings.Settings_HideLegendaryArmory_Description);
         }
     }
 }

@@ -494,9 +494,15 @@
     <value>Clear</value>
   </data>
   <data name="Settings_RenderCacheMethod_Description" xml:space="preserve">
-    <value>How item icons are cached</value>
+    <value>How item icons are cached. \nFile: icons are cached as files on disk. \nMemory: icons are cached in memory. Each time Blishhud restarts the cache will be cleared. \nNone: No caching.</value>
   </data>
   <data name="Settings_RenderCacheMethod_Name" xml:space="preserve">
     <value>Item Icon Cache</value>
+  </data>
+  <data name="Settings_HideLegendaryArmory_Description" xml:space="preserve">
+    <value>This includes mostly equipment from the legendary armory. Includes account-bound legendary armor, weapons, trinkets, and upgrade components.</value>
+  </data>
+  <data name="Settings_HideLegendaryArmory_Name" xml:space="preserve">
+    <value>Hide account-bound legendary equipment</value>
   </data>
 </root>

@@ -29,7 +29,7 @@ namespace ItemSearch
 
     internal class PlayerItemCollection
     {
-        private const string CACHE_FILE_NAME = "player_items.json";
+        private const string ITEMS_CACHE_FILE_NAME = "player_items.json";
         private const int MINUTES_TO_MILLIS = 60 * 1000;
         private const int API_REFRESH_TIMEOUT_MILLIS = 5 * MINUTES_TO_MILLIS;
 
@@ -68,12 +68,11 @@ namespace ItemSearch
             }
             m_accountName = account.Name;
 
-            Items = await InitializeFromCache();
-
+            Items = await InitializeFromCache(ITEMS_CACHE_FILE_NAME, Items);
             if (Items == null)
             {
                 Items = await GetPlayerItems();
-                await WriteToCache(Items);
+                await WriteToCache(ITEMS_CACHE_FILE_NAME, Items);
             }
 
             var apiRefreshIntervalSetting = ItemSearchModule.Instance.GlobalSettings.PlayerDataRefreshIntervalMinutes;
@@ -119,17 +118,19 @@ namespace ItemSearch
         private async Task RefreshApiData()
         {
             Logger.Info($"Refreshing player data from API");
+
             var items = await GetPlayerItems();
             Items = items;
-            await WriteToCache(items);
+            await WriteToCache(ITEMS_CACHE_FILE_NAME, items);
         }
 
-        private async Task<Dictionary<int, List<InventoryItem>>> InitializeFromCache()
+        private async Task<T> InitializeFromCache<T>(string filename, T obj) where T : class
         {
+            Logger.Info($"Initializing player data {filename} from cache");
             string cachePath = "";
             try
             {
-                cachePath = GetCachePath();
+                cachePath = GetCachePath(filename);
 
                 if (!File.Exists(cachePath))
                 {
@@ -138,23 +139,23 @@ namespace ItemSearch
 
                 return await Task.Run(() =>
                 {
-                    return JsonConvert.DeserializeObject<Dictionary<int, List<InventoryItem>>>(File.ReadAllText(cachePath));
+                    return JsonConvert.DeserializeObject<T>(File.ReadAllText(cachePath));
                 });
             }
             catch (Exception e)
             {
-                Logger.Warn(e, $"Failed to initialize player item data from cache: {cachePath}");
+                Logger.Warn(e, $"Failed to initialize player item data from cache: {PathHelper.StripPII(cachePath)}");
                 return null;
             }
         }
 
-        private async Task WriteToCache(Dictionary<int, List<InventoryItem>> items)
+        private async Task WriteToCache<T>(string filename, T items)
         {
-            Logger.Info($"Persisting player data to cache");
+            Logger.Info($"Persisting player data {filename} to cache");
             string cachePath = "";
             try
             {
-                cachePath = GetCachePath();
+                cachePath = GetCachePath(filename);
 
                 await Task.Run(() =>
                 {
@@ -163,16 +164,16 @@ namespace ItemSearch
             }
             catch (Exception e)
             {
-                Logger.Warn(e, $"Failed to persist player item data to cache: {cachePath}");
+                Logger.Warn(e, $"Failed to persist player item data to cache: {PathHelper.StripPII(cachePath)}");
             }
         }
 
-        private string GetCachePath()
+        private string GetCachePath(string filename)
         {
             var accountDir = Path.Combine(ItemSearchModule.Instance.CacheDirectory, m_accountName);
             Directory.CreateDirectory(accountDir);
 
-            return Path.Combine(accountDir, CACHE_FILE_NAME);
+            return Path.Combine(accountDir, filename);
         }
 
         public async Task<Dictionary<int, List<InventoryItem>>> GetPlayerItems()
@@ -360,9 +361,34 @@ namespace ItemSearch
                 }
             }
 
-            Logger.Info($"GetPlayerItems: {stopwatch.ElapsedMilliseconds}");
+            Logger.Debug($"GetPlayerItems: {stopwatch.ElapsedMilliseconds}");
 
             return allPlayerItems;
+        }
+
+        // Not used at the moment. Legendary runes when stat selected get a different item ID than the un-specialized legendary rune.
+        // The API will only return the unspecialized version. So this list alone cannot be used to filter out legendary armory equipment.
+        private async Task<SortedSet<int>> GetPlayerLegendaryArmory()
+        {
+            SortedSet<int> armoryItems = new SortedSet<int>();
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            var webApiClient = m_apiClient.V2;
+
+            var armory = await ApiHelper.Fetch(() => webApiClient.Account.LegendaryArmory.GetAsync());
+
+            if (armory != null)
+            {
+                foreach (var item in armory)
+                {
+                    armoryItems.Add(item.Id);
+                }
+            }
+
+            Logger.Debug($"GetPlayerLegendaryArmory: {stopwatch.ElapsedMilliseconds}");
+
+            return armoryItems;
         }
     }
 }

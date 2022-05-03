@@ -1168,6 +1168,24 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This includes mostly equipment from the legendary armory. Includes account-bound legendary armor, weapons, trinkets, and upgrade components..
+        /// </summary>
+        internal static string Settings_HideLegendaryArmory_Description {
+            get {
+                return ResourceManager.GetString("Settings_HideLegendaryArmory_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide account-bound legendary equipment.
+        /// </summary>
+        internal static string Settings_HideLegendaryArmory_Name {
+            get {
+                return ResourceManager.GetString("Settings_HideLegendaryArmory_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to How often to refresh your items from the GW2 API. Range is from 3 - 33 Minutes.
         /// </summary>
         internal static string Settings_PlayerDataRefreshIntervalMinutes_Description {
@@ -1186,7 +1204,7 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How item icons are cached.
+        ///   Looks up a localized string similar to How item icons are cached. \nFile: icons are cached as files on disk. \nMemory: icons are cached in memory. Each time Blishhud restarts the cache will be cleared. \nNone: No caching..
         /// </summary>
         internal static string Settings_RenderCacheMethod_Description {
             get {

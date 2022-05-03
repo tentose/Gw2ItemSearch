@@ -27,7 +27,7 @@ namespace ItemSearch
                 }
                 catch (InvalidAccessTokenException ex)
                 {
-                    Logger.Warn("InvalidAccessTokenException when fetching data from API.");
+                    Logger.Debug("InvalidAccessTokenException when fetching data from API.");
                     if (attemptsRemaining > 0)
                     {
                         await Task.Delay(ATTEMPT_INTERVAL);
@@ -45,7 +45,7 @@ namespace ItemSearch
 
             if (attemptsRemaining < 0)
             {
-                Logger.Error($"Failed fetching data from API. No more retries");
+                Logger.Warn($"Failed fetching data from API. No more retries");
                 result = null;
             }
 
