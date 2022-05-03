@@ -60,6 +60,7 @@ namespace ItemSearch.Controls
             m_searchFilterToggleButton.Click += M_searchFilterToggleButton_Click;
 
             m_searchFilter = new SearchFilter();
+            m_searchFilter.FilterChanged += M_searchFilter_FilterChanged;
             m_searchFilterView = new FiltersView(m_searchFilter);
             m_searchFilterPanel = new ViewContainer()
             {
@@ -77,6 +78,31 @@ namespace ItemSearch.Controls
 
             RepositionObjects();
             buildPanel.Resized += BuildPanel_Resized;
+        }
+
+        private void M_searchFilter_FilterChanged(object sender, EventArgs e)
+        {
+            if (m_searchQueryBox.Text.Length == 0)
+            {
+                int filterCriteriaCount = 0;
+                if (m_searchFilter.Type.HasValue)
+                {
+                    filterCriteriaCount++;
+                }
+                if (m_searchFilter.SubType.HasValue)
+                {
+                    filterCriteriaCount++;
+                }
+                if (m_searchFilter.Rarity.HasValue)
+                {
+                    filterCriteriaCount++;
+                }
+
+                if (filterCriteriaCount >= 2)
+                {
+                    _ = PerformBrowse();
+                }
+            }
         }
 
         private void M_searchFilterToggleButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
@@ -155,6 +181,12 @@ namespace ItemSearch.Controls
                 var result = await m_searchEngine.Search(query);
                 m_resultPanel.SetSearchResult(result);
             }
+        }
+
+        private async Task PerformBrowse()
+        {
+            var result = await m_searchEngine.Browse(m_searchFilter);
+            m_resultPanel.SetSearchResult(result);
         }
     }
 }

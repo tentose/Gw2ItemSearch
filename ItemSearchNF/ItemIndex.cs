@@ -81,5 +81,45 @@ namespace ItemSearch
 
             return playerMatchingItems;
         }
+
+        public async Task<List<InventoryItem>> Browse(SearchFilter filter)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            var allItems = StaticItemInfo.AllItems;
+            var results = allItems.Where(item => filter.FilterItem(item.Value)).Select(kv => kv.Key);
+            Logger.Debug($"ItemBrowse: {stopwatch.ElapsedMilliseconds}");
+
+            List<InventoryItem> playerMatchingItems = new List<InventoryItem>();
+            var playerItems = m_playerItems.Items;
+            bool excludeArmory = ItemSearchModule.Instance.GlobalSettings.HideLegendaryArmory.Value;
+            foreach (var id in results)
+            {
+                List<InventoryItem> items;
+                if (playerItems.TryGetValue(id, out items))
+                {
+                    bool isLegendary = false;
+                    StaticItemInfo itemInfo = null;
+                    if (excludeArmory)
+                    {
+                        itemInfo = allItems[id];
+                        isLegendary = itemInfo.Rarity == ItemRarity.Legendary;
+                    }
+                    foreach (var item in playerItems[id])
+                    {
+                        if (excludeArmory && isLegendary &&
+                            item.Binding.HasValue && item.Binding.Value == ItemBinding.Account &&
+                            (itemInfo.Type == ItemType.Armor || itemInfo.Type == ItemType.Weapon || itemInfo.Type == ItemType.Trinket || itemInfo.Type == ItemType.UpgradeComponent))
+                        {
+                            // Exclude armory, item is account bound, and item is equipment
+                            continue;
+                        }
+                        playerMatchingItems.Add(item);
+                    }
+                }
+            }
+            Logger.Debug($"Matched against player items: {stopwatch.ElapsedMilliseconds}");
+
+            return playerMatchingItems;
+        }
     }
 }
