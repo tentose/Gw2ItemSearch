@@ -499,6 +499,9 @@
   <data name="Settings_RenderCacheMethod_Name" xml:space="preserve">
     <value>Item Icon Cache</value>
   </data>
+  <data name="ItemTooltip_Transmuted" xml:space="preserve">
+    <value>Transmuted to: </value>
+  </data>
   <data name="Settings_HideLegendaryArmory_Description" xml:space="preserve">
     <value>This includes mostly equipment from the legendary armory. Includes account-bound legendary armor, weapons, trinkets, and upgrade components.</value>
   </data>

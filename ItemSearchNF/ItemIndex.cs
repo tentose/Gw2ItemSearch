@@ -57,21 +57,18 @@ namespace ItemSearch
                 List<InventoryItem> items;
                 if (playerItems.TryGetValue(id, out items))
                 {
-                    bool isLegendary = false;
-                    StaticItemInfo itemInfo = null;
-                    if (excludeArmory)
-                    {
-                        itemInfo = allItems[id];
-                        isLegendary = itemInfo.Rarity == ItemRarity.Legendary;
-                    }
                     foreach (var item in playerItems[id])
                     {
-                        if (excludeArmory &&
-                            item.Binding.HasValue && item.Binding.Value == ItemBinding.Account &&
-                            (itemInfo.Type == ItemType.Armor || itemInfo.Type == ItemType.Weapon || itemInfo.Type == ItemType.Trinket || itemInfo.Type == ItemType.UpgradeComponent))
+                        if (excludeArmory && item.Binding.HasValue && item.Binding.Value == ItemBinding.Account && item.ItemInfo != null)
                         {
-                            // Exclude armory, item is account bound, and item is equipment
-                            continue;
+                            // Exclude armory, this is an account bound item with info we can check against.
+                            var info = item.ItemInfo;
+                            if (info.Rarity == ItemRarity.Legendary &&
+                                (info.Type == ItemType.Armor || info.Type == ItemType.Weapon || info.Type == ItemType.Trinket || info.Type == ItemType.UpgradeComponent))
+                            {
+                                // Is legendary and is equipment, let's skip this
+                                continue;
+                            }
                         }
                         playerMatchingItems.Add(item);
                     }
@@ -97,21 +94,18 @@ namespace ItemSearch
                 List<InventoryItem> items;
                 if (playerItems.TryGetValue(id, out items))
                 {
-                    bool isLegendary = false;
-                    StaticItemInfo itemInfo = null;
-                    if (excludeArmory)
-                    {
-                        itemInfo = allItems[id];
-                        isLegendary = itemInfo.Rarity == ItemRarity.Legendary;
-                    }
                     foreach (var item in playerItems[id])
                     {
-                        if (excludeArmory && isLegendary &&
-                            item.Binding.HasValue && item.Binding.Value == ItemBinding.Account &&
-                            (itemInfo.Type == ItemType.Armor || itemInfo.Type == ItemType.Weapon || itemInfo.Type == ItemType.Trinket || itemInfo.Type == ItemType.UpgradeComponent))
+                        if (excludeArmory && item.Binding.HasValue && item.Binding.Value == ItemBinding.Account && item.ItemInfo != null)
                         {
-                            // Exclude armory, item is account bound, and item is equipment
-                            continue;
+                            // Exclude armory, this is an account bound item with info we can check against.
+                            var info = item.ItemInfo;
+                            if (info.Rarity == ItemRarity.Legendary &&
+                                (info.Type == ItemType.Armor || info.Type == ItemType.Weapon || info.Type == ItemType.Trinket || info.Type == ItemType.UpgradeComponent))
+                            {
+                                // Is legendary and is equipment, let's skip this
+                                continue;
+                            }
                         }
                         playerMatchingItems.Add(item);
                     }

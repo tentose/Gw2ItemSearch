@@ -1078,6 +1078,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transmuted to: .
+        /// </summary>
+        internal static string ItemTooltip_Transmuted {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Transmuted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bank.
         /// </summary>
         internal static string ResultTitle_Bank {

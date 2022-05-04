@@ -30,9 +30,8 @@ namespace ItemSearch.Controls
             get => m_item;
             set => UpdateLabelValueAndWidth(value);
         }
-        private StaticItemInfo m_itemInfo;
 
-        public ItemTooltipView(InventoryItem item, StaticItemInfo itemInfo = null)
+        public ItemTooltipView(InventoryItem item)
         {
             m_itemNameLabel = new Label()
             {
@@ -44,15 +43,18 @@ namespace ItemSearch.Controls
                 Font = GameService.Content.DefaultFont16,
             };
 
-            m_itemParentLabel = new Label()
+            if (item.ParentItem != null)
             {
-                ShowShadow = true,
-                AutoSizeHeight = true,
-                AutoSizeWidth = false,
-                WrapText = true,
-                Width = WIDTH,
-                Font = GameService.Content.DefaultFont14,
-            };
+                m_itemParentLabel = new Label()
+                {
+                    ShowShadow = true,
+                    AutoSizeHeight = true,
+                    AutoSizeWidth = false,
+                    WrapText = true,
+                    Width = WIDTH,
+                    Font = GameService.Content.DefaultFont14,
+                };
+            }
 
             m_itemSourceLabel = new Label()
             {
@@ -64,15 +66,20 @@ namespace ItemSearch.Controls
                 Font = GameService.Content.DefaultFont14,
             };
 
-            m_itemInfo = itemInfo;
             this.Item = item;
         }
 
         protected override void Build(Container buildPanel)
         {
             m_itemNameLabel.Parent = buildPanel;
-            m_itemParentLabel.Parent = buildPanel;
+
+            if (m_itemParentLabel != null)
+            {
+                m_itemParentLabel.Parent = buildPanel;
+            }
+            
             m_itemSourceLabel.Parent = buildPanel;
+
             foreach (var label in m_itemUpgradeLabels)
             {
                 label.Parent = buildPanel;
@@ -85,15 +92,25 @@ namespace ItemSearch.Controls
 
             if (m_item != null)
             {
-                if (m_itemInfo != null)
+                // Name
+                if (m_item.ItemInfo != null)
                 {
-                    m_itemNameLabel.Text = m_itemInfo.Name;
-                    m_itemNameLabel.TextColor = RarityToColor(m_itemInfo.Rarity);
+                    m_itemNameLabel.Text = m_item.ItemInfo.Name;
+                }
+                else if(m_item.SkinInfo != null)
+                {
+                    m_itemNameLabel.Text = Strings.ItemTooltip_Transmuted + m_item.SkinInfo.Name;
                 }
                 else
                 {
                     Logger.Warn($"Cannot find info for {item.Id}");
                     m_itemNameLabel.Text = Strings.ItemTooltip_FallbackTextPrefix + item.Id;
+                }
+
+                // Name color
+                if (m_item.ItemInfo != null)
+                {
+                    m_itemNameLabel.TextColor = RarityToColor(m_item.ItemInfo.Rarity);
                 }
 
                 // Upgrades

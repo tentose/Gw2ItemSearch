@@ -70,7 +70,11 @@ namespace ItemSearch.Controls
             {
                 m_number = Math.Max(m_item.Count, m_item.Charges ?? 1).ToString();
             }
-            StaticItemInfo.AllItems.TryGetValue(m_item.Id, out m_itemInfo);
+
+            if (m_item.ItemInfo != null)
+            {
+                m_itemInfo = m_item.ItemInfo;
+            }
         }
 
         public void LoadItemImage()
@@ -121,7 +125,7 @@ namespace ItemSearch.Controls
         {
             if (Tooltip == null)
             {
-                Tooltip = new Tooltip(new ItemTooltipView(m_item, m_itemInfo));
+                Tooltip = new Tooltip(new ItemTooltipView(m_item));
             }
         }
 

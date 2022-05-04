@@ -80,9 +80,9 @@ namespace ItemSearch
                 return true;
             }
 
-            if (StaticItemInfo.AllItems.TryGetValue(item.Id, out var itemInfo))
+            if (item.ItemInfo != null)
             {
-                return FilterItem(itemInfo);
+                return FilterItem(item.ItemInfo);
             }
             return true;
         }
@@ -94,6 +94,11 @@ namespace ItemSearch
         /// <returns>True if item passes filter. False if item fails filter.</returns>
         public bool FilterItem(StaticItemInfo itemInfo)
         {
+            if (itemInfo == null)
+            {
+                return false;
+            }
+
             if (m_type != null && itemInfo.Type != m_type)
             {
                 return false;

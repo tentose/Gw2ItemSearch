@@ -42,6 +42,9 @@ namespace ItemSearch
         public string BoundTo { get; set; }
         public InventoryItem ParentItem { get; set; }
 
+        public StaticItemInfo ItemInfo { get; set; }
+        public StaticItemInfo SkinInfo { get; set; }
+
         public InventoryItem(AccountItem item, InventoryItemSource source, string character = null)
         {
             Source = source;
@@ -54,6 +57,15 @@ namespace ItemSearch
             Skin = item.Skin;
             Binding = item.Binding != null ? ConvertBinding(item.Binding) : null;
             BoundTo = item.BoundTo;
+
+            if (StaticItemInfo.AllItems.TryGetValue(Id, out var itemInfo))
+            {
+                ItemInfo = itemInfo;
+            }
+            if (Skin.HasValue && StaticItemInfo.AllItems.TryGetValue(Skin.Value, out var skinInfo))
+            {
+                SkinInfo = skinInfo;
+            }
         }
 
         public InventoryItem(CharacterEquipmentItem item, InventoryItemSource source, string character = null, int equipmentTab = -1)
@@ -67,6 +79,15 @@ namespace ItemSearch
             Binding = item.Binding != null ? ConvertBinding(item.Binding) : null;
             BoundTo = item.BoundTo;
             EquipmentTabId = equipmentTab;
+
+            if (StaticItemInfo.AllItems.TryGetValue(Id, out var itemInfo))
+            {
+                ItemInfo = itemInfo;
+            }
+            if (Skin.HasValue && StaticItemInfo.AllItems.TryGetValue(Skin.Value, out var skinInfo))
+            {
+                SkinInfo = skinInfo;
+            }
         }
 
         public InventoryItem(int itemId, InventoryItemSource source, string character = null)
@@ -74,6 +95,11 @@ namespace ItemSearch
             Source = source;
             Id = itemId;
             CharacterName = character;
+
+            if (StaticItemInfo.AllItems.TryGetValue(Id, out var itemInfo))
+            {
+                ItemInfo = itemInfo;
+            }
         }
 
         public InventoryItem(AccountMaterial item)
@@ -81,6 +107,11 @@ namespace ItemSearch
             Source = InventoryItemSource.MaterialStorage;
             Id = item.Id;
             Count = item.Count;
+
+            if (StaticItemInfo.AllItems.TryGetValue(Id, out var itemInfo))
+            {
+                ItemInfo = itemInfo;
+            }
         }
 
         public InventoryItem(CommerceDeliveryItem item)
@@ -88,6 +119,11 @@ namespace ItemSearch
             Source = InventoryItemSource.TradingPostDeliveryBox;
             Id = item.Id;
             Count = item.Count;
+
+            if (StaticItemInfo.AllItems.TryGetValue(Id, out var itemInfo))
+            {
+                ItemInfo = itemInfo;
+            }
         }
 
         public InventoryItem(CommerceTransactionCurrent item)
@@ -95,6 +131,11 @@ namespace ItemSearch
             Source = InventoryItemSource.TradingPostSellOrder;
             Id = item.ItemId;
             Count = item.Quantity;
+
+            if (StaticItemInfo.AllItems.TryGetValue(Id, out var itemInfo))
+            {
+                ItemInfo = itemInfo;
+            }
         }
 
         public InventoryItem()
