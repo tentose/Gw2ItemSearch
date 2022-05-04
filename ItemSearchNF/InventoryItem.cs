@@ -148,7 +148,16 @@ namespace ItemSearch
             InventoryItem item = new InventoryItem(itemId, parent.Source, parent.CharacterName);
             item.ParentItem = parent;
             item.EquipmentTabId = parent.EquipmentTabId;
-            item.Binding = parent.Binding;
+            if (item.ItemInfo != null && item.ItemInfo.Rarity == ItemRarity.Legendary && parent.Binding == ItemBinding.Character)
+            {
+                // If parent item is character bound but this item is legendary, set its binding to account
+                // Applies to legendary runes and sigils.
+                item.Binding = ItemBinding.Account;
+            }
+            else
+            {
+                item.Binding = parent.Binding;
+            }
             return item;
         }
 
