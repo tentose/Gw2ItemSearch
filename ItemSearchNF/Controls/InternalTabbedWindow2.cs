@@ -128,14 +128,30 @@ namespace ItemSearch.Controls
                     spriteBatch.DrawOnCtrl(this, _textureTabActive, tabBounds);
                 }
 
-                tab.Draw(this,
-                         spriteBatch,
-                         new Rectangle(this.SidebarActiveBounds.X,
-                                       tabTop,
-                                       this.SidebarActiveBounds.Width,
-                                       TAB_HEIGHT),
-                         selected,
-                         hovered);
+                SearchTab searchTab = tab as SearchTab;
+                if (searchTab != null)
+                {
+                    searchTab.DrawSearchTab(this,
+                             spriteBatch,
+                             new Rectangle(this.SidebarActiveBounds.X,
+                                           tabTop,
+                                           this.SidebarActiveBounds.Width,
+                                           TAB_HEIGHT),
+                             selected,
+                             hovered);
+                }
+                else
+                {
+                    tab.Draw(this,
+                             spriteBatch,
+                             new Rectangle(this.SidebarActiveBounds.X,
+                                           tabTop,
+                                           this.SidebarActiveBounds.Width,
+                                           TAB_HEIGHT),
+                             selected,
+                             hovered);
+                }
+
 
                 tabIndex++;
             }

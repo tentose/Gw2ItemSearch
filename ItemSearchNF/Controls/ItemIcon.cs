@@ -58,6 +58,14 @@ namespace ItemSearch.Controls
             get => m_itemInfo;
         }
 
+        public bool ShowSetSearchIconContextMenu { get; set; }
+
+        public event EventHandler SetAsSearchIcon;
+        private void OnSetAsSearchIcon()
+        {
+            SetAsSearchIcon?.Invoke(this, EventArgs.Empty);
+        }
+
         private string m_number = "";
         private bool m_shouldLoadImage = true;
 
@@ -118,7 +126,18 @@ namespace ItemSearch.Controls
         public void BuildAndShowContextMenu()
         {
             m_contextMenu = new ContextMenuStrip();
+            if (ShowSetSearchIconContextMenu)
+            {
+                var item = m_contextMenu.AddMenuItem(Strings.ItemContextMenu_SetAsSearchIcon);
+                item.Click += Item_Click;
+            }
+
             m_contextMenu.Show(this);
+        }
+
+        private void Item_Click(object sender, MouseEventArgs e)
+        {
+            OnSetAsSearchIcon();
         }
 
         protected override void OnMouseEntered(MouseEventArgs e)

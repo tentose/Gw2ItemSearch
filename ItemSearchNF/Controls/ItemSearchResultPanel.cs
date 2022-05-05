@@ -16,9 +16,10 @@ namespace ItemSearch.Controls
         private Dictionary<InventoryItemSource, Panel> m_accountSourcePanels = new Dictionary<InventoryItemSource, Panel>();
         private Dictionary<string, Panel> m_characterSourcePanels = new Dictionary<string, Panel>();
         private SearchFilter m_filter;
+        private SavedSearch m_savedSearch;
         private List<ItemIcon> m_itemIcons = new List<ItemIcon>();
 
-        public ItemSearchResultPanel(SearchFilter filter)
+        public ItemSearchResultPanel(SearchFilter filter, SavedSearch savedSearch)
         {
             CanScroll = true;
 
@@ -32,6 +33,8 @@ namespace ItemSearch.Controls
 
             m_filter = filter;
             m_filter.FilterChanged += M_filter_FilterChanged;
+
+            m_savedSearch = savedSearch;
 
             m_initialized = true;
         }
@@ -60,15 +63,28 @@ namespace ItemSearch.Controls
             // Build the list of ItemIcons
             m_itemIcons.ForEach(item => item.Dispose());
             m_itemIcons.Clear();
-
-            if (items != null)
+            m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)
             {
-                m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)));
+                ShowSetSearchIconContextMenu = m_savedSearch != null,
+            }));
+            foreach (var icon in m_itemIcons)
+            {
+                icon.SetAsSearchIcon += Icon_SetAsSearchIcon;
             }
 
             DisplayItemIcons();
 
             Invalidate();
+        }
+
+        private void Icon_SetAsSearchIcon(object sender, EventArgs e)
+        {
+            ItemIcon icon = sender as ItemIcon;
+            if (icon != null && m_savedSearch != null)
+            {
+                m_savedSearch.TabIconUrl = icon.ItemInfo.IconUrl;
+                m_savedSearch.UpdateSearch();
+            }
         }
 
         private void DisplayItemIcons()

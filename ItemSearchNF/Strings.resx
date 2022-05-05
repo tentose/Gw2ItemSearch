@@ -521,4 +521,7 @@
   <data name="Settings_HideLegendaryArmory_Name" xml:space="preserve">
     <value>Hide account-bound legendary equipment</value>
   </data>
+  <data name="ItemContextMenu_SetAsSearchIcon" xml:space="preserve">
+    <value>Set as icon for this search</value>
+  </data>
 </root>

@@ -210,6 +210,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiHelper.cs" />
+    <Compile Include="Controls\IconToggleButton.cs" />
+    <Compile Include="Controls\SearchTab.cs" />
     <Compile Include="RenderTextureHelper.cs" />
     <Compile Include="Controls\SearchOptionsView.cs" />
     <Compile Include="Controls\IconButton.cs" />

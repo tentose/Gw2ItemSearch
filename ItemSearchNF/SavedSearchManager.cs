@@ -1,9 +1,8 @@
 ﻿using Blish_HUD;
+using MonoGame.Extended.Collections;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,12 +16,10 @@ namespace ItemSearch
 
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
 
-        public ReadOnlyObservableCollection<SavedSearch> SavedSearchList { get; private set; }
-        private ObservableCollection<SavedSearch> m_savedSearches;
+        public ObservableCollection<SavedSearch> SavedSearchList { get; private set; }
         public SavedSearchManager()
         {
-            m_savedSearches = new ObservableCollection<SavedSearch>();
-            SavedSearchList = new ReadOnlyObservableCollection<SavedSearch>(m_savedSearches);
+            SavedSearchList = new ObservableCollection<SavedSearch>();
         }
 
         public async Task Initialize()
@@ -46,7 +43,7 @@ namespace ItemSearch
                 foreach (var save in savedSearches)
                 {
                     save.Updated += Save_Updated;
-                    m_savedSearches.Add(save);
+                    SavedSearchList.Add(save);
                 }
             }
             catch (Exception e)
@@ -67,7 +64,7 @@ namespace ItemSearch
             string savesPath = Path.Combine(ItemSearchModule.Instance.SaveDirectory, SAVED_SEARCH_FILE_NAME);
             try
             {
-                List<SavedSearch> savedSearches = m_savedSearches.ToList();
+                List<SavedSearch> savedSearches = SavedSearchList.ToList();
                 await Task.Run(() =>
                 {
                     File.WriteAllText(savesPath, JsonConvert.SerializeObject(savedSearches));
@@ -81,25 +78,16 @@ namespace ItemSearch
 
         public void AddSavedSearch(SavedSearch savedSearch)
         {
-            m_savedSearches.Add(savedSearch);
+            SavedSearchList.Add(savedSearch);
+            savedSearch.Updated += Save_Updated;
+            _ = PersistSaves();
         }
 
         public void RemoveSavedSearch(SavedSearch savedSearch)
         {
-            m_savedSearches.Remove(savedSearch);
+            SavedSearchList.Remove(savedSearch);
+            _ = PersistSaves();
         }
     }
 
-    public static class ReadOnlyObservableCollectionsExtensions
-    {
-        public static void RegisterCollectionChanged(this INotifyCollectionChanged collection, NotifyCollectionChangedEventHandler handler)
-        {
-            collection.CollectionChanged += handler;
-        }
-
-        public static void UnregisterCollectionChanged(this INotifyCollectionChanged collection, NotifyCollectionChangedEventHandler handler)
-        {
-            collection.CollectionChanged -= handler;
-        }
-    }
 }

@@ -26,6 +26,7 @@ namespace ItemSearch.Controls
         private SearchOptionsView m_searchFilterView;
         private SearchFilter m_searchFilter;
         private SavedSearch m_savedSearch;
+        private IconToggleButon m_saveSearchButton;
 
         private ItemIndex m_searchEngine;
         private Timer m_searchDebounceTimer;
@@ -38,13 +39,24 @@ namespace ItemSearch.Controls
 
         protected override void Build(Container buildPanel)
         {
+            m_saveSearchButton = new IconToggleButon()
+            {
+                Size = new Point(FILTER_BUTTON_SIZE, FILTER_BUTTON_SIZE),
+                CheckedIcon = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\SavedIcon.png"),
+                UncheckedIcon = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\NotSavedIcon.png"),
+                IsChecked = m_savedSearch != null,
+                DarkenUnlessHovered = true,
+                Parent = buildPanel,
+            };
+            m_saveSearchButton.CheckChanged += M_saveSearchButton_CheckChanged;
+
             m_searchQueryBox = new TextBox()
             {
-                Parent = buildPanel,
                 Location = new Point(0, 0),
                 Size = new Point(358, 43),
                 PlaceholderText = string.Format(Strings.SearchWindow_SearchPlaceholder, MIN_CHARACTERS_TO_SEARCH),
                 Font = GameService.Content.DefaultFont16,
+                Parent = buildPanel,
             };
             m_searchQueryBox.EnterPressed += M_searchQueryBox_EnterPressed;
             m_searchQueryBox.InputFocusChanged += M_searchQueryBox_InputFocusChanged;
@@ -55,28 +67,28 @@ namespace ItemSearch.Controls
 
             m_searchFilterToggleButton = new IconButon()
             {
-                Parent = buildPanel,
                 Size = new Point(FILTER_BUTTON_SIZE, FILTER_BUTTON_SIZE),
                 Icon = ItemSearchModule.Instance.ContentsManager.GetTexture(@"Textures\FilterButtonIcon.png"),
                 DarkenUnlessHovered = true,
+                Parent = buildPanel,
             };
             m_searchFilterToggleButton.Click += M_searchFilterToggleButton_Click;
 
             m_searchFilter = new SearchFilter();
             m_searchFilter.FilterChanged += M_searchFilter_FilterChanged;
-            m_searchFilterView = new SearchOptionsView(m_searchFilter, m_savedSearch);
+            m_searchFilterView = new SearchOptionsView(m_searchFilter);
             m_searchFilterPanel = new ViewContainer()
             {
-                Parent = buildPanel,
                 HeightSizingMode = SizingMode.AutoSize,
                 ZIndex = 100,
                 Width = 220,
+                Parent = buildPanel,
             };
 
-            m_resultPanel = new ItemSearchResultPanel(m_searchFilter)
+            m_resultPanel = new ItemSearchResultPanel(m_searchFilter, m_savedSearch)
             {
-                Parent = buildPanel,
                 Size = new Point(400, 400),
+                Parent = buildPanel,
             };
 
             RepositionObjects();
@@ -84,8 +96,31 @@ namespace ItemSearch.Controls
 
             if (m_savedSearch != null)
             {
+                // This is a saved search, populate the search criteria and search immediately
                 m_searchQueryBox.Text = m_savedSearch.Query ?? "";
+                m_searchDebounceTimer.Stop();
                 m_searchFilter.CopyFrom(m_savedSearch.Filter);
+                _ = PerformSearchQuery(m_searchQueryBox.Text);
+            }
+        }
+
+        private void M_saveSearchButton_CheckChanged(object sender, bool isChecked)
+        {
+            if (isChecked)
+            {
+                // Should save
+                if (m_savedSearch == null)
+                {
+                    SavedSearch savedSearch = new SavedSearch();
+                    savedSearch.Filter = m_searchFilter;
+                    savedSearch.Query = m_searchQueryBox.Text;
+                    ItemSearchModule.Instance.AddSavedSearch(savedSearch);
+                }
+            }
+            else if (m_savedSearch != null)
+            {
+                // Should remove
+                ItemSearchModule.Instance.RemoveSavedSearch(m_savedSearch);
             }
         }
 
@@ -152,11 +187,16 @@ namespace ItemSearch.Controls
         private void RepositionObjects()
         {
             var parent = m_searchQueryBox.Parent;
-            m_searchQueryBox.Size = new Point(parent.ContentRegion.Width - CONTENT_X_MARGIN - FILTER_BUTTON_SIZE - CONTENT_X_MARGIN, m_searchQueryBox.Size.Y);
-            m_searchFilterToggleButton.Location = m_searchQueryBox.Location + new Point(m_searchQueryBox.Width + CONTENT_X_MARGIN, (m_searchQueryBox.Height - m_searchFilterToggleButton.Height) / 2);
-            m_searchFilterPanel.Location = m_searchQueryBox.Location + new Point(parent.ContentRegion.Width - m_searchFilterPanel.Width, m_searchQueryBox.Height);
-            m_resultPanel.Location = m_searchQueryBox.Location + new Point(0, m_searchQueryBox.Height + CONTENT_Y_PADDING);
-            m_resultPanel.Size = new Point(parent.ContentRegion.Width - CONTENT_X_MARGIN, parent.ContentRegion.Height - CONTENT_Y_PADDING - m_resultPanel.Top);
+            if (parent != null)
+            {
+                m_searchQueryBox.Location = new Point(m_saveSearchButton.Width + CONTENT_X_MARGIN, 0);
+                m_searchQueryBox.Size = new Point(parent.ContentRegion.Width - CONTENT_X_MARGIN - FILTER_BUTTON_SIZE * 2 - CONTENT_X_MARGIN * 2, m_searchQueryBox.Size.Y);
+                m_saveSearchButton.Location = new Point(0, (m_searchQueryBox.Height - m_saveSearchButton.Height) / 2);
+                m_searchFilterToggleButton.Location = m_searchQueryBox.Location + new Point(m_searchQueryBox.Width + CONTENT_X_MARGIN, (m_searchQueryBox.Height - m_searchFilterToggleButton.Height) / 2);
+                m_searchFilterPanel.Location = m_searchQueryBox.Location + new Point(parent.ContentRegion.Width - m_searchFilterPanel.Width - m_saveSearchButton.Width - CONTENT_X_MARGIN, m_searchQueryBox.Height);
+                m_resultPanel.Location = new Point(0, m_searchQueryBox.Height + CONTENT_Y_PADDING);
+                m_resultPanel.Size = new Point(parent.ContentRegion.Width - CONTENT_X_MARGIN, parent.ContentRegion.Height - CONTENT_Y_PADDING - m_resultPanel.Top);
+            }
         }
 
         private void M_searchQueryBox_InputFocusChanged(object sender, ValueEventArgs<bool> e)

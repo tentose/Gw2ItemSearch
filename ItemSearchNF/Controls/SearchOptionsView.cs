@@ -38,12 +38,9 @@ namespace ItemSearch.Controls
 
         private SearchFilter m_searchFilter;
 
-        private SavedSearch m_savedSearch;
-
-        public SearchOptionsView(SearchFilter filter, SavedSearch savedSearch)
+        public SearchOptionsView(SearchFilter filter)
         {
             m_searchFilter = filter;
-            m_savedSearch = savedSearch;
         }
 
         protected override void Build(Container buildPanel)
@@ -142,35 +139,7 @@ namespace ItemSearch.Controls
             };
             m_clearFiltersButton.Click += M_clearFiltersButton_Click;
 
-            // Save search
-            m_saveSearchButton = new StandardButton()
-            {
-                Parent = m_panel,
-                Text = Strings.SearchOptionsPanel_Save,
-            };
-            m_saveSearchButton.Click += M_saveSearchButton_Click; ;
-
-            if (m_savedSearch != null)
-            {
-                m_removedSavedSearchButton = new StandardButton()
-                {
-                    Parent = m_panel,
-                    Text = Strings.SearchOptionsPanel_Remove,
-                };
-                m_removedSavedSearchButton.Click += M_removedSavedSearchButton_Click; ;
-            }
-
             m_panel.Parent = buildPanel;
-        }
-
-        private void M_removedSavedSearchButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            ItemSearchModule.Instance.RemoveSavedSearch(m_savedSearch);
-        }
-
-        private void M_saveSearchButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
-        {
-            ItemSearchModule.Instance.AddSavedSearch(m_savedSearch);
         }
 
         private void M_clearFiltersButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)

@@ -1015,6 +1015,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set as icon for this search.
+        /// </summary>
+        internal static string ItemContextMenu_SetAsSearchIcon {
+            get {
+                return ResourceManager.GetString("ItemContextMenu_SetAsSearchIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         internal static string ItemTooltip_CharacterEquipment {

@@ -8,10 +8,11 @@ using Blish_HUD.Input;
 using Blish_HUD.Graphics;
 using Blish_HUD.Controls;
 using Blish_HUD;
+using System;
 
 namespace ItemSearch.Controls
 {
-    public class IconButon : Control
+    public class IconToggleButon : Control
     {
         private const float DARKEN_MULTIPLIER = 0.8f;
 
@@ -27,52 +28,67 @@ namespace ItemSearch.Controls
             }
         }
 
-        private AsyncTexture2D m_icon;
-        public AsyncTexture2D Icon
+        private AsyncTexture2D m_uncheckedIcon;
+        public AsyncTexture2D UncheckedIcon
         {
-            get => m_icon;
-            set => SetProperty(ref m_icon, value);
+            get => m_uncheckedIcon;
+            set => SetProperty(ref m_uncheckedIcon, value);
         }
 
-        private AsyncTexture2D m_hoverIcon;
-        public AsyncTexture2D HoverIcon
+        private AsyncTexture2D m_checkedIcon;
+        public AsyncTexture2D CheckedIcon
         {
-            get => m_hoverIcon;
-            set => SetProperty(ref m_hoverIcon, value);
+            get => m_checkedIcon;
+            set => SetProperty(ref m_checkedIcon, value);
         }
 
-        public IconButon()
+        private bool m_isChecked;
+        public bool IsChecked
+        {
+            get => m_isChecked;
+            set
+            {
+                m_isChecked = value;
+                OnCheckChanged(m_isChecked);
+            }
+        }
+
+        public event EventHandler<bool> CheckChanged;
+        private void OnCheckChanged(bool isChecked)
+        {
+            CheckChanged?.Invoke(this, isChecked);
+        }
+
+        public IconToggleButon()
         {
         }
 
-        public IconButon(AsyncTexture2D icon) : this()
+        public IconToggleButon(AsyncTexture2D uncheckedIcon, AsyncTexture2D checkedIcon)
         {
-            m_icon = icon;
-        }
-
-        public IconButon(AsyncTexture2D icon, AsyncTexture2D hoverIcon) : this(icon)
-        {
-            m_hoverIcon = hoverIcon;
+            m_uncheckedIcon = uncheckedIcon;
+            m_checkedIcon = checkedIcon;
         }
 
         protected override void OnClick(MouseEventArgs e)
         {
             Content.PlaySoundEffectByName(@"button-click");
 
+            IsChecked = !IsChecked;
+
             base.OnClick(e);
         }
 
         protected override void Paint(SpriteBatch spriteBatch, Rectangle bounds)
         {
-            if (m_icon != null)
+            if (m_checkedIcon != null && m_uncheckedIcon != null)
             {
                 if (this.MouseOver && this.Enabled)
                 {
-                    spriteBatch.DrawOnCtrl(this, m_hoverIcon ?? m_icon, bounds);
+                    spriteBatch.DrawOnCtrl(this, m_isChecked ? m_checkedIcon : m_uncheckedIcon, bounds);
                 }
                 else
                 {
-                    spriteBatch.DrawOnCtrl(this, m_icon, bounds, m_multiplierWhenNotHovered);
+                    spriteBatch.DrawOnCtrl(this, m_isChecked ? m_checkedIcon : m_uncheckedIcon, bounds, m_multiplierWhenNotHovered);
                 }
             }
         }
