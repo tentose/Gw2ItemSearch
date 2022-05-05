@@ -1015,15 +1015,6 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clear.
-        /// </summary>
-        internal static string FilterPanel_Clear {
-            get {
-                return ResourceManager.GetString("FilterPanel_Clear", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         internal static string ItemTooltip_CharacterEquipment {
@@ -1146,6 +1137,42 @@ namespace ItemSearch {
         internal static string ResultTitle_TPSellOrder {
             get {
                 return ResourceManager.GetString("ResultTitle_TPSellOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string SearchOptionsPanel_Clear {
+            get {
+                return ResourceManager.GetString("SearchOptionsPanel_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete saved search.
+        /// </summary>
+        internal static string SearchOptionsPanel_Remove {
+            get {
+                return ResourceManager.GetString("SearchOptionsPanel_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save search.
+        /// </summary>
+        internal static string SearchOptionsPanel_Save {
+            get {
+                return ResourceManager.GetString("SearchOptionsPanel_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search all items.
+        /// </summary>
+        internal static string SearchWindow_DefaultTabName {
+            get {
+                return ResourceManager.GetString("SearchWindow_DefaultTabName", resourceCulture);
             }
         }
         

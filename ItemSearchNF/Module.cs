@@ -22,6 +22,7 @@ namespace ItemSearch
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
 
         private const string CACHE_DIRECTORY = "itemsearchcache";
+        private const string SAVE_DIRECTORY = "itemsearchsave";
         private const string STATIC_ITEMS_FILE_NAME = "all_items.json";
         private const string CACHE_VERSION_FILE_NAME = "cache_version.json";
         private const string RENDER_CACHE_FILE_NAME = "render_cache";
@@ -36,10 +37,13 @@ namespace ItemSearch
         public string CacheDirectory { get; private set; }
         public string LocaleSpecificCacheDirectory { get; private set; }
 
+        public string SaveDirectory { get; private set; }
+
         private ItemIndex m_searchEngine;
         private ItemSearchWindow m_searchWindow;
         private CornerIcon m_searchIcon;
         private Gw2Sharp.Gw2Client m_gw2sharpClientForRender;
+        private SavedSearchManager m_savedSearchManager;
 
         public static ItemSearchModule Instance;
 
@@ -108,6 +112,10 @@ namespace ItemSearch
             CacheDirectory = DirectoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
             EnsureCacheVersion();
 
+            SaveDirectory = DirectoriesManager.GetFullDirectoryPath(SAVE_DIRECTORY);
+            m_savedSearchManager = new SavedSearchManager();
+            await m_savedSearchManager.Initialize();
+
             // Static items
             m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_StaticItems;
 
@@ -157,7 +165,7 @@ namespace ItemSearch
             RenderClient = m_gw2sharpClientForRender.WebApi.Render;
 
             // Controls
-            m_searchWindow = new ItemSearchWindow(ContentsManager, m_searchEngine);
+            m_searchWindow = new ItemSearchWindow(ContentsManager, m_searchEngine, m_savedSearchManager);
             m_searchIcon.Click += delegate { m_searchWindow.ToggleWindow(); };
             m_searchIcon.LoadingMessage = null;
             Logger.Info($"LoadAsync: {stopwatch.ElapsedMilliseconds}");
@@ -191,6 +199,16 @@ namespace ItemSearch
             }
             
             Instance = null;
+        }
+
+        public void AddSavedSearch(SavedSearch savedSearch)
+        {
+            m_savedSearchManager.AddSavedSearch(savedSearch);
+        }
+
+        public void RemoveSavedSearch(SavedSearch savedSearch)
+        {
+            m_savedSearchManager.RemoveSavedSearch(savedSearch);
         }
 
         private void EnsureCacheVersion()

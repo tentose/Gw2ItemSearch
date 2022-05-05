@@ -50,6 +50,17 @@ namespace ItemSearch
             }
         }
 
+        public void CopyFrom(SearchFilter other)
+        {
+            if (m_type != other.m_type || m_subType != other.m_subType || m_rarity != other.m_rarity)
+            {
+                m_type = other.m_type;
+                m_subType = other.m_subType;
+                m_rarity = other.m_rarity;
+                OnFilterChanged();
+            }
+        }
+
         public void Clear()
         {
             if (m_type != null || m_subType != null || m_rarity != null)

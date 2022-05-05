@@ -17,7 +17,7 @@
       "url": "https://github.com/tentose"
     }
   ],
-  "directories": [ "itemsearchcache" ],
+  "directories": [ "itemsearchcache", "itemsearchsave" ],
   "enabled_without_gw2": false,
   "api_permissions": {
     "account": {

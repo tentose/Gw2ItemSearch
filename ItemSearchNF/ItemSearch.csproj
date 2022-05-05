@@ -210,7 +210,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiHelper.cs" />
-    <Compile Include="Controls\FiltersView.cs" />
+    <Compile Include="RenderTextureHelper.cs" />
+    <Compile Include="Controls\SearchOptionsView.cs" />
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\InternalTabbedWindow2.cs" />
     <Compile Include="Controls\InternalWindowBase2.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceStrings.cs" />
     <Compile Include="SavedSearch.cs" />
+    <Compile Include="SavedSearchManager.cs" />
     <Compile Include="SearchFilter.cs" />
     <Compile Include="SearchGlobalSettings.cs" />
     <Compile Include="StaticItemInfo.cs" />

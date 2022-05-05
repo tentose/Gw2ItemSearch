@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ItemSearch.Controls
 {
-    public class FiltersView : View
+    public class SearchOptionsView : View
     {
         private const int DROPDOWN_WIDTH = 200;
 
@@ -18,6 +18,8 @@ namespace ItemSearch.Controls
         private Dropdown m_subtypeDropdown;
         private Dropdown m_rarityDropdown;
         private StandardButton m_clearFiltersButton;
+        private StandardButton m_saveSearchButton;
+        private StandardButton m_removedSavedSearchButton;
 
         // For looking up string selected in Dropdown and convert it to an ItemType
         private Dictionary<string, ItemType> m_itemTypeStringToItemType;
@@ -36,9 +38,12 @@ namespace ItemSearch.Controls
 
         private SearchFilter m_searchFilter;
 
-        public FiltersView(SearchFilter filter)
+        private SavedSearch m_savedSearch;
+
+        public SearchOptionsView(SearchFilter filter, SavedSearch savedSearch)
         {
             m_searchFilter = filter;
+            m_savedSearch = savedSearch;
         }
 
         protected override void Build(Container buildPanel)
@@ -133,11 +138,39 @@ namespace ItemSearch.Controls
             m_clearFiltersButton = new StandardButton()
             {
                 Parent = m_panel,
-                Text = Strings.FilterPanel_Clear,
+                Text = Strings.SearchOptionsPanel_Clear,
             };
             m_clearFiltersButton.Click += M_clearFiltersButton_Click;
 
+            // Save search
+            m_saveSearchButton = new StandardButton()
+            {
+                Parent = m_panel,
+                Text = Strings.SearchOptionsPanel_Save,
+            };
+            m_saveSearchButton.Click += M_saveSearchButton_Click; ;
+
+            if (m_savedSearch != null)
+            {
+                m_removedSavedSearchButton = new StandardButton()
+                {
+                    Parent = m_panel,
+                    Text = Strings.SearchOptionsPanel_Remove,
+                };
+                m_removedSavedSearchButton.Click += M_removedSavedSearchButton_Click; ;
+            }
+
             m_panel.Parent = buildPanel;
+        }
+
+        private void M_removedSavedSearchButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
+        {
+            ItemSearchModule.Instance.RemoveSavedSearch(m_savedSearch);
+        }
+
+        private void M_saveSearchButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
+        {
+            ItemSearchModule.Instance.AddSavedSearch(m_savedSearch);
         }
 
         private void M_clearFiltersButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)

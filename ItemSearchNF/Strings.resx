@@ -491,7 +491,7 @@
   <data name="CornerIcon_HoverTooltip" xml:space="preserve">
     <value>Item Search</value>
   </data>
-  <data name="FilterPanel_Clear" xml:space="preserve">
+  <data name="SearchOptionsPanel_Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
   <data name="Settings_RenderCacheMethod_Description" xml:space="preserve">
@@ -505,6 +505,15 @@
   </data>
   <data name="ItemTooltip_Transmuted" xml:space="preserve">
     <value>Transmuted to: </value>
+  </data>
+  <data name="SearchOptionsPanel_Remove" xml:space="preserve">
+    <value>Delete saved search</value>
+  </data>
+  <data name="SearchOptionsPanel_Save" xml:space="preserve">
+    <value>Save search</value>
+  </data>
+  <data name="SearchWindow_DefaultTabName" xml:space="preserve">
+    <value>Search all items</value>
   </data>
   <data name="Settings_HideLegendaryArmory_Description" xml:space="preserve">
     <value>This includes mostly equipment from the legendary armory. Includes account-bound legendary armor, weapons, trinkets, and upgrade components.</value>

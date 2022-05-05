@@ -23,15 +23,17 @@ namespace ItemSearch.Controls
         private TextBox m_searchQueryBox;
         private IconButon m_searchFilterToggleButton;
         private ViewContainer m_searchFilterPanel;
-        private FiltersView m_searchFilterView;
+        private SearchOptionsView m_searchFilterView;
         private SearchFilter m_searchFilter;
+        private SavedSearch m_savedSearch;
 
         private ItemIndex m_searchEngine;
         private Timer m_searchDebounceTimer;
 
-        public ItemSearchView(ItemIndex searchEngine)
+        public ItemSearchView(ItemIndex searchEngine, SavedSearch savedSearch = null)
         {
             m_searchEngine = searchEngine;
+            m_savedSearch = savedSearch;
         }
 
         protected override void Build(Container buildPanel)
@@ -62,7 +64,7 @@ namespace ItemSearch.Controls
 
             m_searchFilter = new SearchFilter();
             m_searchFilter.FilterChanged += M_searchFilter_FilterChanged;
-            m_searchFilterView = new FiltersView(m_searchFilter);
+            m_searchFilterView = new SearchOptionsView(m_searchFilter, m_savedSearch);
             m_searchFilterPanel = new ViewContainer()
             {
                 Parent = buildPanel,
@@ -79,6 +81,12 @@ namespace ItemSearch.Controls
 
             RepositionObjects();
             buildPanel.Resized += BuildPanel_Resized;
+
+            if (m_savedSearch != null)
+            {
+                m_searchQueryBox.Text = m_savedSearch.Query ?? "";
+                m_searchFilter.CopyFrom(m_savedSearch.Filter);
+            }
         }
 
         private void M_searchFilter_FilterChanged(object sender, EventArgs e)
