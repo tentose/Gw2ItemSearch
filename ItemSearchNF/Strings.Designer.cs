@@ -1159,7 +1159,7 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search....
+        ///   Looks up a localized string similar to Search... ({0} characters minimum).
         /// </summary>
         internal static string SearchWindow_SearchPlaceholder {
             get {
@@ -1213,7 +1213,10 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to How item icons are cached. \nFile: icons are cached as files on disk. \nMemory: icons are cached in memory. Each time Blishhud restarts the cache will be cleared. \nNone: No caching..
+        ///   Looks up a localized string similar to How item icons are cached:
+        ///- File: icons are cached as files on disk. 
+        ///- Memory: icons are cached in memory. Each time Blish Hud restarts the cache will be cleared. 
+        ///- None: No caching..
         /// </summary>
         internal static string Settings_RenderCacheMethod_Description {
             get {

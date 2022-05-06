@@ -60,7 +60,11 @@ namespace ItemSearch.Controls
             // Build the list of ItemIcons
             m_itemIcons.ForEach(item => item.Dispose());
             m_itemIcons.Clear();
-            m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)));
+
+            if (items != null)
+            {
+                m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)));
+            }
 
             DisplayItemIcons();
 

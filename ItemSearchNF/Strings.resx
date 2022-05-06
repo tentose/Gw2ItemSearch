@@ -173,7 +173,8 @@
     <value>Search</value>
   </data>
   <data name="SearchWindow_SearchPlaceholder" xml:space="preserve">
-    <value>Search...</value>
+    <value>Search... ({0} characters minimum)</value>
+    <comment>{0} replaced with min characters before a search is performed</comment>
   </data>
   <data name="SearchWindow_Title" xml:space="preserve">
     <value>Item Search</value>
@@ -494,7 +495,10 @@
     <value>Clear</value>
   </data>
   <data name="Settings_RenderCacheMethod_Description" xml:space="preserve">
-    <value>How item icons are cached. \nFile: icons are cached as files on disk. \nMemory: icons are cached in memory. Each time Blishhud restarts the cache will be cleared. \nNone: No caching.</value>
+    <value>How item icons are cached:
+- File: icons are cached as files on disk. 
+- Memory: icons are cached in memory. Each time Blish Hud restarts the cache will be cleared. 
+- None: No caching.</value>
   </data>
   <data name="Settings_RenderCacheMethod_Name" xml:space="preserve">
     <value>Item Icon Cache</value>

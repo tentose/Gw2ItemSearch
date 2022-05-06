@@ -17,6 +17,7 @@ namespace ItemSearch.Controls
         private const int CONTENT_Y_PADDING = 5;
         private const int FILTER_BUTTON_SIZE = 32;
         private const int SEARCH_DEBOUNCE_MILLIS = 500;
+        private const int MIN_CHARACTERS_TO_SEARCH = 3;
 
         private ItemSearchResultPanel m_resultPanel;
         private TextBox m_searchQueryBox;
@@ -40,7 +41,7 @@ namespace ItemSearch.Controls
                 Parent = buildPanel,
                 Location = new Point(0, 0),
                 Size = new Point(358, 43),
-                PlaceholderText = Strings.SearchWindow_SearchPlaceholder,
+                PlaceholderText = string.Format(Strings.SearchWindow_SearchPlaceholder, MIN_CHARACTERS_TO_SEARCH),
                 Font = GameService.Content.DefaultFont16,
             };
             m_searchQueryBox.EnterPressed += M_searchQueryBox_EnterPressed;
@@ -128,7 +129,11 @@ namespace ItemSearch.Controls
         private void M_searchQueryBox_TextChanged(object sender, EventArgs e)
         {
             m_searchDebounceTimer.Stop();
-            m_searchDebounceTimer.Start();
+
+            if (m_searchQueryBox.Text.Length >= MIN_CHARACTERS_TO_SEARCH)
+            {
+                m_searchDebounceTimer.Start();
+            }
         }
 
         private void BuildPanel_Resized(object sender, ResizedEventArgs e)
@@ -167,7 +172,7 @@ namespace ItemSearch.Controls
         private void M_searchQueryBox_EnterPressed(object sender, EventArgs e)
         {
             string query = m_searchQueryBox.Text;
-            if (query.Length >= 3)
+            if (query.Length >= MIN_CHARACTERS_TO_SEARCH)
             {
                 m_searchDebounceTimer.Stop();
                 _ = PerformSearchQuery(query);
@@ -176,7 +181,7 @@ namespace ItemSearch.Controls
 
         private async Task PerformSearchQuery(string query)
         {
-            if (query.Length >= 3)
+            if (query.Length >= MIN_CHARACTERS_TO_SEARCH)
             {
                 var result = await m_searchEngine.Search(query);
                 m_resultPanel.SetSearchResult(result);
