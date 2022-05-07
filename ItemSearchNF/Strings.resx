@@ -549,7 +549,7 @@
     <value>Default stack grouping</value>
   </data>
   <data name="Settings_HideEquippedBags_Description" xml:space="preserve">
-    <value>Hide bags equipped on characters</value>
+    <value>Hide inventory bags equipped on characters from search results</value>
   </data>
   <data name="Settings_HideEquippedBags_Name" xml:space="preserve">
     <value>Hide equipped bags</value>

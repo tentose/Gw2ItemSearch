@@ -1279,7 +1279,7 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide bags equipped on characters.
+        ///   Looks up a localized string similar to Hide inventory bags equipped on characters from search results.
         /// </summary>
         internal static string Settings_HideEquippedBags_Description {
             get {
