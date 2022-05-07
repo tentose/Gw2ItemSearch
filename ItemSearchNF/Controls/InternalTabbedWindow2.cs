@@ -82,7 +82,7 @@ namespace ItemSearch.Controls
 
         private void UpdateTabStates()
         {
-            this.SideBarHeight = TAB_VERTICALOFFSET + TAB_HEIGHT * this.Tabs.Count;
+            this.SideBarHeight = Math.Min(TAB_VERTICALOFFSET + TAB_HEIGHT * this.Tabs.Count, this.Height - TAB_VERTICALOFFSET);
 
             this.HoveredTab = this.MouseOver && this.SidebarActiveBounds.Contains(this.RelativeMousePosition)
                                   ? this.Tabs.FromIndex((this.RelativeMousePosition.Y - this.SidebarActiveBounds.Y - TAB_VERTICALOFFSET) / TAB_HEIGHT)
@@ -107,6 +107,11 @@ namespace ItemSearch.Controls
             {
                 int tabTop = this.SidebarActiveBounds.Top + TAB_VERTICALOFFSET + tabIndex * TAB_HEIGHT;
 
+                if (tabTop + TAB_HEIGHT / 2 > this.Height)
+                {
+                    continue;
+                }
+
                 bool selected = tab == this.SelectedTab;
                 bool hovered = tab == this.HoveredTab;
 
@@ -128,14 +133,30 @@ namespace ItemSearch.Controls
                     spriteBatch.DrawOnCtrl(this, _textureTabActive, tabBounds);
                 }
 
-                tab.Draw(this,
-                         spriteBatch,
-                         new Rectangle(this.SidebarActiveBounds.X,
-                                       tabTop,
-                                       this.SidebarActiveBounds.Width,
-                                       TAB_HEIGHT),
-                         selected,
-                         hovered);
+                SearchTab searchTab = tab as SearchTab;
+                if (searchTab != null)
+                {
+                    searchTab.DrawSearchTab(this,
+                             spriteBatch,
+                             new Rectangle(this.SidebarActiveBounds.X,
+                                           tabTop,
+                                           this.SidebarActiveBounds.Width,
+                                           TAB_HEIGHT),
+                             selected,
+                             hovered);
+                }
+                else
+                {
+                    tab.Draw(this,
+                             spriteBatch,
+                             new Rectangle(this.SidebarActiveBounds.X,
+                                           tabTop,
+                                           this.SidebarActiveBounds.Width,
+                                           TAB_HEIGHT),
+                             selected,
+                             hovered);
+                }
+
 
                 tabIndex++;
             }

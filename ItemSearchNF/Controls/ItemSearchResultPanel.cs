@@ -15,10 +15,12 @@ namespace ItemSearch.Controls
 
         private Dictionary<InventoryItemSource, Panel> m_accountSourcePanels = new Dictionary<InventoryItemSource, Panel>();
         private Dictionary<string, Panel> m_characterSourcePanels = new Dictionary<string, Panel>();
-        private SearchFilter m_filter;
+        private Panel m_ungroupedPanel;
+        private SearchOptions m_searchOptions;
+        private SavedSearch m_savedSearch;
         private List<ItemIcon> m_itemIcons = new List<ItemIcon>();
 
-        public ItemSearchResultPanel(SearchFilter filter)
+        public ItemSearchResultPanel(SearchOptions options, SavedSearch savedSearch)
         {
             CanScroll = true;
 
@@ -30,29 +32,25 @@ namespace ItemSearch.Controls
                 HeightSizingMode = SizingMode.AutoSize,
             };
 
-            m_filter = filter;
-            m_filter.FilterChanged += M_filter_FilterChanged;
+            m_searchOptions = options;
+            m_searchOptions.FilterChanged += M_filter_FilterChanged;
+            m_searchOptions.OptionsChanged += M_filter_OptionsChanged;
+
+            m_savedSearch = savedSearch;
 
             m_initialized = true;
+        }
+
+        private void M_filter_OptionsChanged(object sender, EventArgs e)
+        {
+            DisplayItemIcons();
+            Invalidate();
         }
 
         private void M_filter_FilterChanged(object sender, EventArgs e)
         {
             DisplayItemIcons();
             Invalidate();
-        }
-
-        private string ItemSourceToString(InventoryItemSource source)
-        {
-            switch (source)
-            {
-                case InventoryItemSource.Bank: return Strings.ResultTitle_Bank;
-                case InventoryItemSource.SharedInventory: return Strings.ResultTitle_SharedInventory;
-                case InventoryItemSource.MaterialStorage: return Strings.ResultTitle_Materials;
-                case InventoryItemSource.TradingPostDeliveryBox: return Strings.ResultTitle_TPDeliveryBox;
-                case InventoryItemSource.TradingPostSellOrder: return Strings.ResultTitle_TPSellOrder;
-                default: return Strings.ResultTitle_Other;
-            }
         }
 
         public void SetSearchResult(List<InventoryItem> items)
@@ -63,7 +61,15 @@ namespace ItemSearch.Controls
 
             if (items != null)
             {
-                m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)));
+                m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)
+                {
+                    ShowSetSearchIconContextMenu = m_savedSearch != null,
+                }));
+            }
+            
+            foreach (var icon in m_itemIcons)
+            {
+                icon.SetAsSearchIcon += Icon_SetAsSearchIcon;
             }
 
             DisplayItemIcons();
@@ -71,7 +77,38 @@ namespace ItemSearch.Controls
             Invalidate();
         }
 
+        private void Icon_SetAsSearchIcon(object sender, EventArgs e)
+        {
+            ItemIcon icon = sender as ItemIcon;
+            if (icon != null && m_savedSearch != null)
+            {
+                m_savedSearch.TabIconUrl = icon.ItemInfo.IconUrl;
+                m_savedSearch.UpdateSearch();
+            }
+        }
+
         private void DisplayItemIcons()
+        {
+            switch (m_searchOptions.StackGrouping)
+            {
+                case StackGrouping.ByLocationMerged:
+                case StackGrouping.ByLocation:
+                    if (m_ungroupedPanel != null)
+                    {
+                        m_ungroupedPanel.Parent = null;
+                    }
+                    DisplayItemIconsByGroup();
+                    break;
+
+                case StackGrouping.Merged:
+                    ForAllSourcePanels(panel => panel.Parent = null);
+                    DisplayItemIconsUngrouped();
+                    break;
+            }
+        }
+
+
+        private void DisplayItemIconsByGroup()
         {
             // Clear current children and suspend layout
             ForAllSourcePanels(panel =>
@@ -83,11 +120,30 @@ namespace ItemSearch.Controls
             // Set results
             foreach (var itemIcon in m_itemIcons)
             {
-                if (m_filter.FilterItem(itemIcon.ItemInfo))
+                if (m_searchOptions.FilterItem(itemIcon.ItemInfo))
                 {
                     var panel = GetPanelForItem(itemIcon.Item);
                     itemIcon.Parent = panel;
                 }
+            }
+
+            if (m_searchOptions.StackGrouping != StackGrouping.ByLocation)
+            {
+                // For merged display, convert the ItemIcon to ItemIconMerged
+                ForAllSourcePanels(panel =>
+                {
+                    var groups = panel.Children.Select(child => child as ItemIcon).GroupBy(icon => icon.Item.Id).ToList();
+                    panel.Children.Clear();
+                    foreach (var group in groups)
+                    {
+                        var iconMerged = new ItemIconMerged(group)
+                        {
+                            ShowSetSearchIconContextMenu = m_savedSearch != null,
+                            Parent = panel,
+                        };
+                        iconMerged.SetAsSearchIcon += Icon_SetAsSearchIcon;
+                    }
+                });
             }
 
             // Turn off panels without results and resume layout
@@ -123,6 +179,47 @@ namespace ItemSearch.Controls
             });
         }
 
+        private void DisplayItemIconsUngrouped()
+        {
+            // Clear current children and suspend layout
+            if (m_ungroupedPanel == null)
+            {
+                m_ungroupedPanel = NewResultPanel();
+                m_ungroupedPanel.CanCollapse = false;
+                m_ungroupedPanel.ShowBorder = false;
+            }
+            m_ungroupedPanel.SuspendLayout();
+            m_ungroupedPanel.ClearChildren();
+
+            // Set results
+            if (m_searchOptions.StackGrouping == StackGrouping.Merged)
+            {
+                var groups = m_itemIcons.Where(itemIcon => m_searchOptions.FilterItem(itemIcon.ItemInfo)).GroupBy(itemIcon => itemIcon.Item.Id);
+                foreach (var group in groups)
+                {
+                    var iconMerged = new ItemIconMerged(group)
+                    {
+                        ShowSetSearchIconContextMenu = m_savedSearch != null,
+                        Parent = m_ungroupedPanel,
+                    };
+                    iconMerged.SetAsSearchIcon += Icon_SetAsSearchIcon;
+                }
+            }
+            else
+            {
+                foreach (var itemIcon in m_itemIcons)
+                {
+                    if (m_searchOptions.FilterItem(itemIcon.ItemInfo))
+                    {
+                        itemIcon.Parent = m_ungroupedPanel;
+                    }
+                }
+            }
+
+            m_ungroupedPanel.ResumeLayout();
+            m_ungroupedPanel.Parent = m_layout;
+        }
+
         public Panel GetPanelForItem(InventoryItem item)
         {
             if (item.Source == InventoryItemSource.CharacterInventory || item.Source == InventoryItemSource.CharacterEquipment)
@@ -142,7 +239,7 @@ namespace ItemSearch.Controls
                 if (!m_accountSourcePanels.TryGetValue(item.Source, out panel))
                 {
                     panel = NewResultPanel();
-                    panel.Title = ItemSourceToString(item.Source);
+                    panel.Title = InventoryItem.ItemSourceToString(item.Source);
                     m_accountSourcePanels.Add(item.Source, panel);
                 }
                 return panel;
@@ -193,6 +290,11 @@ namespace ItemSearch.Controls
                         LayoutHelper.SetWidthSizeMode(panel, DimensionSizeMode.Inherit, 20);
                     }
                 });
+
+                if (m_ungroupedPanel != null && m_ungroupedPanel.Parent != null)
+                {
+                    LayoutHelper.SetWidthSizeMode(m_ungroupedPanel, DimensionSizeMode.Inherit, 20);
+                }
             }
         }
     }

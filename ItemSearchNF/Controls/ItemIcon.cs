@@ -58,7 +58,15 @@ namespace ItemSearch.Controls
             get => m_itemInfo;
         }
 
-        private string m_number = "";
+        public bool ShowSetSearchIconContextMenu { get; set; }
+
+        public event EventHandler SetAsSearchIcon;
+        private void OnSetAsSearchIcon()
+        {
+            SetAsSearchIcon?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected string m_number = "";
         private bool m_shouldLoadImage = true;
 
         public ItemIcon(InventoryItem item)
@@ -115,17 +123,28 @@ namespace ItemSearch.Controls
             }
         }
 
-        public void BuildAndShowContextMenu()
+        private void BuildAndShowContextMenu()
         {
             m_contextMenu = new ContextMenuStrip();
+            if (ShowSetSearchIconContextMenu)
+            {
+                var item = m_contextMenu.AddMenuItem(Strings.ItemContextMenu_SetAsSearchIcon);
+                item.Click += Item_Click;
+            }
+
             m_contextMenu.Show(this);
+        }
+
+        private void Item_Click(object sender, MouseEventArgs e)
+        {
+            OnSetAsSearchIcon();
         }
 
         protected override void OnMouseEntered(MouseEventArgs e)
         {
             if (Tooltip == null)
             {
-                Tooltip = new Tooltip(new ItemTooltipView(m_item));
+                Tooltip = new Tooltip(new ItemTooltipView(m_item, m_number));
             }
         }
 

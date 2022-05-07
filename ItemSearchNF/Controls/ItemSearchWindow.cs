@@ -1,4 +1,5 @@
 ﻿using Blish_HUD;
+using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Modules.Managers;
 using ItemSearch.Controls;
@@ -23,15 +24,16 @@ namespace ItemSearch.Controls
         private const int CONTENT_X_MARGIN = 80;
         private const int CONTENT_Y_PADDING = 5;
         private const int TITLE_BAR_SIZE = 40;
+        private const int SAVED_SEARCH_TAB_ICON_SIZE = 30;
 
         private ContentsManager m_contentsManager;
-        private ItemSearchResultPanel m_resultPanel;
-        private TextBox m_searchQueryBox;
-        private IconButon m_searchFilterToggleButton;
+        private SavedSearchManager m_savedSearchManager;
         private ItemIndex m_searchEngine;
-        private bool m_initialized = false;
+        private Texture2D m_defaultTabIcon;
 
-        public ItemSearchWindow(ContentsManager contentManager, ItemIndex searchEngine) : base(contentManager.GetTexture("Textures/155985.png"), new Rectangle(0, 0, 600, 600), new Thickness(20, 0, 20, 55))
+        List<(SavedSearch savedSearch, Tab tab)> m_savedSearchToTab = new List<(SavedSearch savedSearch, Tab tab)>();
+
+        public ItemSearchWindow(ContentsManager contentManager, ItemIndex searchEngine, SavedSearchManager savedSearchManager) : base(contentManager.GetTexture("Textures/155985.png"), new Rectangle(0, 0, 620, 600), new Thickness(20, 0, 20, 55))
         {
             m_contentsManager = contentManager;
             m_searchEngine = searchEngine;
@@ -45,10 +47,78 @@ namespace ItemSearch.Controls
             CanResize = true;
 
             m_contentsManager = contentManager;
+            m_savedSearchManager = savedSearchManager;
 
-            Tabs.Add(new Tab(m_contentsManager.GetTexture("Textures/SearchTabIcon.png"), () => new ItemSearchView(m_searchEngine), "Search all items"));
+            m_defaultTabIcon = m_contentsManager.GetTexture("Textures/SearchTabIcon.png");
+            Tabs.Add(new Tab(m_defaultTabIcon, () => new ItemSearchView(m_searchEngine), Strings.SearchWindow_DefaultTabName));
 
-            m_initialized = true;
+            foreach(var savedSearch in m_savedSearchManager.SavedSearchList)
+            {
+                AddTabForSavedSearch(savedSearch);
+            }
+            m_savedSearchManager.SavedSearchList.ItemAdded += SavedSearchList_ItemAdded;
+            m_savedSearchManager.SavedSearchList.ItemRemoved += SavedSearchList_ItemRemoved;
+        }
+
+        private void SavedSearchList_ItemRemoved(object sender, MonoGame.Extended.Collections.ItemEventArgs<SavedSearch> e)
+        {
+            bool found = false;
+            for (int i = 0; i < m_savedSearchToTab.Count; i++)
+            {
+                if (e.Item == m_savedSearchToTab[i].savedSearch)
+                {
+                    found = true;
+                    var pair = m_savedSearchToTab[i];
+                    m_savedSearchToTab.RemoveAt(i);
+                    Tabs.Remove(pair.tab);
+                    break;
+                }
+            }
+
+            SelectedTab = Tabs.ElementAt(0);
+
+            if (!found)
+            {
+                Logger.Warn("Saved search removed but failed to find corresponding tab to remove");
+            }
+        }
+
+        private void SavedSearchList_ItemAdded(object sender, MonoGame.Extended.Collections.ItemEventArgs<SavedSearch> e)
+        {
+            SelectedTab = AddTabForSavedSearch(e.Item);
+        }
+
+        private Tab AddTabForSavedSearch(SavedSearch savedSearch)
+        {
+            var tabIcon = savedSearch.TabIconUrl != null ? RenderTextureHelper.GetAsyncTexture2DForRenderUrl(savedSearch.TabIconUrl, m_defaultTabIcon) : new AsyncTexture2D(m_defaultTabIcon);
+            (SavedSearch savedSearch, Tab tab) pair = (savedSearch, new SearchTab(tabIcon, () => new ItemSearchView(m_searchEngine, savedSearch))
+            {
+                Name = savedSearch.Query,
+                UseCustomIconSize = true,
+                IconWidth = SAVED_SEARCH_TAB_ICON_SIZE,
+                IconHeight = SAVED_SEARCH_TAB_ICON_SIZE,
+            });
+            m_savedSearchToTab.Add(pair);
+            Tabs.Add(pair.tab);
+            savedSearch.Updated += SavedSearch_Updated;
+
+            return pair.tab;
+        }
+
+        private void SavedSearch_Updated(object sender, EventArgs e)
+        {
+            SavedSearch savedSearch = sender as SavedSearch;
+            if (savedSearch != null)
+            {
+                foreach (var pair in m_savedSearchToTab)
+                {
+                    if (pair.savedSearch == savedSearch)
+                    {
+                        pair.tab.Icon = RenderTextureHelper.GetAsyncTexture2DForRenderUrl(savedSearch.TabIconUrl, m_defaultTabIcon);
+                        break;
+                    }
+                }
+            }
         }
 
         protected override Point HandleWindowResize(Point newSize)

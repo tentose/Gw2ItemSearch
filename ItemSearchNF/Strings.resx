@@ -491,7 +491,7 @@
   <data name="CornerIcon_HoverTooltip" xml:space="preserve">
     <value>Item Search</value>
   </data>
-  <data name="FilterPanel_Clear" xml:space="preserve">
+  <data name="SearchOptionsPanel_Clear" xml:space="preserve">
     <value>Clear</value>
   </data>
   <data name="Settings_RenderCacheMethod_Description" xml:space="preserve">
@@ -506,10 +506,52 @@
   <data name="ItemTooltip_Transmuted" xml:space="preserve">
     <value>Transmuted to: </value>
   </data>
+  <data name="SearchOptionsPanel_Remove" xml:space="preserve">
+    <value>Delete saved search</value>
+  </data>
+  <data name="SearchOptionsPanel_Save" xml:space="preserve">
+    <value>Save search</value>
+  </data>
+  <data name="SearchWindow_DefaultTabName" xml:space="preserve">
+    <value>Search all items</value>
+  </data>
   <data name="Settings_HideLegendaryArmory_Description" xml:space="preserve">
     <value>This includes mostly equipment from the legendary armory. Includes account-bound legendary armor, weapons, trinkets, and upgrade components.</value>
   </data>
   <data name="Settings_HideLegendaryArmory_Name" xml:space="preserve">
     <value>Hide account-bound legendary equipment</value>
+  </data>
+  <data name="ItemContextMenu_SetAsSearchIcon" xml:space="preserve">
+    <value>Set as icon for this search</value>
+  </data>
+  <data name="SearchOptionsPanel_Filters" xml:space="preserve">
+    <value>Filters:</value>
+  </data>
+  <data name="SearchOptionsPanel_Options" xml:space="preserve">
+    <value>Options:</value>
+  </data>
+  <data name="SearchOption_StackGrouping_ByLocation" xml:space="preserve">
+    <value>By Location</value>
+  </data>
+  <data name="SearchOption_StackGrouping_ByLocationMerged" xml:space="preserve">
+    <value>By Location Merged</value>
+  </data>
+  <data name="SearchOption_StackGrouping_Merged" xml:space="preserve">
+    <value>Merged</value>
+  </data>
+  <data name="Settings_DefaultStackGrouping_Description" xml:space="preserve">
+    <value>How stacks are grouped by default (you can change it for each individual search under the gears menu):
+- By Location: Stacks are displayed as they are in game.
+- By Location Merged: Stacks are grouped based on where they are in game. Stacks of the same item are grouped together.
+- Merged: Stacks are not grouped. Stacks of the same item are grouped together.</value>
+  </data>
+  <data name="Settings_DefaultStackGrouping_Name" xml:space="preserve">
+    <value>Default stack grouping</value>
+  </data>
+  <data name="Settings_HideEquippedBags_Description" xml:space="preserve">
+    <value>Hide bags equipped on characters</value>
+  </data>
+  <data name="Settings_HideEquippedBags_Name" xml:space="preserve">
+    <value>Hide equipped bags</value>
   </data>
 </root>

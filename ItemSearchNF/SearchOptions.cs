@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace ItemSearch
 {
-    public class SearchFilter
+    public enum StackGrouping
+    {
+        ByLocation,
+        ByLocationMerged,
+        Merged,
+    }
+
+    public class SearchOptions
     {
         private ItemType? m_type;
         public ItemType? Type
@@ -50,6 +57,47 @@ namespace ItemSearch
             }
         }
 
+        private StackGrouping? m_grouping;
+        public StackGrouping? StackGrouping
+        {
+            get
+            {
+                if (m_grouping == null)
+                {
+                    return ItemSearchModule.Instance.GlobalSettings.DefaultStackGrouping.Value;
+                }
+                else
+                {
+                    return m_grouping;
+                }
+            }
+            set
+            {
+                var newValue = value;
+                if (newValue == null)
+                {
+                    newValue = ItemSearchModule.Instance.GlobalSettings.DefaultStackGrouping.Value;
+                }
+                if (m_grouping != newValue)
+                {
+                    m_grouping = newValue;
+                    OnOptionsChanged();
+                }
+            }
+        }
+
+        public void CopyFrom(SearchOptions other)
+        {
+            if (m_type != other.m_type || m_subType != other.m_subType || m_rarity != other.m_rarity || m_grouping != other.m_grouping)
+            {
+                m_type = other.m_type;
+                m_subType = other.m_subType;
+                m_rarity = other.m_rarity;
+                m_grouping = other.m_grouping;
+                OnFilterChanged();
+            }
+        }
+
         public void Clear()
         {
             if (m_type != null || m_subType != null || m_rarity != null)
@@ -65,6 +113,12 @@ namespace ItemSearch
         private void OnFilterChanged()
         {
             FilterChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler OptionsChanged;
+        private void OnOptionsChanged()
+        {
+            OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

@@ -9,15 +9,18 @@ using System.Threading.Tasks;
 
 namespace ItemSearch.Controls
 {
-    public class FiltersView : View
+    public class SearchOptionsView : View
     {
         private const int DROPDOWN_WIDTH = 200;
 
         private FlowPanel m_panel;
+        private Label m_filtersLabel;
         private Dropdown m_typeDropdown;
         private Dropdown m_subtypeDropdown;
         private Dropdown m_rarityDropdown;
         private StandardButton m_clearFiltersButton;
+        private Label m_optionsLabel;
+        private Dropdown m_groupingDropdown;
 
         // For looking up string selected in Dropdown and convert it to an ItemType
         private Dictionary<string, ItemType> m_itemTypeStringToItemType;
@@ -34,11 +37,14 @@ namespace ItemSearch.Controls
         // For looking up string selected in Dropdown and convert it to an ItemRarity
         private Dictionary<string, ItemRarity> m_rarityStringToRarity;
 
-        private SearchFilter m_searchFilter;
+        // For looking up string selected in Dropdown and convert it to an ItemRarity
+        private Dictionary<string, StackGrouping> m_groupingStringToGrouping;
 
-        public FiltersView(SearchFilter filter)
+        private SearchOptions m_searchOptions;
+
+        public SearchOptionsView(SearchOptions options)
         {
-            m_searchFilter = filter;
+            m_searchOptions = options;
         }
 
         protected override void Build(Container buildPanel)
@@ -54,8 +60,14 @@ namespace ItemSearch.Controls
                 ControlPadding = new Vector2(10, 10),
             };
 
+            m_filtersLabel = new Label()
+            {
+                Text = Strings.SearchOptionsPanel_Filters,
+                Parent = m_panel,
+            };
+
             // Item Type
-            m_itemTypeStringToItemType = GetResourceStringToTypeDictionary<ItemType>("ItemType");
+            m_itemTypeStringToItemType = GetResourceStringToTypeDictionary<ItemType>("Filter", "ItemType");
 
             m_typeDropdown = new Dropdown()
             {
@@ -66,12 +78,12 @@ namespace ItemSearch.Controls
             {
                 m_typeDropdown.Items.Add(key);
             }
-            if (m_searchFilter.Type != null)
+            if (m_searchOptions.Type != null)
             {
                 // Pre-select the current filter value
                 foreach (var kv in m_itemTypeStringToItemType)
                 {
-                    if (kv.Value == m_searchFilter.Type)
+                    if (kv.Value == m_searchOptions.Type)
                     {
                         m_typeDropdown.SelectedItem = kv.Key;
                         break;
@@ -89,13 +101,13 @@ namespace ItemSearch.Controls
                 Parent = m_panel,
                 Width = DROPDOWN_WIDTH,
             };
-            UpdateSubTypeDropdownOptions(m_searchFilter.Type ?? ItemType.Unknown);
-            if (m_searchFilter.SubType != null)
+            UpdateSubTypeDropdownOptions(m_searchOptions.Type ?? ItemType.Unknown);
+            if (m_searchOptions.SubType != null)
             {
                 // Pre-select the current filter value
                 foreach (var pair in m_itemSubTypeStringToItemSubType)
                 {
-                    if (pair.itemSubType == m_searchFilter.SubType)
+                    if (pair.itemSubType == m_searchOptions.SubType)
                     {
                         m_subtypeDropdown.SelectedItem = pair.resourceString;
                         break;
@@ -105,7 +117,7 @@ namespace ItemSearch.Controls
             m_subtypeDropdown.ValueChanged += M_subtypeDropdown_ValueChanged;
 
             // Rarity
-            m_rarityStringToRarity = GetResourceStringToTypeDictionary<ItemRarity>("Rarity");
+            m_rarityStringToRarity = GetResourceStringToTypeDictionary<ItemRarity>("Filter", "Rarity");
             m_rarityDropdown = new Dropdown()
             {
                 Parent = m_panel,
@@ -115,12 +127,12 @@ namespace ItemSearch.Controls
             {
                 m_rarityDropdown.Items.Add(key);
             }
-            if (m_searchFilter.Rarity != null)
+            if (m_searchOptions.Rarity != null)
             {
                 // Pre-select the current filter value
                 foreach (var kv in m_rarityStringToRarity)
                 {
-                    if (kv.Value == m_searchFilter.Rarity)
+                    if (kv.Value == m_searchOptions.Rarity)
                     {
                         m_rarityDropdown.SelectedItem = kv.Key;
                         break;
@@ -133,16 +145,60 @@ namespace ItemSearch.Controls
             m_clearFiltersButton = new StandardButton()
             {
                 Parent = m_panel,
-                Text = Strings.FilterPanel_Clear,
+                Text = Strings.SearchOptionsPanel_Clear,
             };
             m_clearFiltersButton.Click += M_clearFiltersButton_Click;
+
+            m_optionsLabel = new Label()
+            {
+                Text = Strings.SearchOptionsPanel_Options,
+                Parent = m_panel,
+            };
+
+            // Grouping
+            m_groupingStringToGrouping = GetResourceStringToTypeDictionary<StackGrouping>("SearchOption", "StackGrouping");
+            m_groupingDropdown = new Dropdown()
+            {
+                Parent = m_panel,
+                Width = DROPDOWN_WIDTH,
+            };
+            foreach (var key in m_groupingStringToGrouping.Keys)
+            {
+                m_groupingDropdown.Items.Add(key);
+            }
+            if (m_searchOptions.StackGrouping == null)
+            {
+                m_searchOptions.StackGrouping = ItemSearchModule.Instance.GlobalSettings.DefaultStackGrouping.Value;
+            }
+            // Pre-select the current value
+            foreach (var kv in m_groupingStringToGrouping)
+            {
+                if (kv.Value == m_searchOptions.StackGrouping)
+                {
+                    m_groupingDropdown.SelectedItem = kv.Key;
+                    break;
+                }
+            }
+            m_groupingDropdown.ValueChanged += M_groupingDropdown_ValueChanged;
 
             m_panel.Parent = buildPanel;
         }
 
+        private void M_groupingDropdown_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            if (!m_groupingStringToGrouping.TryGetValue(e.CurrentValue, out StackGrouping grouping))
+            {
+                m_searchOptions.StackGrouping = ItemSearchModule.Instance.GlobalSettings.DefaultStackGrouping.Value;
+            }
+            else
+            {
+                m_searchOptions.StackGrouping = grouping;
+            }
+        }
+
         private void M_clearFiltersButton_Click(object sender, Blish_HUD.Input.MouseEventArgs e)
         {
-            m_searchFilter.Clear();
+            m_searchOptions.Clear();
             m_typeDropdown.SelectedItem = m_typeDropdown.Items[0];
             m_rarityDropdown.SelectedItem = m_rarityDropdown.Items[0];
         }
@@ -154,14 +210,14 @@ namespace ItemSearch.Controls
             if (itemType == ItemType.Unknown)
             {
                 m_subtypeDropdown.SelectedItem = null;
-                m_searchFilter.Type = null;
-                m_searchFilter.SubType = null;
+                m_searchOptions.Type = null;
+                m_searchOptions.SubType = null;
             }
             else
             {
                 UpdateSubTypeDropdownOptions(itemType);
 
-                m_searchFilter.Type = itemType;
+                m_searchOptions.Type = itemType;
             }
         }
 
@@ -169,7 +225,7 @@ namespace ItemSearch.Controls
         {
             if (e.CurrentValue == null)
             {
-                m_searchFilter.SubType = null;
+                m_searchOptions.SubType = null;
                 m_subtypeDropdown.Enabled = false;
             }
             else
@@ -177,11 +233,11 @@ namespace ItemSearch.Controls
                 m_subtypeDropdown.Enabled = true;
                 if (!m_filteredItemSubTypeStringToItemSubType.TryGetValue(e.CurrentValue, out ItemSubType type))
                 {
-                    m_searchFilter.SubType = null;
+                    m_searchOptions.SubType = null;
                 }
                 else
                 {
-                    m_searchFilter.SubType = type;
+                    m_searchOptions.SubType = type;
                 }
             }
         }
@@ -190,11 +246,11 @@ namespace ItemSearch.Controls
         {
             if (!m_rarityStringToRarity.TryGetValue(e.CurrentValue, out ItemRarity type))
             {
-                m_searchFilter.Rarity = null;
+                m_searchOptions.Rarity = null;
             }
             else
             {
-                m_searchFilter.Rarity = type;
+                m_searchOptions.Rarity = type;
             }
         }
 
@@ -218,18 +274,22 @@ namespace ItemSearch.Controls
             }
         }
 
-        private Dictionary<string, T> GetResourceStringToTypeDictionary<T>(string typeString) where T : Enum
+        private Dictionary<string, T> GetResourceStringToTypeDictionary<T>(string optionType, string typeString) where T : Enum
         {
             Dictionary<string, T> result = new Dictionary<string, T>();
-            result.Add(ResourceStrings.Get($"Filter_{typeString}_All"), (T)(object)0);
+            string allOption = ResourceStrings.Get($"{optionType}_{typeString}_All");
+            if (allOption != null)
+            {
+                result.Add(allOption, (T)(object)0);
+            }
             foreach (var itemTypeEnumValue in Enum.GetValues(typeof(T)))
             {
-                if ((int)itemTypeEnumValue == 0)
+                if ((int)itemTypeEnumValue == 0 && allOption != null)
                 {
                     continue;
                 }
                 T itemType = (T)itemTypeEnumValue;
-                result.Add(ResourceStrings.Get($"Filter_{typeString}_{itemType}"), itemType);
+                result.Add(ResourceStrings.Get($"{optionType}_{typeString}_{itemType}"), itemType);
             }
             return result;
         }
