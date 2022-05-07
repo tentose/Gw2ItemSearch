@@ -27,7 +27,7 @@ namespace ItemSearch.Controls
             }
         }
 
-        private static readonly Rectangle _standardIconBounds;
+        private static readonly Rectangle _standardIconBounds = new Rectangle(0, 0, ICON_SIZE, ICON_SIZE);
 
         private const int ICON_POSITION = 10;
         private const int ICON_SIZE = 32;
@@ -100,22 +100,6 @@ namespace ItemSearch.Controls
             set => SetProperty(ref _iconName, value);
         }
 
-        private int? _priority;
-        /// <summary>
-        /// <see cref="CornerIcon"/>s are sorted by priority so that, from left to right, priority goes from the highest to lowest.
-        /// </summary>
-        public int Priority
-        {
-            get => _priority ?? (_icon?.GetHashCode() ?? 0);
-            set
-            {
-                if (SetProperty(ref _priority, value))
-                {
-                    UpdateCornerIconPositions();
-                }
-            }
-        }
-
         private string _loadingMessage;
         /// <summary>
         /// If defined, a loading spinner is shown below the <see cref="CornerIcon"/> and this text will be
@@ -133,48 +117,12 @@ namespace ItemSearch.Controls
             }
         }
 
-        static CustomCornerIcon()
-        {
-            CornerIcons = new ObservableCollection<CornerIcon>();
-
-            _standardIconBounds = new Rectangle(0, 0, ICON_SIZE, ICON_SIZE);
-
-            GameService.Input.Mouse.MouseMoved += (sender, e) => {
-                var scaledMousePos = Input.Mouse.State.Position.ScaleToUi();
-                if (scaledMousePos.Y < ICON_SIZE && scaledMousePos.X < ICON_SIZE * ICON_POSITION + LeftOffset)
-                {
-                    foreach (var cornerIcon in CornerIcons)
-                    {
-                        cornerIcon.MouseInHouse = true;
-                    }
-
-                    return;
-                }
-
-                foreach (var cornerIcon in CornerIcons)
-                {
-                    cornerIcon.MouseInHouse = false;
-                }
-            };
-        }
-
-        private static void UpdateCornerIconPositions()
-        {
-            List<CornerIcon> sortedIcons = CornerIcons.OrderByDescending((cornerIcon) => cornerIcon.Priority).ToList();
-
-            int horizontalOffset = ICON_SIZE * ICON_POSITION + LeftOffset;
-
-            for (int i = 0; i < CornerIcons.Count; i++)
-            {
-                sortedIcons[i].Location = new Point(ICON_SIZE * i + horizontalOffset, 0);
-            }
-        }
-
         public CustomCornerIcon()
         {
             this.Parent = Graphics.SpriteScreen;
             this.Size = new Point(ICON_SIZE, ICON_SIZE);
             this.DynamicHide = true;
+            this.Location = new Point((int)(ICON_SIZE * 3.4) + 1, ICON_SIZE);
         }
 
         public CustomCornerIcon(AsyncTexture2D icon, string iconName) : this()

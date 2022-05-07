@@ -1258,6 +1258,27 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Position of the corner icon (the button at the top left corner of the screen):
+        ///- Normal: Icon behaves like all other Blish HUD icons. Stacks left to right beside the normal ingame icons.
+        ///- Below Inventory: Icon is placed below the ingame inventory button.
+        ///- Off: Icon is not shown. You must use shortcut to open the search window..
+        /// </summary>
+        internal static string Settings_CornerIconPosition_Description {
+            get {
+                return ResourceManager.GetString("Settings_CornerIconPosition_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Corner icon position.
+        /// </summary>
+        internal static string Settings_CornerIconPosition_Name {
+            get {
+                return ResourceManager.GetString("Settings_CornerIconPosition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to How stacks are grouped by default (you can change it for each individual search under the gears menu):
         ///- By Location: Stacks are displayed as they are in game.
         ///- By Location Merged: Stacks are grouped based on where they are in game. Stacks of the same item are grouped together.
@@ -1324,7 +1345,7 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API Refresh Interval.
+        ///   Looks up a localized string similar to API refresh interval.
         /// </summary>
         internal static string Settings_PlayerDataRefreshIntervalMinutes_Name {
             get {
@@ -1345,7 +1366,7 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Item Icon Cache.
+        ///   Looks up a localized string similar to Item icon cache.
         /// </summary>
         internal static string Settings_RenderCacheMethod_Name {
             get {

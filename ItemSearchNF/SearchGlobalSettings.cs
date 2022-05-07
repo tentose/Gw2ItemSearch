@@ -21,6 +21,7 @@ namespace ItemSearch
         public SettingEntry<bool> HideLegendaryArmory { get; private set; }
         public SettingEntry<bool> HideEquippedBags { get; private set; }
         public SettingEntry<StackGrouping> DefaultStackGrouping { get; private set; }
+        public SettingEntry<CornerIconPosition> CornerIconPosition { get; private set; }
 
         public SearchGlobalSettings(SettingCollection settings)
         {
@@ -49,6 +50,11 @@ namespace ItemSearch
                                             StackGrouping.ByLocation,
                                             () => Strings.Settings_DefaultStackGrouping_Name,
                                             () => Strings.Settings_DefaultStackGrouping_Description);
+
+            CornerIconPosition = settings.DefineSetting("CornerIconPosition",
+                                ItemSearch.CornerIconPosition.Normal,
+                                () => Strings.Settings_CornerIconPosition_Name,
+                                () => Strings.Settings_CornerIconPosition_Description);
         }
     }
 }

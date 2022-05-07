@@ -183,7 +183,7 @@
     <value>How often to refresh your items from the GW2 API. Range is from 3 - 33 Minutes</value>
   </data>
   <data name="Settings_PlayerDataRefreshIntervalMinutes_Name" xml:space="preserve">
-    <value>API Refresh Interval</value>
+    <value>API refresh interval</value>
   </data>
   <data name="Filter_ItemType_All" xml:space="preserve">
     <value>All Items</value>
@@ -501,7 +501,7 @@
 - None: No caching.</value>
   </data>
   <data name="Settings_RenderCacheMethod_Name" xml:space="preserve">
-    <value>Item Icon Cache</value>
+    <value>Item icon cache</value>
   </data>
   <data name="ItemTooltip_Transmuted" xml:space="preserve">
     <value>Transmuted to: </value>
@@ -553,5 +553,14 @@
   </data>
   <data name="Settings_HideEquippedBags_Name" xml:space="preserve">
     <value>Hide equipped bags</value>
+  </data>
+  <data name="Settings_CornerIconPosition_Description" xml:space="preserve">
+    <value>Position of the corner icon (the button at the top left corner of the screen):
+- Normal: Icon behaves like all other Blish HUD icons. Stacks left to right beside the normal ingame icons.
+- Below Inventory: Icon is placed below the ingame inventory button.
+- Off: Icon is not shown. You must use shortcut to open the search window.</value>
+  </data>
+  <data name="Settings_CornerIconPosition_Name" xml:space="preserve">
+    <value>Corner icon position</value>
   </data>
 </root>
