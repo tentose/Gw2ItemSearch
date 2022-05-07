@@ -267,7 +267,7 @@ namespace ItemSearch
                             {
                                 if (bag != null)
                                 {
-                                    addItemToAllItems(new InventoryItem(bag.Id, InventoryItemSource.CharacterInventory, character.Name));
+                                    addItemToAllItems(new InventoryItem(bag.Id, InventoryItemSource.CharacterEquipment, character.Name));
                                     foreach (var item in bag.Inventory)
                                     {
                                         if (item != null)

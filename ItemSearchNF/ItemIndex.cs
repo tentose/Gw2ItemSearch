@@ -49,47 +49,34 @@ namespace ItemSearch
             var results = allItems.Where(item => item.Value.Name.ToLowerInvariant().Contains(lowerQuery)).Select(kv => kv.Key);
             Logger.Debug($"ItemSearch: {stopwatch.ElapsedMilliseconds}");
 
-            List<InventoryItem> playerMatchingItems = new List<InventoryItem>();
-            var playerItems = m_playerItems.Items;
-            bool excludeArmory = ItemSearchModule.Instance.GlobalSettings.HideLegendaryArmory.Value;
-            foreach (var id in results)
-            {
-                List<InventoryItem> items;
-                if (playerItems.TryGetValue(id, out items))
-                {
-                    foreach (var item in playerItems[id])
-                    {
-                        if (excludeArmory && item.Binding.HasValue && item.Binding.Value == ItemBinding.Account && item.ItemInfo != null)
-                        {
-                            // Exclude armory, this is an account bound item with info we can check against.
-                            var info = item.ItemInfo;
-                            if (info.Rarity == ItemRarity.Legendary &&
-                                (info.Type == ItemType.Armor || info.Type == ItemType.Weapon || info.Type == ItemType.Trinket || info.Type == ItemType.UpgradeComponent))
-                            {
-                                // Is legendary and is equipment, let's skip this
-                                continue;
-                            }
-                        }
-                        playerMatchingItems.Add(item);
-                    }
-                }
-            }
+            var playerMatchingItems = FindMatches(results);
+
             Logger.Debug($"Matched against player items: {stopwatch.ElapsedMilliseconds}");
 
             return playerMatchingItems;
         }
 
-        public async Task<List<InventoryItem>> Browse(SearchFilter filter)
+        public async Task<List<InventoryItem>> Browse(SearchOptions filter)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             var allItems = StaticItemInfo.AllItems;
             var results = allItems.Where(item => filter.FilterItem(item.Value)).Select(kv => kv.Key);
             Logger.Debug($"ItemBrowse: {stopwatch.ElapsedMilliseconds}");
 
+            var playerMatchingItems = FindMatches(results);
+
+            Logger.Debug($"Matched against player items: {stopwatch.ElapsedMilliseconds}");
+
+            return playerMatchingItems;
+        }
+
+        public List<InventoryItem> FindMatches(IEnumerable<int> idsToFind)
+        {
             List<InventoryItem> playerMatchingItems = new List<InventoryItem>();
             var playerItems = m_playerItems.Items;
             bool excludeArmory = ItemSearchModule.Instance.GlobalSettings.HideLegendaryArmory.Value;
-            foreach (var id in results)
+            bool excludeBags = ItemSearchModule.Instance.GlobalSettings.HideEquippedBags.Value;
+            foreach (var id in idsToFind)
             {
                 List<InventoryItem> items;
                 if (playerItems.TryGetValue(id, out items))
@@ -107,11 +94,15 @@ namespace ItemSearch
                                 continue;
                             }
                         }
+                        if (excludeBags && item.Source == InventoryItemSource.CharacterEquipment && item.ItemInfo != null && item.ItemInfo.Type == ItemType.Bag)
+                        {
+                            // Is equipped bag, skip
+                            continue;
+                        }
                         playerMatchingItems.Add(item);
                     }
                 }
             }
-            Logger.Debug($"Matched against player items: {stopwatch.ElapsedMilliseconds}");
 
             return playerMatchingItems;
         }

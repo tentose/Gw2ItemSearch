@@ -19,6 +19,8 @@ namespace ItemSearch
         public SettingEntry<int> PlayerDataRefreshIntervalMinutes { get; private set; }
         public SettingEntry<RenderCacheMethod> RenderCacheMethod { get; private set; }
         public SettingEntry<bool> HideLegendaryArmory { get; private set; }
+        public SettingEntry<bool> HideEquippedBags { get; private set; }
+        public SettingEntry<StackGrouping> DefaultStackGrouping { get; private set; }
 
         public SearchGlobalSettings(SettingCollection settings)
         {
@@ -26,7 +28,7 @@ namespace ItemSearch
                                                                         10, 
                                                                         () => Strings.Settings_PlayerDataRefreshIntervalMinutes_Name, 
                                                                         () => Strings.Settings_PlayerDataRefreshIntervalMinutes_Description);
-            PlayerDataRefreshIntervalMinutes.SetRange(3, 30);
+            PlayerDataRefreshIntervalMinutes.SetRange(3, 33);
 
             RenderCacheMethod = settings.DefineSetting("RenderCacheMethod",
                                                         ItemSearch.RenderCacheMethod.File,
@@ -37,6 +39,16 @@ namespace ItemSearch
                                                         false,
                                                         () => Strings.Settings_HideLegendaryArmory_Name,
                                                         () => Strings.Settings_HideLegendaryArmory_Description);
+
+            HideEquippedBags = settings.DefineSetting("HideEquippedBags",
+                                            false,
+                                            () => Strings.Settings_HideEquippedBags_Name,
+                                            () => Strings.Settings_HideEquippedBags_Description);
+
+            DefaultStackGrouping = settings.DefineSetting("DefaultStackGrouping",
+                                            StackGrouping.ByLocation,
+                                            () => Strings.Settings_DefaultStackGrouping_Name,
+                                            () => Strings.Settings_DefaultStackGrouping_Description);
         }
     }
 }

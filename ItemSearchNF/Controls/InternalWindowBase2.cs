@@ -60,55 +60,13 @@ namespace ItemSearch.Controls
         #endregion
 
         #region Static Window Management
-
-        private static readonly List<IWindow> _windows = new List<IWindow>();
-
-        /// <summary>
-        /// Registers the window so that its zindex can be calculated against other windows.
-        /// </summary>
-        public static void RegisterWindow(IWindow window)
-        {
-            _windows.Add(window);
-        }
-
-        /// <summary>
-        /// Unregisters the window so that its zindex is not longer calculated against other windows.
-        /// </summary>
-        public static void UnregisterWindow(IWindow window)
-        {
-            _windows.Remove(window);
-        }
-
-        /// <summary>
-        /// Returns the calculated zindex offset.  This should be added to the base zindex (typically <see cref="Screen.WINDOW_BASEZINDEX"/>) and returned as the zindex.
-        /// </summary>
-        public static int GetZIndex(IWindow thisWindow)
-        {
-            if (!_windows.Contains(thisWindow))
-            {
-                throw new InvalidOperationException($"{nameof(thisWindow)} must be registered with {nameof(RegisterWindow)} before ZIndex can automatically be calculated.");
-            }
-
-            return Screen.WINDOW_BASEZINDEX + _windows.OrderBy(window => window.TopMost)
-                                                      .ThenBy(window => window.LastInteraction)
-                                                      .TakeWhile(window => window != thisWindow)
-                                                      .Count();
-        }
-
-        /// <summary>
-        /// Gets or sets the active window. Returns null if no window is visible.
-        /// </summary>
-        public static IWindow ActiveWindow
-        {
-            get => _windows.Where(w => w.Visible).OrderByDescending(GetZIndex).FirstOrDefault();
-            set => value.BringWindowToFront();
-        }
+        // Use WindowBase2
 
         #endregion
 
         public override int ZIndex
         {
-            get => _zIndex + InternalWindowBase2.GetZIndex(this);
+            get => _zIndex + WindowBase2.GetZIndex(this);
             set => SetProperty(ref _zIndex, value);
         }
 
@@ -219,7 +177,7 @@ namespace ItemSearch.Controls
 
         protected InternalWindowBase2()
         {
-            InternalWindowBase2.RegisterWindow(this);
+            WindowBase2.RegisterWindow(this);
 
             this.Opacity = 0f;
             this.Visible = false;
@@ -741,7 +699,7 @@ namespace ItemSearch.Controls
                 this.CurrentView.DoUnload();
             }
 
-            InternalWindowBase2.UnregisterWindow(this);
+            WindowBase2.UnregisterWindow(this);
 
             GameService.Input.Mouse.LeftMouseButtonReleased -= OnGlobalMouseRelease;
 

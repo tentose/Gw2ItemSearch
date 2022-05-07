@@ -9,7 +9,7 @@ namespace ItemSearch
     public class SavedSearch
     {
         public string Query { get; set; }
-        public SearchFilter Filter { get; set; }
+        public SearchOptions Filter { get; set; }
         public string TabIconUrl { get; set; }
 
         public void UpdateSearch()

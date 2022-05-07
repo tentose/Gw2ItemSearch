@@ -524,4 +524,34 @@
   <data name="ItemContextMenu_SetAsSearchIcon" xml:space="preserve">
     <value>Set as icon for this search</value>
   </data>
+  <data name="SearchOptionsPanel_Filters" xml:space="preserve">
+    <value>Filters:</value>
+  </data>
+  <data name="SearchOptionsPanel_Options" xml:space="preserve">
+    <value>Options:</value>
+  </data>
+  <data name="SearchOption_StackGrouping_ByLocation" xml:space="preserve">
+    <value>By Location</value>
+  </data>
+  <data name="SearchOption_StackGrouping_ByLocationMerged" xml:space="preserve">
+    <value>By Location Merged</value>
+  </data>
+  <data name="SearchOption_StackGrouping_Merged" xml:space="preserve">
+    <value>Merged</value>
+  </data>
+  <data name="Settings_DefaultStackGrouping_Description" xml:space="preserve">
+    <value>How stacks are grouped by default (you can change it for each individual search under the gears menu):
+- By Location: Stacks are displayed as they are in game.
+- By Location Merged: Stacks are grouped based on where they are in game. Stacks of the same item are grouped together.
+- Merged: Stacks are not grouped. Stacks of the same item are grouped together.</value>
+  </data>
+  <data name="Settings_DefaultStackGrouping_Name" xml:space="preserve">
+    <value>Default stack grouping</value>
+  </data>
+  <data name="Settings_HideEquippedBags_Description" xml:space="preserve">
+    <value>Hide bags equipped on characters</value>
+  </data>
+  <data name="Settings_HideEquippedBags_Name" xml:space="preserve">
+    <value>Hide equipped bags</value>
+  </data>
 </root>

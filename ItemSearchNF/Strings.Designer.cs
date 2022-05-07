@@ -1150,11 +1150,56 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to By Location.
+        /// </summary>
+        internal static string SearchOption_StackGrouping_ByLocation {
+            get {
+                return ResourceManager.GetString("SearchOption_StackGrouping_ByLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By Location Merged.
+        /// </summary>
+        internal static string SearchOption_StackGrouping_ByLocationMerged {
+            get {
+                return ResourceManager.GetString("SearchOption_StackGrouping_ByLocationMerged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Merged.
+        /// </summary>
+        internal static string SearchOption_StackGrouping_Merged {
+            get {
+                return ResourceManager.GetString("SearchOption_StackGrouping_Merged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         internal static string SearchOptionsPanel_Clear {
             get {
                 return ResourceManager.GetString("SearchOptionsPanel_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filters:.
+        /// </summary>
+        internal static string SearchOptionsPanel_Filters {
+            get {
+                return ResourceManager.GetString("SearchOptionsPanel_Filters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options:.
+        /// </summary>
+        internal static string SearchOptionsPanel_Options {
+            get {
+                return ResourceManager.GetString("SearchOptionsPanel_Options", resourceCulture);
             }
         }
         
@@ -1209,6 +1254,45 @@ namespace ItemSearch {
         internal static string SearchWindow_Title {
             get {
                 return ResourceManager.GetString("SearchWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How stacks are grouped by default (you can change it for each individual search under the gears menu):
+        ///- By Location: Stacks are displayed as they are in game.
+        ///- By Location Merged: Stacks are grouped based on where they are in game. Stacks of the same item are grouped together.
+        ///- Merged: Stacks are not grouped. Stacks of the same item are grouped together..
+        /// </summary>
+        internal static string Settings_DefaultStackGrouping_Description {
+            get {
+                return ResourceManager.GetString("Settings_DefaultStackGrouping_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default stack grouping.
+        /// </summary>
+        internal static string Settings_DefaultStackGrouping_Name {
+            get {
+                return ResourceManager.GetString("Settings_DefaultStackGrouping_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide bags equipped on characters.
+        /// </summary>
+        internal static string Settings_HideEquippedBags_Description {
+            get {
+                return ResourceManager.GetString("Settings_HideEquippedBags_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide equipped bags.
+        /// </summary>
+        internal static string Settings_HideEquippedBags_Name {
+            get {
+                return ResourceManager.GetString("Settings_HideEquippedBags_Name", resourceCulture);
             }
         }
         

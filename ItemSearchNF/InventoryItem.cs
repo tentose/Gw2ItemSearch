@@ -171,5 +171,18 @@ namespace ItemSearch
                 default: return ItemBinding.Unknown;
             }
         }
+
+        public static string ItemSourceToString(InventoryItemSource source)
+        {
+            switch (source)
+            {
+                case InventoryItemSource.Bank: return Strings.ResultTitle_Bank;
+                case InventoryItemSource.SharedInventory: return Strings.ResultTitle_SharedInventory;
+                case InventoryItemSource.MaterialStorage: return Strings.ResultTitle_Materials;
+                case InventoryItemSource.TradingPostDeliveryBox: return Strings.ResultTitle_TPDeliveryBox;
+                case InventoryItemSource.TradingPostSellOrder: return Strings.ResultTitle_TPSellOrder;
+                default: return Strings.ResultTitle_Other;
+            }
+        }
     }
 }

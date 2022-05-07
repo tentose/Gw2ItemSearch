@@ -66,7 +66,7 @@ namespace ItemSearch.Controls
             SetAsSearchIcon?.Invoke(this, EventArgs.Empty);
         }
 
-        private string m_number = "";
+        protected string m_number = "";
         private bool m_shouldLoadImage = true;
 
         public ItemIcon(InventoryItem item)
@@ -123,7 +123,7 @@ namespace ItemSearch.Controls
             }
         }
 
-        public void BuildAndShowContextMenu()
+        private void BuildAndShowContextMenu()
         {
             m_contextMenu = new ContextMenuStrip();
             if (ShowSetSearchIconContextMenu)
@@ -144,7 +144,7 @@ namespace ItemSearch.Controls
         {
             if (Tooltip == null)
             {
-                Tooltip = new Tooltip(new ItemTooltipView(m_item));
+                Tooltip = new Tooltip(new ItemTooltipView(m_item, m_number));
             }
         }
 

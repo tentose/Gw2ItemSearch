@@ -82,7 +82,7 @@ namespace ItemSearch.Controls
 
         private void UpdateTabStates()
         {
-            this.SideBarHeight = TAB_VERTICALOFFSET + TAB_HEIGHT * this.Tabs.Count;
+            this.SideBarHeight = Math.Min(TAB_VERTICALOFFSET + TAB_HEIGHT * this.Tabs.Count, this.Height - TAB_VERTICALOFFSET);
 
             this.HoveredTab = this.MouseOver && this.SidebarActiveBounds.Contains(this.RelativeMousePosition)
                                   ? this.Tabs.FromIndex((this.RelativeMousePosition.Y - this.SidebarActiveBounds.Y - TAB_VERTICALOFFSET) / TAB_HEIGHT)
@@ -106,6 +106,11 @@ namespace ItemSearch.Controls
             foreach (var tab in this.Tabs)
             {
                 int tabTop = this.SidebarActiveBounds.Top + TAB_VERTICALOFFSET + tabIndex * TAB_HEIGHT;
+
+                if (tabTop + TAB_HEIGHT / 2 > this.Height)
+                {
+                    continue;
+                }
 
                 bool selected = tab == this.SelectedTab;
                 bool hovered = tab == this.HoveredTab;

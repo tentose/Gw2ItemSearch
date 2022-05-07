@@ -24,7 +24,7 @@ namespace ItemSearch.Controls
         private IconButon m_searchFilterToggleButton;
         private ViewContainer m_searchFilterPanel;
         private SearchOptionsView m_searchFilterView;
-        private SearchFilter m_searchFilter;
+        private SearchOptions m_searchOptions;
         private SavedSearch m_savedSearch;
         private IconToggleButon m_saveSearchButton;
 
@@ -74,9 +74,9 @@ namespace ItemSearch.Controls
             };
             m_searchFilterToggleButton.Click += M_searchFilterToggleButton_Click;
 
-            m_searchFilter = new SearchFilter();
-            m_searchFilter.FilterChanged += M_searchFilter_FilterChanged;
-            m_searchFilterView = new SearchOptionsView(m_searchFilter);
+            m_searchOptions = new SearchOptions();
+            m_searchOptions.FilterChanged += M_searchFilter_FilterChanged;
+            m_searchFilterView = new SearchOptionsView(m_searchOptions);
             m_searchFilterPanel = new ViewContainer()
             {
                 HeightSizingMode = SizingMode.AutoSize,
@@ -85,7 +85,7 @@ namespace ItemSearch.Controls
                 Parent = buildPanel,
             };
 
-            m_resultPanel = new ItemSearchResultPanel(m_searchFilter, m_savedSearch)
+            m_resultPanel = new ItemSearchResultPanel(m_searchOptions, m_savedSearch)
             {
                 Size = new Point(400, 400),
                 Parent = buildPanel,
@@ -99,7 +99,7 @@ namespace ItemSearch.Controls
                 // This is a saved search, populate the search criteria and search immediately
                 m_searchQueryBox.Text = m_savedSearch.Query ?? "";
                 m_searchDebounceTimer.Stop();
-                m_searchFilter.CopyFrom(m_savedSearch.Filter);
+                m_searchOptions.CopyFrom(m_savedSearch.Filter);
                 _ = PerformSearchQuery(m_searchQueryBox.Text);
             }
         }
@@ -112,7 +112,7 @@ namespace ItemSearch.Controls
                 if (m_savedSearch == null)
                 {
                     SavedSearch savedSearch = new SavedSearch();
-                    savedSearch.Filter = m_searchFilter;
+                    savedSearch.Filter = m_searchOptions;
                     savedSearch.Query = m_searchQueryBox.Text;
                     ItemSearchModule.Instance.AddSavedSearch(savedSearch);
                 }
@@ -129,15 +129,15 @@ namespace ItemSearch.Controls
             if (m_searchQueryBox.Text.Length == 0)
             {
                 int filterCriteriaCount = 0;
-                if (m_searchFilter.Type.HasValue)
+                if (m_searchOptions.Type.HasValue)
                 {
                     filterCriteriaCount++;
                 }
-                if (m_searchFilter.SubType.HasValue)
+                if (m_searchOptions.SubType.HasValue)
                 {
                     filterCriteriaCount++;
                 }
-                if (m_searchFilter.Rarity.HasValue)
+                if (m_searchOptions.Rarity.HasValue)
                 {
                     filterCriteriaCount++;
                 }
@@ -238,7 +238,7 @@ namespace ItemSearch.Controls
 
         private async Task PerformBrowse()
         {
-            var result = await m_searchEngine.Browse(m_searchFilter);
+            var result = await m_searchEngine.Browse(m_searchOptions);
             m_resultPanel.SetSearchResult(result);
         }
     }

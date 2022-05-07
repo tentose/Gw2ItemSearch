@@ -33,7 +33,7 @@ namespace ItemSearch.Controls
 
         List<(SavedSearch savedSearch, Tab tab)> m_savedSearchToTab = new List<(SavedSearch savedSearch, Tab tab)>();
 
-        public ItemSearchWindow(ContentsManager contentManager, ItemIndex searchEngine, SavedSearchManager savedSearchManager) : base(contentManager.GetTexture("Textures/155985.png"), new Rectangle(0, 0, 600, 600), new Thickness(20, 0, 20, 55))
+        public ItemSearchWindow(ContentsManager contentManager, ItemIndex searchEngine, SavedSearchManager savedSearchManager) : base(contentManager.GetTexture("Textures/155985.png"), new Rectangle(0, 0, 620, 600), new Thickness(20, 0, 20, 55))
         {
             m_contentsManager = contentManager;
             m_searchEngine = searchEngine;
