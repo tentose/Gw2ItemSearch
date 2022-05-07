@@ -554,6 +554,12 @@
   <data name="Settings_HideEquippedBags_Name" xml:space="preserve">
     <value>Hide equipped bags</value>
   </data>
+  <data name="Settings_AutoFocusSearchField_Description" xml:space="preserve">
+    <value>When the search window is opened, automatically focus the search box. If the active tab is a saved tab, the active tab will be switched to the search all tab when the search window is opened.</value>
+  </data>
+  <data name="Settings_AutoFocusSearchField_Name" xml:space="preserve">
+    <value>Auto focus search box</value>
+  </data>
   <data name="Settings_CornerIconPosition_Description" xml:space="preserve">
     <value>Position of the corner icon (the button at the top left corner of the screen):
 - Normal: Icon behaves like all other Blish HUD icons. Stacks left to right beside the normal ingame icons.
@@ -562,5 +568,11 @@
   </data>
   <data name="Settings_CornerIconPosition_Name" xml:space="preserve">
     <value>Corner icon position</value>
+  </data>
+  <data name="Settings_SearchHotkey_Description" xml:space="preserve">
+    <value>Shortcut to toggle visibility of the search window.</value>
+  </data>
+  <data name="Settings_SearchHotkey_Name" xml:space="preserve">
+    <value>Toggle search window</value>
   </data>
 </root>

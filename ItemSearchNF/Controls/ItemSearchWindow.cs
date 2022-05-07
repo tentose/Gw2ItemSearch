@@ -126,5 +126,24 @@ namespace ItemSearch.Controls
             return new Point(MathHelper.Clamp(newSize.X, MIN_WIDTH, MAX_WIDTH),
                         MathHelper.Clamp(newSize.Y, MIN_HEIGHT, MAX_HEIGHT));
         }
+
+        public override void Show()
+        {
+            base.Show();
+
+            if (ItemSearchModule.Instance.GlobalSettings.AutoFocusSearchField.Value)
+            {
+                if (SelectedTab != Tabs.ElementAt(0))
+                {
+                    SelectedTab = Tabs.ElementAt(0);
+                }
+
+                var searchView = CurrentView as ItemSearchView;
+                if (searchView != null)
+                {
+                    searchView.FocusSearchField();
+                }
+            }
+        }
     }
 }

@@ -167,6 +167,9 @@ namespace ItemSearch
             m_searchWindow = new ItemSearchWindow(ContentsManager, m_searchEngine, m_savedSearchManager);
             m_searchIcon.Click += delegate { m_searchWindow.ToggleWindow(); };
             m_searchIcon.LoadingMessage = null;
+
+            GlobalSettings.SearchHotkey.Value.Activated += delegate { m_searchWindow.ToggleWindow(); };
+
             Logger.Info($"LoadAsync: {stopwatch.ElapsedMilliseconds}");
         }
 

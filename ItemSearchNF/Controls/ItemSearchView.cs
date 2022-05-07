@@ -37,6 +37,14 @@ namespace ItemSearch.Controls
             m_savedSearch = savedSearch;
         }
 
+        public void FocusSearchField()
+        {
+            if (m_searchQueryBox != null)
+            {
+                m_searchQueryBox.Focused = true;
+            }
+        }
+
         protected override void Build(Container buildPanel)
         {
             m_saveSearchButton = new IconToggleButon()
