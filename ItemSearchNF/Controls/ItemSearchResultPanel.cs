@@ -58,10 +58,15 @@ namespace ItemSearch.Controls
             // Build the list of ItemIcons
             m_itemIcons.ForEach(item => item.Dispose());
             m_itemIcons.Clear();
-            m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)
+
+            if (items != null)
             {
-                ShowSetSearchIconContextMenu = m_savedSearch != null,
-            }));
+                m_itemIcons.AddRange(items.Select(item => new ItemIcon(item)
+                {
+                    ShowSetSearchIconContextMenu = m_savedSearch != null,
+                }));
+            }
+            
             foreach (var icon in m_itemIcons)
             {
                 icon.SetAsSearchIcon += Icon_SetAsSearchIcon;
