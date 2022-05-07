@@ -1,6 +1,6 @@
 ﻿{
   "name": "Item Search",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "namespace": "pentose.itemsearch",
   "package": "ItemSearch.dll",
   "manifest_version": 1,
