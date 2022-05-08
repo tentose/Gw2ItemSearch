@@ -1258,6 +1258,45 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to When the search window is opened, automatically focus the search box. If the active tab is a saved tab, the active tab will be switched to the search all tab when the search window is opened..
+        /// </summary>
+        internal static string Settings_AutoFocusSearchField_Description {
+            get {
+                return ResourceManager.GetString("Settings_AutoFocusSearchField_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto focus search box.
+        /// </summary>
+        internal static string Settings_AutoFocusSearchField_Name {
+            get {
+                return ResourceManager.GetString("Settings_AutoFocusSearchField_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position of the corner icon (the button at the top left corner of the screen):
+        ///- Normal: Icon behaves like all other Blish HUD icons. Stacks left to right beside the normal ingame icons.
+        ///- Below Inventory: Icon is placed below the ingame inventory button.
+        ///- Off: Icon is not shown. You must use shortcut to open the search window..
+        /// </summary>
+        internal static string Settings_CornerIconPosition_Description {
+            get {
+                return ResourceManager.GetString("Settings_CornerIconPosition_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Corner icon position.
+        /// </summary>
+        internal static string Settings_CornerIconPosition_Name {
+            get {
+                return ResourceManager.GetString("Settings_CornerIconPosition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to How stacks are grouped by default (you can change it for each individual search under the gears menu):
         ///- By Location: Stacks are displayed as they are in game.
         ///- By Location Merged: Stacks are grouped based on where they are in game. Stacks of the same item are grouped together.
@@ -1279,7 +1318,7 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide bags equipped on characters.
+        ///   Looks up a localized string similar to Hide inventory bags equipped on characters from search results.
         /// </summary>
         internal static string Settings_HideEquippedBags_Description {
             get {
@@ -1324,7 +1363,7 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to API Refresh Interval.
+        ///   Looks up a localized string similar to API refresh interval.
         /// </summary>
         internal static string Settings_PlayerDataRefreshIntervalMinutes_Name {
             get {
@@ -1345,11 +1384,29 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Item Icon Cache.
+        ///   Looks up a localized string similar to Item icon cache.
         /// </summary>
         internal static string Settings_RenderCacheMethod_Name {
             get {
                 return ResourceManager.GetString("Settings_RenderCacheMethod_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shortcut to toggle visibility of the search window..
+        /// </summary>
+        internal static string Settings_SearchHotkey_Description {
+            get {
+                return ResourceManager.GetString("Settings_SearchHotkey_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle search window.
+        /// </summary>
+        internal static string Settings_SearchHotkey_Name {
+            get {
+                return ResourceManager.GetString("Settings_SearchHotkey_Name", resourceCulture);
             }
         }
     }

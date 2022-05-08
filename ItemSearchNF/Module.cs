@@ -41,7 +41,7 @@ namespace ItemSearch
 
         private ItemIndex m_searchEngine;
         private ItemSearchWindow m_searchWindow;
-        private CornerIcon m_searchIcon;
+        private CornerIconManager m_searchIcon;
         private Gw2Sharp.Gw2Client m_gw2sharpClientForRender;
         private SavedSearchManager m_savedSearchManager;
 
@@ -91,12 +91,11 @@ namespace ItemSearch
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            m_searchIcon = new CornerIcon()
+            m_searchIcon = new CornerIconManager()
             {
                 IconName = Strings.CornerIcon_HoverTooltip,
                 Icon = ContentsManager.GetTexture(@"Textures\CornerIcon.png"),
                 HoverIcon = ContentsManager.GetTexture(@"Textures\CornerIconHover.png"),
-                Priority = 5,
                 LoadingMessage = Strings.CornerIconLoadingProgress_Initial,
             };
 
@@ -168,6 +167,9 @@ namespace ItemSearch
             m_searchWindow = new ItemSearchWindow(ContentsManager, m_searchEngine, m_savedSearchManager);
             m_searchIcon.Click += delegate { m_searchWindow.ToggleWindow(); };
             m_searchIcon.LoadingMessage = null;
+
+            GlobalSettings.SearchHotkey.Value.Activated += delegate { m_searchWindow.ToggleWindow(); };
+
             Logger.Info($"LoadAsync: {stopwatch.ElapsedMilliseconds}");
         }
 
