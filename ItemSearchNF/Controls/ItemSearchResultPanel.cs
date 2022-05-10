@@ -229,6 +229,8 @@ namespace ItemSearch.Controls
                 {
                     panel = NewResultPanel();
                     panel.Title = item.CharacterName;
+                    // Ensure to suspend layout for new panels so that we can resume layout later
+                    panel.SuspendLayout();
                     m_characterSourcePanels.Add(item.CharacterName, panel);
                 }
                 return panel;
@@ -240,6 +242,8 @@ namespace ItemSearch.Controls
                 {
                     panel = NewResultPanel();
                     panel.Title = InventoryItem.ItemSourceToString(item.Source);
+                    // Ensure to suspend layout for new panels so that we can resume layout later
+                    panel.SuspendLayout();
                     m_accountSourcePanels.Add(item.Source, panel);
                 }
                 return panel;
