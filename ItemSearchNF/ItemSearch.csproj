@@ -37,9 +37,8 @@
       <HintPath>..\packages\AsyncClipboardService.1.7.1\lib\net45\AsyncClipboardService.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Blish HUD, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\BlishHUD.0.11.4\lib\net472\Blish HUD.exe</HintPath>
-      <Private>False</Private>
+    <Reference Include="Blish HUD">
+      <HintPath>..\..\Blish-HUD-fork\Blish HUD\bin\x64\Debug\net472\Blish HUD.exe</HintPath>
     </Reference>
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
@@ -225,7 +224,6 @@
     <Compile Include="Controls\ItemTooltip.cs" />
     <Compile Include="Controls\LayoutHelper.cs" />
     <Compile Include="FileCacheMethod.cs" />
-    <Compile Include="InternalTextureUtil.cs" />
     <Compile Include="InventoryItem.cs" />
     <Compile Include="ItemIndex.cs" />
     <Compile Include="Controls\ItemSearchResultPanel.cs" />
@@ -331,7 +329,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.3.8.0.1641\build\MonoGame.Framework.WindowsDX.targets'))" />
-    <Error Condition="!Exists('..\packages\BlishHUD.0.11.4\build\BlishHUD.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BlishHUD.0.11.4\build\BlishHUD.targets'))" />
+    <Error Condition="!Exists('..\packages\BlishHUD.0.11.8-ci.45\build\BlishHUD.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\BlishHUD.0.11.8-ci.45\build\BlishHUD.targets'))" />
   </Target>
-  <Import Project="..\packages\BlishHUD.0.11.4\build\BlishHUD.targets" Condition="Exists('..\packages\BlishHUD.0.11.4\build\BlishHUD.targets')" />
+  <Import Project="..\packages\BlishHUD.0.11.8-ci.45\build\BlishHUD.targets" Condition="Exists('..\packages\BlishHUD.0.11.8-ci.45\build\BlishHUD.targets')" />
 </Project>

@@ -98,6 +98,13 @@ namespace ItemSearch.Controls
             set => SetProperty(ref _canClose, value);
         }
 
+        private bool _canCloseWithEscape = true;
+        public bool CanCloseWithEscape
+        {
+            get => _canCloseWithEscape;
+            set => SetProperty(ref _canCloseWithEscape, value);
+        }
+
         private bool _canResize = false;
         /// <summary>
         /// Allows the window to be resized by dragging the bottom right corner.
@@ -177,8 +184,6 @@ namespace ItemSearch.Controls
 
         protected InternalWindowBase2()
         {
-            WindowBase2.RegisterWindow(this);
-
             this.Opacity = 0f;
             this.Visible = false;
 
@@ -698,8 +703,6 @@ namespace ItemSearch.Controls
                 this.CurrentView.Loaded -= OnViewBuilt;
                 this.CurrentView.DoUnload();
             }
-
-            WindowBase2.UnregisterWindow(this);
 
             GameService.Input.Mouse.LeftMouseButtonReleased -= OnGlobalMouseRelease;
 

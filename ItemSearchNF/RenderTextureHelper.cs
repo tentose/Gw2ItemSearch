@@ -25,7 +25,7 @@ namespace ItemSearch.Controls
                     var imageBytes = await ItemSearchModule.Instance.RenderClient.DownloadToByteArrayAsync(url);
                     using (var textureStream = new MemoryStream(imageBytes))
                     {
-                        var loadedTexture = InternalTextureUtil.FromStreamPremultiplied(textureStream);
+                        var loadedTexture = TextureUtil.FromStreamPremultiplied(textureStream);
                         asyncTexture.SwapTexture(loadedTexture);
                     }
                 }
