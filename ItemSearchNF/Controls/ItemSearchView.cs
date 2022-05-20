@@ -212,16 +212,9 @@ namespace ItemSearch.Controls
             // Select all text if the user is focusing on the text box to make it easier to type a new query
             if (m_searchQueryBox.Focused && m_searchQueryBox.Text.Length > 0)
             {
-                // Textbox handles cursor placement AFTER input focus changes. If we make the selection right
-                // away, the text box will just overwrite it with cursor placement logic. Do the selection
-                // after a small delay.
-                Task.Run(async () =>
-                {
-                    await Task.Delay(100);
-                    m_searchQueryBox.SelectionStart = 0;
-                    m_searchQueryBox.SelectionEnd = m_searchQueryBox.Text.Length;
-                    m_searchQueryBox.RecalculateLayout();
-                });
+                m_searchQueryBox.SelectionStart = 0;
+                m_searchQueryBox.SelectionEnd = m_searchQueryBox.Text.Length;
+                m_searchQueryBox.RecalculateLayout();
             }
         }
 
