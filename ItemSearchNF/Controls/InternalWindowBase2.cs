@@ -64,9 +64,27 @@ namespace ItemSearch.Controls
 
         #endregion
 
+        bool _tryGetZIndex = true;
         public override int ZIndex
         {
-            get => _zIndex + WindowBase2.GetZIndex(this);
+            get
+            {
+                int value = _zIndex;
+                // WORKAROUND: BH <0.11.8 and older builds of 0.11.8
+                if (_tryGetZIndex)
+                {
+                    try
+                    {
+                        value += WindowBase2.GetZIndex(this);
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        // Happens in older versions of BH (<0.11.8 and older builds of 0.11.8). Ignore
+                        _tryGetZIndex = false;
+                    }
+                }
+                return value;
+            }
             set => SetProperty(ref _zIndex, value);
         }
 
