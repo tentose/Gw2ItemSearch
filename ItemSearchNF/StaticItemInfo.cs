@@ -26,6 +26,7 @@ namespace ItemSearch
     {
         public string Name { get; set; }
         public string IconUrl { get; set; }
+        public string ChatCode { get; set; }
         public ItemRarity Rarity { get; set; }
         public ItemType Type { get; set; }
 
@@ -125,6 +126,7 @@ namespace ItemSearch
                 staticItem.Name = item.Name;
                 staticItem.IconUrl = item.Icon.Url.ToString();
                 staticItem.Rarity = RarityStringToRarity(item.Rarity.ToString());
+                staticItem.ChatCode = item.ChatLink;
                 AllItems.Add(item.Id, staticItem);
             }
 

@@ -1015,6 +1015,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy chat code.
+        /// </summary>
+        internal static string ItemContextMenu_CopyChatCode {
+            get {
+                return ResourceManager.GetString("ItemContextMenu_CopyChatCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go to: .
         /// </summary>
         internal static string ItemContextMenu_ExternalLinkPrefix {
@@ -1092,6 +1101,24 @@ namespace ItemSearch {
         internal static string ItemTooltip_Transmuted {
             get {
                 return ResourceManager.GetString("ItemTooltip_Transmuted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chat code copied.
+        /// </summary>
+        internal static string Notification_ChatCodeCopied {
+            get {
+                return ResourceManager.GetString("Notification_ChatCodeCopied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chat code copy failed.
+        /// </summary>
+        internal static string Notification_ChatCodeCopyFailed {
+            get {
+                return ResourceManager.GetString("Notification_ChatCodeCopyFailed", resourceCulture);
             }
         }
         

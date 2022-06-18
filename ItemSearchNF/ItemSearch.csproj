@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="AsyncClipboardService, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AsyncClipboardService.1.7.1\lib\net45\AsyncClipboardService.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Blish HUD, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BlishHUD.0.11.8-ci.88\lib\net472\Blish HUD.exe</HintPath>

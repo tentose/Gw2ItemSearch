@@ -1,4 +1,5 @@
-﻿using Blish_HUD;
+﻿using AsyncWindowsClipboard;
+using Blish_HUD;
 using Blish_HUD.Content;
 using Blish_HUD.Controls;
 using Blish_HUD.Input;
@@ -19,6 +20,8 @@ namespace ItemSearch.Controls
     public class ItemIcon : Control
     {
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
+
+        private static readonly WindowsClipboardService s_clipboardService = new WindowsClipboardService(TimeSpan.FromMilliseconds(20));
 
         private static readonly BitmapFont s_NumberFont = GameService.Content.DefaultFont16;
         private static readonly Color s_NumberColor = Color.LemonChiffon;
@@ -133,6 +136,9 @@ namespace ItemSearch.Controls
                 item.Click += Item_Click;
             }
 
+            var chatCodeItem = m_contextMenu.AddMenuItem(Strings.ItemContextMenu_CopyChatCode);
+            chatCodeItem.Click += ChatCodeItem_Click;
+
             var externalLinks = ItemSearchModule.Instance.ExternalLinks.GetForItem(this.Item.Id, this.ItemInfo);
             foreach (var link in externalLinks)
             {
@@ -141,6 +147,28 @@ namespace ItemSearch.Controls
             }
 
             m_contextMenu.Show(this);
+        }
+
+        private async void ChatCodeItem_Click(object sender, MouseEventArgs e)
+        {
+            bool succeeded = false;
+            try
+            {
+                succeeded = await s_clipboardService.SetTextAsync(this.ItemInfo.ChatCode);
+            }
+            catch (Exception ex)
+            {
+                Logger.Warn(ex, $"Failed to set clipboard text to {this.ItemInfo.ChatCode}");
+            }
+            
+            if (succeeded)
+            {
+                ScreenNotification.ShowNotification(Strings.Notification_ChatCodeCopied, ScreenNotification.NotificationType.Info);
+            }
+            else
+            {
+                ScreenNotification.ShowNotification(Strings.Notification_ChatCodeCopyFailed, ScreenNotification.NotificationType.Error);
+            }
         }
 
         private void Item_Click(object sender, MouseEventArgs e)
