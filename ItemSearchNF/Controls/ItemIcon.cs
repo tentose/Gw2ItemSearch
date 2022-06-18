@@ -136,8 +136,11 @@ namespace ItemSearch.Controls
                 item.Click += Item_Click;
             }
 
+            var copyNameItem = m_contextMenu.AddMenuItem(Strings.ItemContextMenu_CopyName);
+            copyNameItem.Click += (sender, args) => CopyText(this.ItemInfo.Name);
+
             var chatCodeItem = m_contextMenu.AddMenuItem(Strings.ItemContextMenu_CopyChatCode);
-            chatCodeItem.Click += ChatCodeItem_Click;
+            chatCodeItem.Click += (sender, args) => CopyText(this.ItemInfo.ChatCode);
 
             var externalLinks = ItemSearchModule.Instance.ExternalLinks.GetForItem(this.Item.Id, this.ItemInfo);
             foreach (var link in externalLinks)
@@ -149,25 +152,25 @@ namespace ItemSearch.Controls
             m_contextMenu.Show(this);
         }
 
-        private async void ChatCodeItem_Click(object sender, MouseEventArgs e)
+        private async void CopyText(string text)
         {
             bool succeeded = false;
             try
             {
-                succeeded = await s_clipboardService.SetTextAsync(this.ItemInfo.ChatCode);
+                succeeded = await s_clipboardService.SetTextAsync(text);
             }
             catch (Exception ex)
             {
-                Logger.Warn(ex, $"Failed to set clipboard text to {this.ItemInfo.ChatCode}");
+                Logger.Warn(ex, $"Failed to set clipboard text to {text}");
             }
             
             if (succeeded)
             {
-                ScreenNotification.ShowNotification(Strings.Notification_ChatCodeCopied, ScreenNotification.NotificationType.Info);
+                ScreenNotification.ShowNotification(Strings.Notification_Copied, ScreenNotification.NotificationType.Info);
             }
             else
             {
-                ScreenNotification.ShowNotification(Strings.Notification_ChatCodeCopyFailed, ScreenNotification.NotificationType.Error);
+                ScreenNotification.ShowNotification(Strings.Notification_CopyFailed, ScreenNotification.NotificationType.Error);
             }
         }
 

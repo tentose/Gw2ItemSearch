@@ -1,6 +1,6 @@
 [{
         "Name": "Wiki",
-        "Url": "https://wiki-de.guildwars2.com/wiki/@@name@@"
+        "Url": "https://wiki-de.guildwars2.com/wiki/?search=@@chat@@"
     },
     {
         "Name": "GW2BLTC",

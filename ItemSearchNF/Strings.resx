@@ -578,13 +578,22 @@
   <data name="ItemContextMenu_CopyChatCode" xml:space="preserve">
     <value>Copy chat code</value>
   </data>
+  <data name="ItemContextMenu_CopyName" xml:space="preserve">
+    <value>Copy item name</value>
+  </data>
   <data name="ItemContextMenu_ExternalLinkPrefix" xml:space="preserve">
     <value>Go to: </value>
   </data>
-  <data name="Notification_ChatCodeCopied" xml:space="preserve">
-    <value>Chat code copied</value>
+  <data name="Notification_Copied" xml:space="preserve">
+    <value>Copied to clipboard</value>
   </data>
-  <data name="Notification_ChatCodeCopyFailed" xml:space="preserve">
-    <value>Chat code copy failed</value>
+  <data name="Notification_CopyFailed" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <data name="SearchWindow_Tips" xml:space="preserve">
+    <value>Tips:
+ - Right click search results for additional options
+ - You can assign icons to saved searches by right clicking one of the search results and selecting "Set as icon"
+ - Additional external link locations can be added by editing external_links.json in the 'itemsearchsave' directory</value>
   </data>
 </root>

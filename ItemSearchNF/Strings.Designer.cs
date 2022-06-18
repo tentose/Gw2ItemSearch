@@ -1024,6 +1024,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy item name.
+        /// </summary>
+        internal static string ItemContextMenu_CopyName {
+            get {
+                return ResourceManager.GetString("ItemContextMenu_CopyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go to: .
         /// </summary>
         internal static string ItemContextMenu_ExternalLinkPrefix {
@@ -1105,20 +1114,20 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chat code copied.
+        ///   Looks up a localized string similar to Copied to clipboard.
         /// </summary>
-        internal static string Notification_ChatCodeCopied {
+        internal static string Notification_Copied {
             get {
-                return ResourceManager.GetString("Notification_ChatCodeCopied", resourceCulture);
+                return ResourceManager.GetString("Notification_Copied", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Chat code copy failed.
+        ///   Looks up a localized string similar to Copy failed.
         /// </summary>
-        internal static string Notification_ChatCodeCopyFailed {
+        internal static string Notification_CopyFailed {
             get {
-                return ResourceManager.GetString("Notification_ChatCodeCopyFailed", resourceCulture);
+                return ResourceManager.GetString("Notification_CopyFailed", resourceCulture);
             }
         }
         
@@ -1281,6 +1290,18 @@ namespace ItemSearch {
         internal static string SearchWindow_SearchPlaceholder {
             get {
                 return ResourceManager.GetString("SearchWindow_SearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tips:
+        /// - Right click search results for additional options
+        /// - You can assign icons to saved searches by right clicking one of the search results and selecting &quot;Set as icon&quot;
+        /// - Additional external link locations can be added by editing external_links.json in the &apos;itemsearchsave&apos; directory.
+        /// </summary>
+        internal static string SearchWindow_Tips {
+            get {
+                return ResourceManager.GetString("SearchWindow_Tips", resourceCulture);
             }
         }
         

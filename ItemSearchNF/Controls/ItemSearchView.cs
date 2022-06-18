@@ -27,6 +27,7 @@ namespace ItemSearch.Controls
         private SearchOptions m_searchOptions;
         private SavedSearch m_savedSearch;
         private IconToggleButon m_saveSearchButton;
+        private Label m_tipsLabel;
 
         private ItemIndex m_searchEngine;
         private Timer m_searchDebounceTimer;
@@ -96,6 +97,13 @@ namespace ItemSearch.Controls
             m_resultPanel = new ItemSearchResultPanel(m_searchOptions, m_savedSearch)
             {
                 Size = new Point(400, 400),
+                Parent = buildPanel,
+            };
+
+            m_tipsLabel = new Label()
+            {
+                Text = Strings.SearchWindow_Tips,
+                WrapText = true,
                 Parent = buildPanel,
             };
 
@@ -204,6 +212,8 @@ namespace ItemSearch.Controls
                 m_searchFilterPanel.Location = m_searchQueryBox.Location + new Point(parent.ContentRegion.Width - m_searchFilterPanel.Width - m_saveSearchButton.Width - CONTENT_X_MARGIN, m_searchQueryBox.Height);
                 m_resultPanel.Location = new Point(0, m_searchQueryBox.Height + CONTENT_Y_PADDING);
                 m_resultPanel.Size = new Point(parent.ContentRegion.Width - CONTENT_X_MARGIN, parent.ContentRegion.Height - CONTENT_Y_PADDING - m_resultPanel.Top);
+                m_tipsLabel.Size = new Point((m_resultPanel.Size.X - CONTENT_X_MARGIN).Clamp(200, 500), (m_resultPanel.Size.Y - CONTENT_Y_PADDING).Clamp(200, 500));
+                m_tipsLabel.Location = new Point((parent.ContentRegion.Width - m_tipsLabel.Size.X) / 2, (m_resultPanel.Size.Y - m_tipsLabel.Size.Y) / 2 + m_resultPanel.Top);
             }
         }
 
@@ -241,6 +251,7 @@ namespace ItemSearch.Controls
             {
                 var result = await m_searchEngine.Search(query);
                 m_resultPanel.SetSearchResult(result);
+                m_tipsLabel.Hide();
             }
         }
 

@@ -66,7 +66,8 @@ namespace ItemSearch
                     Name = link.Name,
                 };
 
-                linkForItem.Url = link.Url.Replace("@@name@@", item.Name)
+                linkForItem.Url = link.Url.Replace("@@name@@", Uri.EscapeDataString(item.Name))
+                                          .Replace("@@chat@@", Uri.EscapeDataString(item.ChatCode))
                                           .Replace("@@itemid@@", id.ToString());
                 linksForItem.Add(linkForItem);
             }
