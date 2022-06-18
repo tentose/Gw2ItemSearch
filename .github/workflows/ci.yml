@@ -44,3 +44,9 @@ jobs:
         with:
           name: itemsearch_${{steps.version.outputs.build_version}}
           path: ItemSearchNF/bin/Release
+
+      - name: Update SSRD
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.SSRD_UPDATE }}
+          method: 'GET'
