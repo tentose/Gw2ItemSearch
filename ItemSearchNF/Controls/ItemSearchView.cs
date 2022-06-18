@@ -259,6 +259,7 @@ namespace ItemSearch.Controls
         {
             var result = await m_searchEngine.Browse(m_searchOptions);
             m_resultPanel.SetSearchResult(result);
+            m_tipsLabel.Hide();
         }
     }
 }
