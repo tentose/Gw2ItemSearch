@@ -1,0 +1,17 @@
+[{
+        "Name": "Wiki",
+        "Url": "https://wiki.guildwars2.com/wiki/@@name@@"
+    },
+    {
+        "Name": "GW2BLTC",
+        "Url": "https://www.gw2bltc.com/en/item/@@itemid@@"
+    },
+    {
+        "Name": "GW2Spidy",
+        "Url": "https://www.gw2spidy.com/item/@@itemid@@"
+    },
+    {
+        "Name": "GW2TP",
+        "Url": "https://www.gw2tp.com/item/@@itemid@@"
+    }
+]

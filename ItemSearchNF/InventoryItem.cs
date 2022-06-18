@@ -33,7 +33,7 @@ namespace ItemSearch
         public int EquipmentTabId { get; set; } = -1;
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Count { get; set; }
+        public int Count { get; set; } = 1;
         public int? Charges { get; set; }
         public int[] Infusions { get; set; }
         public int[] Upgrades { get; set; }
@@ -51,6 +51,12 @@ namespace ItemSearch
             CharacterName = character;
             Id = item.Id;
             Count = item.Count;
+
+            if (Count == 0)
+            {
+                Count = 1;
+            }
+
             Charges = item.Charges;
             Infusions = item.Infusions?.ToArray();
             Upgrades = item.Upgrades?.ToArray();

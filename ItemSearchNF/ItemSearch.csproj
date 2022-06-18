@@ -246,6 +246,7 @@
     <Compile Include="Controls\ItemIconMerged.cs" />
     <Compile Include="Controls\SearchTab.cs" />
     <Compile Include="CornerIconManager.cs" />
+    <Compile Include="ItemExternalLinks.cs" />
     <Compile Include="RenderTextureHelper.cs" />
     <Compile Include="Controls\SearchOptionsView.cs" />
     <Compile Include="Controls\IconButton.cs" />

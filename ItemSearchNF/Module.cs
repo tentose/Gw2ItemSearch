@@ -26,6 +26,7 @@ namespace ItemSearch
         private const string STATIC_ITEMS_FILE_NAME = "all_items.json";
         private const string CACHE_VERSION_FILE_NAME = "cache_version.json";
         private const string RENDER_CACHE_FILE_NAME = "render_cache";
+        private const string EXTERNAL_LINKS_FILE_NAME = "external_links.json";
 
         private SettingsManager m_settingsManager => this.ModuleParameters.SettingsManager;
         public ContentsManager ContentsManager => this.ModuleParameters.ContentsManager;
@@ -38,6 +39,7 @@ namespace ItemSearch
         public string LocaleSpecificCacheDirectory { get; private set; }
 
         public string SaveDirectory { get; private set; }
+        public ItemExternalLinks ExternalLinks { get; private set; }
 
         private ItemIndex m_searchEngine;
         private ItemSearchWindow m_searchWindow;
@@ -111,31 +113,22 @@ namespace ItemSearch
             CacheDirectory = DirectoriesManager.GetFullDirectoryPath(CACHE_DIRECTORY);
             EnsureCacheVersion();
 
+            var localeDir = LocaleToPathString(GameService.Overlay.UserLocale.Value);
+            LocaleSpecificCacheDirectory = Path.Combine(CacheDirectory, localeDir);
+
             SaveDirectory = DirectoriesManager.GetFullDirectoryPath(SAVE_DIRECTORY);
             m_savedSearchManager = new SavedSearchManager();
             await m_savedSearchManager.Initialize();
 
+            EnsureFileCopiedFromArchive(Path.Combine(localeDir, EXTERNAL_LINKS_FILE_NAME), Path.Combine(SaveDirectory, EXTERNAL_LINKS_FILE_NAME));
+            ExternalLinks = new ItemExternalLinks();
+            await ExternalLinks.Initialize();
+
             // Static items
             m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_StaticItems;
 
-            var localeDir = LocaleToPathString(GameService.Overlay.UserLocale.Value);
-            LocaleSpecificCacheDirectory = Path.Combine(CacheDirectory, localeDir);
             var staticItemsJsonPath = Path.Combine(LocaleSpecificCacheDirectory, STATIC_ITEMS_FILE_NAME);
-
-            // Fetch a copy of the static items json from resources if it doesn't exist
-            if (!File.Exists(staticItemsJsonPath))
-            {
-                Logger.Info($"{staticItemsJsonPath} not found. Restoring cache from resources");
-                var resourcePath = Path.Combine(localeDir, STATIC_ITEMS_FILE_NAME);
-                Directory.CreateDirectory(Path.GetDirectoryName(staticItemsJsonPath));
-                using (var inStream = ContentsManager.GetFileStream(resourcePath))
-                {
-                    using (var outStream = File.OpenWrite(staticItemsJsonPath))
-                    {
-                        inStream.CopyTo(outStream);
-                    }
-                }
-            }
+            EnsureFileCopiedFromArchive(Path.Combine(localeDir, STATIC_ITEMS_FILE_NAME), staticItemsJsonPath);
 
             await StaticItemInfo.Initialize(staticItemsJsonPath, Gw2ApiManager.Gw2ApiClient);
 
@@ -171,6 +164,22 @@ namespace ItemSearch
             GlobalSettings.SearchHotkey.Value.Activated += delegate { m_searchWindow.ToggleWindow(); };
 
             Logger.Info($"LoadAsync: {stopwatch.ElapsedMilliseconds}");
+        }
+
+        private void EnsureFileCopiedFromArchive(string archivePath, string extractedPath)
+        {
+            if (!File.Exists(extractedPath))
+            {
+                Logger.Info($"{extractedPath} not found. Restoring cache from resources");
+                Directory.CreateDirectory(Path.GetDirectoryName(extractedPath));
+                using (var inStream = ContentsManager.GetFileStream(archivePath))
+                {
+                    using (var outStream = File.OpenWrite(extractedPath))
+                    {
+                        inStream.CopyTo(outStream);
+                    }
+                }
+            }
         }
 
         protected override void DefineSettings(SettingCollection settings)

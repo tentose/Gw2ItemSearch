@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -130,6 +131,13 @@ namespace ItemSearch.Controls
             {
                 var item = m_contextMenu.AddMenuItem(Strings.ItemContextMenu_SetAsSearchIcon);
                 item.Click += Item_Click;
+            }
+
+            var externalLinks = ItemSearchModule.Instance.ExternalLinks.GetForItem(this.Item.Id, this.ItemInfo);
+            foreach (var link in externalLinks)
+            {
+                var item = m_contextMenu.AddMenuItem(Strings.ItemContextMenu_ExternalLinkPrefix + link.Name);
+                item.Click += (sender, args) => Process.Start(link.Url);
             }
 
             m_contextMenu.Show(this);

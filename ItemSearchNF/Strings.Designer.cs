@@ -1015,6 +1015,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go to: .
+        /// </summary>
+        internal static string ItemContextMenu_ExternalLinkPrefix {
+            get {
+                return ResourceManager.GetString("ItemContextMenu_ExternalLinkPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set as icon for this search.
         /// </summary>
         internal static string ItemContextMenu_SetAsSearchIcon {

@@ -575,4 +575,7 @@
   <data name="Settings_SearchHotkey_Name" xml:space="preserve">
     <value>Toggle search window</value>
   </data>
+  <data name="ItemContextMenu_ExternalLinkPrefix" xml:space="preserve">
+    <value>Go to: </value>
+  </data>
 </root>
