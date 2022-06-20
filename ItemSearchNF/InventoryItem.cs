@@ -26,6 +26,19 @@ namespace ItemSearch
         Character,
     }
 
+    public enum AttributeName
+    {
+        Power,
+        Precision,
+        Toughness,
+        Vitality,
+        ConditionDamage,
+        ConditionDuration,
+        Healing,
+        BoonDuration,
+        CritDamage,
+    }
+
     public class InventoryItem
     {
         public InventoryItemSource Source { get; set; }
@@ -41,6 +54,7 @@ namespace ItemSearch
         public ItemBinding? Binding { get; set; }
         public string BoundTo { get; set; }
         public InventoryItem ParentItem { get; set; }
+        public Dictionary<AttributeName, int> StatAttributes { get; set; }
 
         public StaticItemInfo ItemInfo { get; set; }
         public StaticItemInfo SkinInfo { get; set; }
@@ -68,9 +82,16 @@ namespace ItemSearch
             {
                 ItemInfo = itemInfo;
             }
+
             if (Skin.HasValue && StaticItemInfo.AllItems.TryGetValue(Skin.Value, out var skinInfo))
             {
                 SkinInfo = skinInfo;
+            }
+
+            if (item.Stats != null)
+            {
+                StatAttributes = new Dictionary<AttributeName, int>();
+                ReadItemAttributes(StatAttributes, item.Stats.Attributes);
             }
         }
 
@@ -90,9 +111,16 @@ namespace ItemSearch
             {
                 ItemInfo = itemInfo;
             }
+
             if (Skin.HasValue && StaticItemInfo.AllItems.TryGetValue(Skin.Value, out var skinInfo))
             {
                 SkinInfo = skinInfo;
+            }
+
+            if (item.Stats != null)
+            {
+                StatAttributes = new Dictionary<AttributeName, int>();
+                ReadItemAttributes(StatAttributes, item.Stats.Attributes);
             }
         }
 
@@ -188,6 +216,54 @@ namespace ItemSearch
                 case InventoryItemSource.TradingPostDeliveryBox: return Strings.ResultTitle_TPDeliveryBox;
                 case InventoryItemSource.TradingPostSellOrder: return Strings.ResultTitle_TPSellOrder;
                 default: return Strings.ResultTitle_Other;
+            }
+        }
+
+        private void ReadItemAttributes(Dictionary<AttributeName, int> stats, ItemAttributes itemAttributes)
+        {
+            if (itemAttributes.Power.HasValue)
+            {
+                stats.Add(AttributeName.Power, itemAttributes.Power.Value);
+            }
+
+            if (itemAttributes.Precision.HasValue)
+            {
+                stats.Add(AttributeName.Precision, itemAttributes.Precision.Value);
+            }
+
+            if (itemAttributes.Toughness.HasValue)
+            {
+                stats.Add(AttributeName.Toughness, itemAttributes.Toughness.Value);
+            }
+
+            if (itemAttributes.Vitality.HasValue)
+            {
+                stats.Add(AttributeName.Vitality, itemAttributes.Vitality.Value);
+            }
+
+            if (itemAttributes.CritDamage.HasValue)
+            {
+                stats.Add(AttributeName.CritDamage, itemAttributes.CritDamage.Value);
+            }
+
+            if (itemAttributes.Healing.HasValue)
+            {
+                stats.Add(AttributeName.Healing, itemAttributes.Healing.Value);
+            }
+
+            if (itemAttributes.ConditionDamage.HasValue)
+            {
+                stats.Add(AttributeName.ConditionDamage, itemAttributes.ConditionDamage.Value);
+            }
+
+            if (itemAttributes.BoonDuration.HasValue)
+            {
+                stats.Add(AttributeName.BoonDuration, itemAttributes.BoonDuration.Value);
+            }
+
+            if (itemAttributes.ConditionDuration.HasValue)
+            {
+                stats.Add(AttributeName.ConditionDuration, itemAttributes.ConditionDuration.Value);
             }
         }
     }

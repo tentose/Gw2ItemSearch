@@ -596,4 +596,31 @@
  - You can assign icons to saved searches by right clicking one of the search results and selecting "Set as icon"
  - Additional external link locations can be added by editing external_links.json in the 'itemsearchsave' directory</value>
   </data>
+  <data name="ItemTooltip_Attr_BoonDuration" xml:space="preserve">
+    <value>Concentration</value>
+  </data>
+  <data name="ItemTooltip_Attr_ConditionDamage" xml:space="preserve">
+    <value>Condition Damage</value>
+  </data>
+  <data name="ItemTooltip_Attr_ConditionDuration" xml:space="preserve">
+    <value>Expertise</value>
+  </data>
+  <data name="ItemTooltip_Attr_CritDamage" xml:space="preserve">
+    <value>Ferocity</value>
+  </data>
+  <data name="ItemTooltip_Attr_Healing" xml:space="preserve">
+    <value>Healing Power</value>
+  </data>
+  <data name="ItemTooltip_Attr_Power" xml:space="preserve">
+    <value>Power</value>
+  </data>
+  <data name="ItemTooltip_Attr_Precision" xml:space="preserve">
+    <value>Precision</value>
+  </data>
+  <data name="ItemTooltip_Attr_Toughness" xml:space="preserve">
+    <value>Toughness</value>
+  </data>
+  <data name="ItemTooltip_Attr_Vitality" xml:space="preserve">
+    <value>Vitality</value>
+  </data>
 </root>

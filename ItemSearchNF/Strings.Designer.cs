@@ -1051,6 +1051,87 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concentration.
+        /// </summary>
+        internal static string ItemTooltip_Attr_BoonDuration {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_BoonDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition Damage.
+        /// </summary>
+        internal static string ItemTooltip_Attr_ConditionDamage {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_ConditionDamage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expertise.
+        /// </summary>
+        internal static string ItemTooltip_Attr_ConditionDuration {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_ConditionDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ferocity.
+        /// </summary>
+        internal static string ItemTooltip_Attr_CritDamage {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_CritDamage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Healing Power.
+        /// </summary>
+        internal static string ItemTooltip_Attr_Healing {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_Healing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Power.
+        /// </summary>
+        internal static string ItemTooltip_Attr_Power {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_Power", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Precision.
+        /// </summary>
+        internal static string ItemTooltip_Attr_Precision {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_Precision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toughness.
+        /// </summary>
+        internal static string ItemTooltip_Attr_Toughness {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_Toughness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vitality.
+        /// </summary>
+        internal static string ItemTooltip_Attr_Vitality {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_Vitality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         internal static string ItemTooltip_CharacterEquipment {

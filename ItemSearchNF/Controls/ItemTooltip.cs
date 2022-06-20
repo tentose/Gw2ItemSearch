@@ -23,6 +23,7 @@ namespace ItemSearch.Controls
         private Label m_itemNameLabel;
         private Label m_itemParentLabel;
         private Label m_itemSourceLabel;
+        private List<Label> m_itemAttributeLabels = new List<Label>();
         private List<Label> m_itemUpgradeLabels = new List<Label>();
         private List<Label> m_itemSourceLabels = new List<Label>();
 
@@ -104,6 +105,11 @@ namespace ItemSearch.Controls
             
             m_itemSourceLabel.Parent = buildPanel;
 
+            foreach (var label in m_itemAttributeLabels)
+            {
+                label.Parent = buildPanel;
+            }
+
             foreach (var label in m_itemUpgradeLabels)
             {
                 label.Parent = buildPanel;
@@ -145,6 +151,17 @@ namespace ItemSearch.Controls
                 int nextY = m_itemNameLabel.Bottom + LABEL_Y_GAP;
                 if (itemGroup == null)
                 {
+                    // Stat attributes
+                    if (item.StatAttributes != null)
+                    {
+                        foreach (var attribute in item.StatAttributes)
+                        {
+                            var label = AddNewAttributeLabel(attribute.Key, attribute.Value);
+                            label.Location = new Point(0, nextY);
+                            nextY = label.Bottom + LABEL_Y_GAP;
+                        }
+                    }
+
                     // Upgrades
                     m_itemUpgradeLabels.Clear();
                     if (item.Upgrades != null)
@@ -247,6 +264,24 @@ namespace ItemSearch.Controls
                     }
                 }
             }
+        }
+
+        private Label AddNewAttributeLabel(AttributeName name, int value)
+        {
+            Label label = new Label()
+            {
+                ShowShadow = true,
+                AutoSizeHeight = true,
+                AutoSizeWidth = false,
+                Font = GameService.Content.DefaultFont14,
+                Text = "+" + value + " " + ResourceStrings.Get($"ItemTooltip_Attr_{name.ToString()}"),
+                Width = WIDTH,
+                WrapText = true,
+                TextColor = Color.Lime,
+            };
+            m_itemAttributeLabels.Add(label);
+
+            return label;
         }
 
         private Label AddNewSourceLabel(string source, int count)
