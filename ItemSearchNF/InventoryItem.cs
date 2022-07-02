@@ -70,10 +70,10 @@ namespace ItemSearch
                 ItemInfo = itemInfo;
             }
 
-            if (Skin.HasValue && StaticItemInfo.AllItems.TryGetValue(Skin.Value, out var skinInfo))
-            {
-                SkinInfo = skinInfo;
-            }
+            //if (Skin.HasValue && StaticItemInfo.AllItems.TryGetValue(Skin.Value, out var skinInfo))
+            //{
+            //    SkinInfo = skinInfo;
+            //}
 
             if (item.Stats != null)
             {
@@ -99,10 +99,10 @@ namespace ItemSearch
                 ItemInfo = itemInfo;
             }
 
-            if (Skin.HasValue && StaticItemInfo.AllItems.TryGetValue(Skin.Value, out var skinInfo))
-            {
-                SkinInfo = skinInfo;
-            }
+            //if (Skin.HasValue && StaticItemInfo.AllItems.TryGetValue(Skin.Value, out var skinInfo))
+            //{
+            //    SkinInfo = skinInfo;
+            //}
 
             if (item.Stats != null)
             {

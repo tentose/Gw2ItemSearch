@@ -186,10 +186,10 @@ namespace ItemSearch
             Action<InventoryItem> addItemToAllItems = (InventoryItem item) =>
             {
                 allPlayerItems.AddOrUpdate(item.Id, item);
-                if (item.Skin.HasValue && item.Skin.Value > 0)
-                {
-                    allPlayerItems.AddOrUpdate(item.Skin.Value, item);
-                }
+                //if (item.Skin.HasValue && item.Skin.Value > 0)
+                //{
+                //    allPlayerItems.AddOrUpdate(item.Skin.Value, item);
+                //}
                 if (item.Infusions != null)
                 {
                     foreach (var infusionId in item.Infusions)
