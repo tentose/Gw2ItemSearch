@@ -22,6 +22,20 @@ namespace ItemSearch
         Legendary,
     };
 
+    public enum AttributeName
+    {
+        Power,
+        Precision,
+        Toughness,
+        Vitality,
+        ConditionDamage,
+        ConditionDuration,
+        Healing,
+        BoonDuration,
+        CritDamage,
+        AgonyResistance,
+    }
+
     public class StaticItemInfo
     {
         public string Name { get; set; }
@@ -33,6 +47,9 @@ namespace ItemSearch
         // Optional Fields
         [JsonProperty("SubType", NullValueHandling = NullValueHandling.Ignore)]
         public ItemSubType SubType { get; set; }
+
+        [JsonProperty("StatAttributes", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<AttributeName, int> StatAttributes { get; set; }
 
         private static readonly Logger Logger = Logger.GetLogger<ItemSearchModule>();
 

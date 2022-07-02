@@ -17,6 +17,7 @@ namespace ItemSearch.Controls
 
         private const int WIDTH = 300;
         private const int UPGRADE_X_MARGIN = 30;
+        private const int LABEL_Y_SMALL_GAP = 1;
         private const int LABEL_Y_GAP = 5;
 
         private string m_number;
@@ -152,14 +153,25 @@ namespace ItemSearch.Controls
                 if (itemGroup == null)
                 {
                     // Stat attributes
+                    Dictionary<AttributeName, int> statAttributes = null;
                     if (item.StatAttributes != null)
                     {
-                        foreach (var attribute in item.StatAttributes)
+                        statAttributes = item.StatAttributes;
+                    }
+                    else if (item.ItemInfo.StatAttributes != null)
+                    {
+                        statAttributes = item.ItemInfo.StatAttributes;
+                    }
+
+                    if (statAttributes != null)
+                    {
+                        foreach (var attribute in statAttributes)
                         {
                             var label = AddNewAttributeLabel(attribute.Key, attribute.Value);
                             label.Location = new Point(0, nextY);
-                            nextY = label.Bottom + LABEL_Y_GAP;
+                            nextY = label.Bottom + LABEL_Y_SMALL_GAP;
                         }
+                        nextY += LABEL_Y_GAP;
                     }
 
                     // Upgrades

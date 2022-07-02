@@ -26,19 +26,6 @@ namespace ItemSearch
         Character,
     }
 
-    public enum AttributeName
-    {
-        Power,
-        Precision,
-        Toughness,
-        Vitality,
-        ConditionDamage,
-        ConditionDuration,
-        Healing,
-        BoonDuration,
-        CritDamage,
-    }
-
     public class InventoryItem
     {
         public InventoryItemSource Source { get; set; }

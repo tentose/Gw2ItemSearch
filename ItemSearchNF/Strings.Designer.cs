@@ -1051,6 +1051,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agony Resistance.
+        /// </summary>
+        internal static string ItemTooltip_Attr_AgonyResistance {
+            get {
+                return ResourceManager.GetString("ItemTooltip_Attr_AgonyResistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concentration.
         /// </summary>
         internal static string ItemTooltip_Attr_BoonDuration {
