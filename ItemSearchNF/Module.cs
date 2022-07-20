@@ -158,7 +158,6 @@ namespace ItemSearch
 
             // Controls
             m_searchWindow = new ItemSearchWindow(ContentsManager, m_searchEngine, m_savedSearchManager);
-            m_searchWindow.Hide();
             m_searchIcon.Click += delegate { m_searchWindow.ToggleWindow(); };
             m_searchIcon.LoadingMessage = null;
 
