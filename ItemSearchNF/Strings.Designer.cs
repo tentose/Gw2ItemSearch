@@ -88,6 +88,16 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to get account name. GW2 API is unavailable.
+        ///Please try again later by reloading this module..
+        /// </summary>
+        internal static string CornerIconLoadingProgress_NoAccount {
+            get {
+                return ResourceManager.GetString("CornerIconLoadingProgress_NoAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading player items from API....
         /// </summary>
         internal static string CornerIconLoadingProgress_PlayerItems {

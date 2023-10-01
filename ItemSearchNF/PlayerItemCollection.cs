@@ -61,17 +61,12 @@ namespace ItemSearch
             m_apiClient = client;
             m_permissions = permissions;
 
-            ApiModels.Account account = null;
-            while (account == null)
-            {
-                account = await ApiHelper.Fetch(() => m_apiClient.V2.Account.GetAsync());
-            }
-            m_accountName = account.Name;
+            m_accountName = await AccountNameHelper.GetAccountName(m_apiClient);
 
             Items = await InitializeFromCache(ITEMS_CACHE_FILE_NAME, Items);
             if (Items == null)
             {
-                Items = await GetPlayerItems();
+                Items = (await GetPlayerItems()).PlayerItems;
                 await WriteToCache(ITEMS_CACHE_FILE_NAME, Items);
             }
 
@@ -119,9 +114,16 @@ namespace ItemSearch
         {
             Logger.Info($"Refreshing player data from API");
 
-            var items = await GetPlayerItems();
-            Items = items;
-            await WriteToCache(ITEMS_CACHE_FILE_NAME, items);
+            var result = await GetPlayerItems();
+            if (!result.HasFailures)
+            {
+                Items = result.PlayerItems;
+                await WriteToCache(ITEMS_CACHE_FILE_NAME, result.PlayerItems);
+            }
+            else
+            {
+                Logger.Warn("API returned errors, not refreshing player data from API.");
+            }
         }
 
         private async Task<T> InitializeFromCache<T>(string filename, T obj) where T : class
@@ -176,8 +178,15 @@ namespace ItemSearch
             return Path.Combine(accountDir, filename);
         }
 
-        public async Task<Dictionary<int, List<InventoryItem>>> GetPlayerItems()
+        public class GetPlayerItemsResult
         {
+            public Dictionary<int, List<InventoryItem>> PlayerItems;
+            public bool HasFailures;
+        }
+
+        public async Task<GetPlayerItemsResult> GetPlayerItems()
+        {
+            bool hasFailures = false;
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             Dictionary<int, List<InventoryItem>> allPlayerItems = new Dictionary<int, List<InventoryItem>>();
@@ -222,6 +231,7 @@ namespace ItemSearch
                 else
                 {
                     Logger.Warn("Failed to retrieve bank items.");
+                    hasFailures = true;
                 }
 
                 var sharedInventoryItems = await ApiHelper.Fetch(() => webApiClient.Account.Inventory.GetAsync());
@@ -238,6 +248,7 @@ namespace ItemSearch
                 else
                 {
                     Logger.Warn("Failed to retrieve shared inventory items.");
+                    hasFailures = true;
                 }
 
                 var materials = await ApiHelper.Fetch(() => webApiClient.Account.Materials.GetAsync());
@@ -254,6 +265,7 @@ namespace ItemSearch
                 else
                 {
                     Logger.Warn("Failed to retrieve materials.");
+                    hasFailures = true;
                 }
 
                 var characters = await ApiHelper.Fetch(() => webApiClient.Characters.AllAsync());
@@ -281,6 +293,7 @@ namespace ItemSearch
                         else
                         {
                             Logger.Warn("Failed to retrieve character bags");
+                            hasFailures = true;
                         }
 
                         if (character.EquipmentTabs != null)
@@ -302,6 +315,7 @@ namespace ItemSearch
                         else
                         {
                             Logger.Warn("Failed to retrieve character equipment");
+                            hasFailures = true;
                         }
 
                         if (character.Equipment != null)
@@ -322,12 +336,14 @@ namespace ItemSearch
                         else
                         {
                             Logger.Warn("Failed to retrieve character equipment");
+                            hasFailures = true;
                         }
                     }
                 }
                 else
                 {
                     Logger.Warn("Failed to retrieve characters.");
+                    hasFailures = true;
                 }
             }
 
@@ -345,6 +361,7 @@ namespace ItemSearch
                 else
                 {
                     Logger.Warn("Failed to retrieve trading post delivery box items.");
+                    hasFailures = true;
                 }
 
                 var tpSellItems = await ApiHelper.Fetch(() => webApiClient.Commerce.Transactions.Current.Sells.GetAsync());
@@ -358,18 +375,20 @@ namespace ItemSearch
                 else
                 {
                     Logger.Warn("Failed to retrieve trading post sell orders.");
+                    hasFailures = true;
                 }
             }
 
-            Logger.Debug($"GetPlayerItems: {stopwatch.ElapsedMilliseconds}");
+            Logger.Debug($"GetPlayerItems: {stopwatch.ElapsedMilliseconds}, HasFailures: {hasFailures}");
 
-            return allPlayerItems;
+            return new GetPlayerItemsResult() { PlayerItems = allPlayerItems, HasFailures = hasFailures };
         }
 
         // Not used at the moment. Legendary runes when stat selected get a different item ID than the un-specialized legendary rune.
         // The API will only return the unspecialized version. So this list alone cannot be used to filter out legendary armory equipment.
         private async Task<SortedSet<int>> GetPlayerLegendaryArmory()
         {
+            bool hasFailures = false;
             SortedSet<int> armoryItems = new SortedSet<int>();
 
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -385,8 +404,13 @@ namespace ItemSearch
                     armoryItems.Add(item.Id);
                 }
             }
+            else
+            {
+                Logger.Warn("Failed to retrieve legendary armory.");
+                hasFailures = true;
+            }
 
-            Logger.Debug($"GetPlayerLegendaryArmory: {stopwatch.ElapsedMilliseconds}");
+            Logger.Debug($"GetPlayerLegendaryArmory: {stopwatch.ElapsedMilliseconds}, HasFailures: {hasFailures}");
 
             return armoryItems;
         }

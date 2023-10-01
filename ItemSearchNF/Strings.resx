@@ -626,4 +626,8 @@
   <data name="ItemTooltip_Attr_AgonyResistance" xml:space="preserve">
     <value>Agony Resistance</value>
   </data>
+  <data name="CornerIconLoadingProgress_NoAccount" xml:space="preserve">
+    <value>Failed to get account name. GW2 API is unavailable.
+Please try again later by reloading this module.</value>
+  </data>
 </root>
