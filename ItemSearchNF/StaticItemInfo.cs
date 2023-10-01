@@ -139,6 +139,7 @@ namespace ItemSearch
 
             foreach (var item in items)
             {
+                var type = item.Type.Value;
                 var staticItem = new StaticItemInfo();
                 staticItem.Name = item.Name;
                 staticItem.IconUrl = item.Icon.Url.ToString();
@@ -191,8 +192,9 @@ namespace ItemSearch
         Trophy,
         UpgradeComponent,
         Weapon,
-        JadeBotCore,
-        JadeBotChip,
+        PowerCore,
+        JadeTechModule,
+        Relic,
     }
 
     public enum ItemSubType
@@ -228,6 +230,8 @@ namespace ItemSearch
         Gathering_Logging,
         Gathering_Mining,
         Gathering_Fishing,
+        Gathering_Bait,
+        Gathering_Lure,
         Gizmo_Default = 500,
         Gizmo_ContainerKey,
         Gizmo_RentableContractNpc,

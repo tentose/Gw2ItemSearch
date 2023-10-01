@@ -630,4 +630,19 @@
     <value>Failed to get account name. GW2 API is unavailable.
 Please try again later by reloading this module.</value>
   </data>
+  <data name="Filter_Gathering_Bait" xml:space="preserve">
+    <value>Bait</value>
+  </data>
+  <data name="Filter_Gathering_Lure" xml:space="preserve">
+    <value>Lure</value>
+  </data>
+  <data name="Filter_ItemType_JadeTechModule" xml:space="preserve">
+    <value>Jade Tech Module</value>
+  </data>
+  <data name="Filter_ItemType_PowerCore" xml:space="preserve">
+    <value>Power Core</value>
+  </data>
+  <data name="Filter_ItemType_Relic" xml:space="preserve">
+    <value>Relic</value>
+  </data>
 </root>

@@ -386,6 +386,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bait.
+        /// </summary>
+        internal static string Filter_Gathering_Bait {
+            get {
+                return ResourceManager.GetString("Filter_Gathering_Bait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fishing.
         /// </summary>
         internal static string Filter_Gathering_Fishing {
@@ -409,6 +418,15 @@ namespace ItemSearch {
         internal static string Filter_Gathering_Logging {
             get {
                 return ResourceManager.GetString("Filter_Gathering_Logging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lure.
+        /// </summary>
+        internal static string Filter_Gathering_Lure {
+            get {
+                return ResourceManager.GetString("Filter_Gathering_Lure", resourceCulture);
             }
         }
         
@@ -575,6 +593,15 @@ namespace ItemSearch {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Jade Tech Module.
+        /// </summary>
+        internal static string Filter_ItemType_JadeTechModule {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_JadeTechModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Key.
         /// </summary>
         internal static string Filter_ItemType_Key {
@@ -589,6 +616,24 @@ namespace ItemSearch {
         internal static string Filter_ItemType_MiniPet {
             get {
                 return ResourceManager.GetString("Filter_ItemType_MiniPet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Power Core.
+        /// </summary>
+        internal static string Filter_ItemType_PowerCore {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_PowerCore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relic.
+        /// </summary>
+        internal static string Filter_ItemType_Relic {
+            get {
+                return ResourceManager.GetString("Filter_ItemType_Relic", resourceCulture);
             }
         }
         
