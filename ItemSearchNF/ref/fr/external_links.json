@@ -7,11 +7,11 @@
         "Url": "https://www.gw2bltc.com/fr/item/@@itemid@@"
     },
     {
-        "Name": "GW2Spidy",
-        "Url": "https://www.gw2spidy.com/item/@@itemid@@"
-    },
-    {
         "Name": "GW2TP",
         "Url": "https://fr.gw2tp.com/item/@@itemid@@"
+    },
+    {
+        "Name": "GW2Efficiency Calculator",
+        "Url": "https://gw2efficiency.com/crafting/calculator/a~0!b~1!c~0!d~1-@@itemid@@"
     }
 ]
