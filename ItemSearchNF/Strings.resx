@@ -627,6 +627,7 @@
     <value>Agony Resistance</value>
   </data>
   <data name="CornerIconLoadingProgress_NoAccount" xml:space="preserve">
-    <value>Failed to load account name. GW2 API is down. Please try again later.</value>
+    <value>Failed to get account name. GW2 API is unavailable.
+Please try again later by reloading this module.</value>
   </data>
 </root>

@@ -88,7 +88,8 @@ namespace ItemSearch {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to load account name. GW2 API is down. Please try again later..
+        ///   Looks up a localized string similar to Failed to get account name. GW2 API is unavailable.
+        ///Please try again later by reloading this module..
         /// </summary>
         internal static string CornerIconLoadingProgress_NoAccount {
             get {
