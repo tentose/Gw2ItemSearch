@@ -135,7 +135,18 @@ namespace ItemSearch
             // Player items
             m_searchIcon.LoadingMessage = Strings.CornerIconLoadingProgress_PlayerItems;
 
-            m_searchEngine = await ItemIndex.NewAsync(Gw2ApiManager.Gw2ApiClient, Gw2ApiManager.Permissions);
+            try
+            {
+                m_searchEngine = await ItemIndex.NewAsync(Gw2ApiManager.Gw2ApiClient, Gw2ApiManager.Permissions);
+            }
+            catch (NoAccountNameException)
+            {
+                Logger.Warn($"Cannot get account name from GW2 API or local cache.");
+                m_searchIcon.IconName = Strings.CornerIconLoadingProgress_NoAccount;
+                m_searchIcon.LoadingMessage = null;
+
+                return;
+            }
 
             // Render cache
             var renderCachePath = Path.Combine(CacheDirectory, RENDER_CACHE_FILE_NAME);
